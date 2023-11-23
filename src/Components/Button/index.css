@@ -1,7 +1,7 @@
 .button{
     background-color: var(--purple-90-);
     border-radius: 8px;
-    padding: 11px;
+    padding: 11px 27px;
     display: flex;
     justify-content: center;
     align-items: center;

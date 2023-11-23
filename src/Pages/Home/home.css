@@ -1,0 +1,158 @@
+.home-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100svh;
+    /* overflow: hidden; */
+}
+
+.home-main {
+    display: flex;
+    gap: 24px;
+    flex: 1;
+    /* overflow: hidden; */
+    padding: 24px;
+}
+
+.home-main > div {
+    background-color: var(--white-90-);
+    border-radius: 12px;
+}
+
+.links-customization-parent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 40px;
+    flex: 0.6;
+}
+.links-customization {
+    padding: 40px 40px 0 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.links-customization-header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.links-customization-main {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.links-customization-links {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    background-color: var(--white-60-);
+    padding: 40px 0;
+    border-radius: 12px;
+    align-items: center;
+}
+
+.links-customization-empty-text {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 488px;
+    text-align: center;
+}
+
+.links-customization-footer {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    padding: 24px 40px;
+    border-top: 1px solid var(--black-30-);
+}
+
+.links-customization-footer-btn {
+    max-width: 91px;
+    align-self: flex-end;
+}
+
+.mockup-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+    flex: 0.4;
+    padding: 101.5px 0 0 0;
+}
+
+.mockup {
+    position: relative;
+    width: 308px;
+    height: 632px;
+    background-image: url(../../assets/images/mockup-border.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.mockup-img {
+    position: absolute;
+}
+
+.mockup-divs-container {
+    padding: 43.5px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+    z-index: 1000;
+}
+
+.mockup-head {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+}
+
+.mockup-head .mockup-head-img {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background-color: #eeeeee;
+}
+
+.mockup-head-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 13px;
+}
+
+.mockup-head-name {
+    width: 160px;
+    height: 16px;
+    background-color: #eeeeee;
+    border-radius: 100px;
+}
+
+.mockup-head-email {
+    width: 72px;
+    height: 8px;
+    background-color: #eeeeee;
+    border-radius: 100px;
+}
+
+.mockup-links-parent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.mockup-link {
+    width: 237px;
+    min-height: 44px;
+    border-radius: 8px;
+    background-color: #eeeeee;
+}
