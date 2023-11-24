@@ -91,8 +91,15 @@ const linkOptions = [
 
 const DropDown = ({ onSelectPlatform }) => {
     const [showDropDown, setShowDropDown] = useState(false);
-    // const [isOptionHovered, setIsOptionHovered] = useState(false);
     const [selectedPlatform, setSelectedPlatform] = useState(null);
+
+    const [isOptionHovered, setIsOptionHovered] = useState(null);
+    const handleMouseEnter = (index) => {
+        setIsOptionHovered(index);
+    };
+    const handleMouseLeave = () => {
+        setIsOptionHovered(null);
+    };
 
     const dropdownRef = useRef(null);
 
@@ -163,29 +170,16 @@ const DropDown = ({ onSelectPlatform }) => {
                         <div
                             key={ind}
                             onClick={() => selectOption(option)}
-                            // onMouseEnter={() => setIsOptionHovered(true)}
-                            // onMouseLeave={() => setIsOptionHovered(false)}
-                            className="dropdown-option"
+                            onMouseEnter={() => handleMouseEnter(ind)}
+                            onMouseLeave={handleMouseLeave}
+                            className={`dropdown-option ${
+                                isOptionHovered === ind ? "hovered" : ""
+                            }`}
                         >
                             <div className="dropdown-option-img">
-                                <img
-                                    // style={
-                                    //     isOptionHovered
-                                    //         ? { color: "var(--purple-90-)" }
-                                    //         : {}
-                                    // }
-                                    src={option.image}
-                                    alt={option.text}
-                                />
+                                <img src={option.image} alt={option.text} />
                             </div>
-                            <p
-                                // style={
-                                //     isOptionHovered
-                                //         ? { color: "var(--purple-90-)" }
-                                //         : {}
-                                // }
-                                className="dropdown-option-text"
-                            >
+                            <p className="dropdown-option-text">
                                 {option.text}
                             </p>
                         </div>

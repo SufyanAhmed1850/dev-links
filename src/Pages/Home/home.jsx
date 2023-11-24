@@ -5,7 +5,10 @@ import Button from "../../Components/Button/index.jsx";
 import Buttonsecondary from "../../Components/Button Secondary/buttonsecondary.jsx";
 import emptyLinks from "../../assets/images/illustration-empty.svg";
 import Linkscustomizationempty from "../../Components/Links Customization Empty/linkscustomizationempty.jsx";
-import Linkscustomizationnotempty from "../../Components/Linkscustomization!empty/Linkscustomization!empty.jsx";
+import Linkscustomization from "../../Components/Links Customization/linkscustomization.jsx";
+import Linkstab from "./Links Tab/linkstab.jsx";
+import Profiletab from "./Profile tab/profiletab.jsx";
+import MouseScroll from "../../assets/images/icon-mouse-scroll.svg";
 
 const Home = () => {
     return (
@@ -22,38 +25,29 @@ const Home = () => {
                                     <div className="mockup-head-email"></div>
                                 </div>
                             </div>
-                            <div className="mockup-links-parent">
-                                <div className="mockup-link"></div>
-                                <div className="mockup-link"></div>
-                                <div className="mockup-link"></div>
-                                <div className="mockup-link"></div>
-                                <div className="mockup-link"></div>
-                                <div className="mockup-link"></div>
-                                <div className="mockup-link"></div>
+                            <div>
+                                <div className="mockup-links-parent">
+                                    <div className="mockup-link"></div>
+                                    <div className="mockup-link"></div>
+                                    <div className="mockup-link"></div>
+                                    <div className="mockup-link"></div>
+                                    <div className="mockup-link"></div>
+                                    <div className="mockup-link"></div>
+                                    <div className="mockup-link"></div>
+                                </div>
+                                <div className="scroll-indicator">
+                                    <img
+                                        src={MouseScroll}
+                                        alt="Scroll Indicator"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className="links-customization-parent">
-                    <div className="links-customization">
-                        <div className="links-customization-header">
-                            <h2>Customize your links</h2>
-                            <p>
-                                Add/edit/remove links below and then share all
-                                your profiles with the world!
-                            </p>
-                        </div>
-                        <div className="links-customization-main">
-                            <Buttonsecondary buttonSecondaryText="+ Add new link" />
-                            {/* <Linkscustomizationempty /> */}
-                            <Linkscustomizationnotempty />
-                        </div>
-                    </div>
-                    <div className="links-customization-footer">
-                        <div className="links-customization-footer-btn">
-                            <Button buttonText="Save" />
-                        </div>
-                    </div>
+                    {/* <Linkstab /> */}
+                    <Profiletab />
                 </div>
             </div>
         </div>

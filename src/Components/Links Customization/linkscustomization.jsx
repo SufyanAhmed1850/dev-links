@@ -1,11 +1,11 @@
-import "./linkscustomization!empty.css";
+import "./linkscustomization.css";
 import handle from "../../assets/images/icon-drag-and-drop.svg";
 import InputField from "../Input Field";
 import LinkIcon from "../../assets/images/icon-link.svg";
 import DropDown from "../DropDown/DropDown";
 import { useState } from "react";
 
-const Linkscustomizationnotempty = () => {
+const Linkscustomization = () => {
     const [selectedPlatform, setSelectedPlatform] = useState(null);
     console.log(selectedPlatform);
 
@@ -45,4 +45,4 @@ const Linkscustomizationnotempty = () => {
     );
 };
 
-export default Linkscustomizationnotempty;
+export default Linkscustomization;
