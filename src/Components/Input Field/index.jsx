@@ -1,10 +1,22 @@
 import { useRef, useState } from "react";
 import "./index.css";
 
-const InputField = ({ label, iconSrc, altText, placeholderText, imgYes }) => {
-    const [value, setValue] = useState();
+const InputField = ({
+    label,
+    iconSrc,
+    altText,
+    placeholderText,
+    imgYes,
+    onInputChange,
+    type,
+    value,
+    disabled,
+}) => {
     const [isFocused, setIsFocused] = useState(false);
 
+    const handleInputChange = (e) => {
+        onInputChange && onInputChange(e.target.value);
+    };
     return (
         <div className="input-field-parent">
             <span>{label}</span>
@@ -25,11 +37,12 @@ const InputField = ({ label, iconSrc, altText, placeholderText, imgYes }) => {
                     </div>
                 )}
                 <input
+                    disabled={disabled && disabled}
                     value={value}
-                    onChange={(e) => setValue(e.target.value)}
+                    onChange={handleInputChange}
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}
-                    type="text"
+                    type={type || "text"}
                     placeholder={placeholderText}
                 />
             </div>

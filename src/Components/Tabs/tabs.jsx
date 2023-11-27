@@ -1,7 +1,17 @@
 import "./tabs.css";
-const Tabs = ({ imgSrc, altText, tabText }) => {
+const Tabs = ({
+    imgSrc,
+    altText,
+    tabText,
+    clickHandler,
+    clickProp,
+    active,
+}) => {
     return (
-        <div className="tab-container">
+        <div
+            onClick={() => clickHandler(clickProp || null) || null}
+            className={`tab-container${active ? " active" : ""}`}
+        >
             <div className="tab-img">
                 <img src={imgSrc} alt={altText} />
             </div>

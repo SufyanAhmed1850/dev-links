@@ -1,16 +1,8 @@
 import "./home.css";
 import Nav from "../../Components/Nav/nav.jsx";
-import Mockup from "../../assets/images/mockup-border.svg";
-import Button from "../../Components/Button/index.jsx";
-import Buttonsecondary from "../../Components/Button Secondary/buttonsecondary.jsx";
-import emptyLinks from "../../assets/images/illustration-empty.svg";
-import Linkscustomizationempty from "../../Components/Links Customization Empty/linkscustomizationempty.jsx";
-import Linkscustomization from "../../Components/Links Customization/linkscustomization.jsx";
-import Linkstab from "./Links Tab/linkstab.jsx";
-import Profiletab from "./Profile tab/profiletab.jsx";
 import MouseScroll from "../../assets/images/icon-mouse-scroll.svg";
 
-const Home = () => {
+const Home = ({ children }) => {
     return (
         <div className="home-wrapper">
             <Nav />
@@ -45,10 +37,7 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-                <div className="links-customization-parent">
-                    {/* <Linkstab /> */}
-                    <Profiletab />
-                </div>
+                <div className="links-customization-parent">{children}</div>
             </div>
         </div>
     );

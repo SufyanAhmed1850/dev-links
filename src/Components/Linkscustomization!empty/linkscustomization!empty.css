@@ -19,16 +19,3 @@
     align-items: center;
     gap: 8px;
 }
-.links-dropdown {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-.link-remove p {
-    cursor: pointer;
-    color: var(--black-60-);
-    font-weight: 700;
-}
-.link-remove p:hover {
-    color: var(--purple-90-);
-}

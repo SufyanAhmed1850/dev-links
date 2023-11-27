@@ -1,32 +1,17 @@
-import "./linkscustomization.css";
+import "./linkscustomization!empty.css";
 import handle from "../../assets/images/icon-drag-and-drop.svg";
 import InputField from "../Input Field";
 import LinkIcon from "../../assets/images/icon-link.svg";
 import DropDown from "../DropDown/DropDown";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-const Linkscustomization = ({ order, handleChange }) => {
-    const [url, setUrl] = useState("");
+const Linkscustomizationnotempty = () => {
     const [selectedPlatform, setSelectedPlatform] = useState(null);
-
-    const [linkData, setlinkData] = useState({});
+    console.log(selectedPlatform);
 
     const handlePlatformChange = (newPlatform) => {
         setSelectedPlatform(newPlatform);
     };
-
-    useEffect(() => {
-        setlinkData({
-            link: url,
-            platform: selectedPlatform,
-            order,
-        });
-    }, [url]);
-
-    useEffect(() => {
-        handleChange(linkData);
-    }, [linkData]);
-
     return (
         <div className="link-customization-not-empty-container">
             <div className="link-header">
@@ -34,7 +19,7 @@ const Linkscustomization = ({ order, handleChange }) => {
                     <div className="link-handle-img">
                         <img src={handle} alt="Drag and Drop Handle" />
                     </div>
-                    <h3>Link #{order}</h3>
+                    <h3>Link #1</h3>
                 </div>
                 <div className="link-remove">
                     <p>Remove</p>
@@ -46,12 +31,9 @@ const Linkscustomization = ({ order, handleChange }) => {
             </div>
             <div className="link-url">
                 <InputField
-                    disabled={selectedPlatform ? false : true}
-                    value={url}
                     label={"Link"}
                     iconSrc={LinkIcon}
                     altText={"Link"}
-                    onInputChange={(urlVal) => setUrl(urlVal)}
                     placeholderText={
                         selectedPlatform
                             ? selectedPlatform.placeholder
@@ -63,4 +45,4 @@ const Linkscustomization = ({ order, handleChange }) => {
     );
 };
 
-export default Linkscustomization;
+export default Linkscustomizationnotempty;

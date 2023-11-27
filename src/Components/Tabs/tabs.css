@@ -1,4 +1,4 @@
-.tab-container{
+.tab-container {
     border-radius: 8px;
     cursor: pointer;
     display: flex;
@@ -9,19 +9,24 @@
     color: var(--black-90-);
 }
 
-.tab-container:hover{
-    color: var(--purple-90-);
-}
-
-.tab-container:active{
+.tab-container.active {
     background-color: var(--purple-30-);
     color: var(--purple-90-);
 }
 
-.tab-img{
+.tab-container:hover {
+    color: var(--purple-90-);
+}
+
+.tab-container:active {
+    background-color: var(--purple-30-);
+    color: var(--purple-90-);
+}
+
+.tab-img {
     padding: 13px 0 13px 27px;
 }
 
-.tab-text{
+.tab-text {
     padding: 13px 27px 13px 0px;
 }

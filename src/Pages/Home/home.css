@@ -45,6 +45,7 @@
     max-height: 53svh;
     overflow-y: auto;
     padding-right: 8px;
+    flex-basis: 550px;
 }
 
 .links-customization-links {
@@ -52,7 +53,7 @@
     flex-direction: column;
     gap: 40px;
     background-color: var(--white-60-);
-    padding: 40px 0;
+    padding: 62.5px 0;
     border-radius: 12px;
     align-items: center;
 }

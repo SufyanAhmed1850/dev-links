@@ -16,7 +16,7 @@
 }
 
 .button-secondary:active{
-    background-color: var(--purple-60-);
+    background-color: var(--purple-30-);
 }
 
 .button-secondary:disabled{

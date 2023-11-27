@@ -3,8 +3,18 @@ import linkIcon from "../../assets/images/icon-link.svg";
 import profilIcon from "../../assets/images/icon-profile-details-header.svg";
 import Tabs from "../Tabs/tabs";
 import Buttonsecondary from "../Button Secondary/buttonsecondary";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./nav.css";
+
 const Nav = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const isProfileRoute = location.pathname === "/profile";
+    const isHomeRoute = location.pathname === "/";
+    const navigationHandler = (page) => {
+        navigate(page);
+    };
+
     return (
         <div className="nav-container">
             <div className="nav-section">
@@ -12,11 +22,21 @@ const Nav = () => {
                     <img src={logoLarge} alt="Logo" />
                 </div>
                 <div className="nav-links">
-                    <Tabs imgSrc={linkIcon} altText="Link" tabText="Links" />
                     <Tabs
+                        clickHandler={navigationHandler}
+                        clickProp="/"
+                        imgSrc={linkIcon}
+                        altText="Link"
+                        tabText="Links"
+                        active={isHomeRoute}
+                    />
+                    <Tabs
+                        clickHandler={navigationHandler}
+                        clickProp="/profile"
                         imgSrc={profilIcon}
                         altText="Profile"
                         tabText="Profile Details"
+                        active={isProfileRoute}
                     />
                 </div>
                 <Buttonsecondary buttonSecondaryText="Preview" />
