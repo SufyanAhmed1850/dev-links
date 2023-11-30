@@ -1,12 +1,8 @@
 import "./buttonsecondary.css";
 
-const Buttonsecondary = ({ buttonSecondaryText, onClick, disabled }) => {
+const Buttonsecondary = ({ buttonSecondaryText, onClick }) => {
     return (
-        <button
-            disabled={disabled && disabled}
-            className="button-secondary"
-            onClick={onClick}
-        >
+        <button className="button-secondary" onClick={onClick}>
             <h3>{buttonSecondaryText}</h3>
         </button>
     );

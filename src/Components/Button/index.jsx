@@ -1,12 +1,8 @@
 import "./index.css";
 
-const Button = ({ buttonText, handleClick, disabled }) => {
+const Button = ({ buttonText, handleClick }) => {
     return (
-        <button
-            disabled={disabled && disabled}
-            onClick={handleClick || null}
-            className="button"
-        >
+        <button onClick={handleClick || null} className="button">
             <h3>{buttonText}</h3>
         </button>
     );

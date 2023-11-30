@@ -3,10 +3,14 @@ import Buttonsecondary from "../../../Components/Button Secondary/buttonsecondar
 import Linkscustomizationempty from "../../../Components/Links Customization Empty/linkscustomizationempty.jsx";
 import Linkscustomization from "../../../Components/Links Customization/linkscustomization.jsx";
 import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { axiosPrivate } from "../../../api/axios.js";
+import { useContext } from "react";
+import linkContext from "../../../../context/linkContext.jsx";
 import useAuth from "../../../../hooks/useAuth.jsx";
-const saveUrl = "/link/save";
+
+const getLinksEndpoint = "/link";
+const saveLinksEndpoint = "/link/save";
 
 const Linkstab = () => {
     const navigate = useNavigate();
@@ -16,50 +20,38 @@ const Linkstab = () => {
             navigate("/login");
         }
     }, [isAuthenticated, navigate]);
-
-    const [linksCount, setLinksCount] = useState([]);
-    const [disableAddLink, setDisableAddLink] = useState(true);
-    const [disableSaveLink, setDisableSaveLink] = useState(false);
-    const [linkData, setlinkData] = useState({});
+    const { linksData, updateLinksData, setLinksData } =
+        useContext(linkContext);
+    const [order, setOrder] = useState(linksData.length + 1);
+    console.log(linksData);
+    useEffect(() => {
+        (async () => {
+            try {
+                const res = await axiosPrivate(getLinksEndpoint);
+                console.log(res);
+                res?.data?.links && setLinksData(res.data.links);
+                res?.data?.links && setOrder(res.data.links.length + 1);
+            } catch (error) {
+                console.log(error);
+            }
+        })();
+    }, []);
 
     const handleAddLinkClick = () => {
-        setLinksCount([...linksCount, { order: linksCount.length + 1 }]);
-        return;
+        updateLinksData(order);
+        setOrder(order + 1);
     };
 
-    useEffect(() => {
-        setDisableAddLink(!disableAddLink);
-    }, [linksCount]);
-
-    useEffect(() => {
-        linkData?.link ? setDisableSaveLink(false) : setDisableSaveLink(true);
-    }, [linkData]);
-
-    const handleLinkChange = async (data) => {
+    const saveToDB = async () => {
         try {
-            setlinkData(data);
-            return;
-        } catch (e) {
-            console.log(e);
-        }
-    };
-
-    const saveToDatabase = async () => {
-        try {
-            if (!linkData || !linkData.link || !linkData.platform) {
-                console.log("linkData Required");
-                return;
-            }
-            const res = await axiosPrivate.post(saveUrl, linkData);
+            const res = await axiosPrivate.post(saveLinksEndpoint, linksData);
             console.log(res);
             return;
-        } catch (e) {
-            console.error(e);
+        } catch (error) {
+            console.log(error);
             return;
         }
     };
-
-    console.log(linkData);
 
     return (
         <>
@@ -73,16 +65,17 @@ const Linkstab = () => {
                 </div>
                 <div className="links-customization-main">
                     <Buttonsecondary
-                        disabled={disableAddLink}
                         buttonSecondaryText="+ Add new link"
                         onClick={handleAddLinkClick}
                     />
-                    {linksCount?.length ? (
-                        linksCount.map((link, index) => (
+                    {linksData?.length ? (
+                        linksData.map((link, index) => (
                             <Linkscustomization
-                                handleChange={handleLinkChange}
                                 key={index}
                                 order={link.order}
+                                index={index}
+                                link={link.link || ""}
+                                platform={link.platform.text || ""}
                             />
                         ))
                     ) : (
@@ -92,11 +85,7 @@ const Linkstab = () => {
             </div>
             <div className="links-customization-footer">
                 <div className="links-customization-footer-btn">
-                    <Button
-                        handleClick={saveToDatabase}
-                        disabled={disableSaveLink}
-                        buttonText="Save"
-                    />
+                    <Button handleClick={saveToDB} buttonText="Save" />
                 </div>
             </div>
         </>

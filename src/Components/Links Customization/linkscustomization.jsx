@@ -3,30 +3,22 @@ import handle from "../../assets/images/icon-drag-and-drop.svg";
 import InputField from "../Input Field";
 import LinkIcon from "../../assets/images/icon-link.svg";
 import DropDown from "../DropDown/DropDown";
-import { useEffect, useState } from "react";
+import { useState, useEffect, useContext } from "react";
+import linkContext from "../../../context/linkContext";
 
-const Linkscustomization = ({ order, handleChange }) => {
-    const [url, setUrl] = useState("");
+const Linkscustomization = ({ order, index, link, platform }) => {
+    const { linksData, updateLinksData, setLinksData } =
+        useContext(linkContext);
+    const [url, setUrl] = useState();
     const [selectedPlatform, setSelectedPlatform] = useState(null);
-
-    const [linkData, setlinkData] = useState({});
 
     const handlePlatformChange = (newPlatform) => {
         setSelectedPlatform(newPlatform);
     };
 
-    useEffect(() => {
-        setlinkData({
-            link: url,
-            platform: selectedPlatform,
-            order,
-        });
-    }, [url]);
+    platform && console.log("platform", platform);
 
-    useEffect(() => {
-        handleChange(linkData);
-    }, [linkData]);
-
+    console.log(index);
     return (
         <div className="link-customization-not-empty-container">
             <div className="link-header">
@@ -42,12 +34,17 @@ const Linkscustomization = ({ order, handleChange }) => {
             </div>
             <div className="links-dropdown">
                 <span>Platform</span>
-                <DropDown onSelectPlatform={handlePlatformChange} />
+                <DropDown
+                    index={index}
+                    platform={platform || ""}
+                    onSelectPlatform={handlePlatformChange}
+                />
             </div>
             <div className="link-url">
                 <InputField
+                    index={index}
                     disabled={selectedPlatform ? false : true}
-                    value={url}
+                    value={link || ""}
                     label={"Link"}
                     iconSrc={LinkIcon}
                     altText={"Link"}
