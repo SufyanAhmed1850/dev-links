@@ -56,10 +56,28 @@
 }
 
 .upload-profile-image-main {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: var(--purple-30-);
+    cursor: pointer;
+    max-width: 195px;
+    height: 195px;
+    aspect-ratio: 1;
+}
+
+.upload-profile-image-main .upload-image {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border-radius: 12px;
+    object-fit: cover;
+    overflow: hidden;
+}
+
+.upload-profile-image-main * {
+    z-index: 10;
 }
 
 .upload-profile-image-main h3 {

@@ -35,14 +35,13 @@ const InputField = ({
     index,
 }) => {
     const location = useLocation();
-    // console.log(location);
     const [inputValue, setInputValue] = useState("");
     const { linksData, updateLinksData } = useContext(linkContext);
     const [isFocused, setIsFocused] = useState(false);
     const hasInitialValue = useRef(false);
 
     useEffect(() => {
-        if (!hasInitialValue.current) {
+        if (!hasInitialValue.current && value) {
             setInputValue(value);
             hasInitialValue.current = true;
         }
@@ -51,7 +50,6 @@ const InputField = ({
     const handleInputChange = (e) => {
         setInputValue(e.target.value);
         onInputChange(e.target.value);
-        console.log(inputValue);
         return;
     };
 
@@ -101,10 +99,9 @@ const InputField = ({
                     onChange={(e) => handleInputChange(e)}
                     onFocus={() => setIsFocused(true)}
                     onBlur={
-                        location.pathname === "/signup" ||
-                        location.pathname === "/login"
-                            ? null
-                            : () => handleInputBlur(index)
+                        location.pathname === "/"
+                            ? () => handleInputBlur(index)
+                            : () => setIsFocused(false)
                     }
                     type={type || "text"}
                     placeholder={placeholderText}

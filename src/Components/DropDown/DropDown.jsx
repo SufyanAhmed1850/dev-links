@@ -134,7 +134,7 @@ const DropDown = ({ onSelectPlatform, index, platform }) => {
             if (platformToSelect) {
                 setSelectedPlatform(platformToSelect);
             }
-
+            onSelectPlatform(platformToSelect);
             hasInitialPlatform.current = true;
         }
     }, [platform]);
