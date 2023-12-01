@@ -36,7 +36,8 @@ const InputField = ({
 }) => {
     const location = useLocation();
     const [inputValue, setInputValue] = useState("");
-    const { linksData, updateLinksData } = useContext(linkContext);
+    const { linksData, updateLinksData, setLinksData } =
+        useContext(linkContext);
     const [isFocused, setIsFocused] = useState(false);
     const hasInitialValue = useRef(false);
 
@@ -66,10 +67,17 @@ const InputField = ({
             return;
         }
         console.log(`Valid ${platform} link: ${inputValue}`);
-        linksData[index] = {
-            ...linksData[index],
-            link: inputValue,
-        };
+
+        // Update linksData using setLinksData
+        setLinksData((prevLinksData) => {
+            const updatedLinksData = [...prevLinksData];
+            updatedLinksData[index] = {
+                ...updatedLinksData[index],
+                link: inputValue,
+            };
+            return updatedLinksData;
+        });
+
         console.log("Context", linksData);
         return;
     };

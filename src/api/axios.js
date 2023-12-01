@@ -12,7 +12,6 @@ const axiosPrivate = axios.create({
 
 axiosPrivate.interceptors.request.use((config) => {
     const token = Cookies.get("jwt");
-    console.log(token);
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }

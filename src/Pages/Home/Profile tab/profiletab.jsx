@@ -12,6 +12,8 @@ import "./profiletab.css";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { axiosPrivate } from "../../../api/axios.js";
+import { useContext } from "react";
+import linkContext from "../../../../context/linkContext.jsx";
 import Cookies from "js-cookie";
 
 const VisuallyHiddenInput = styled("input")({
@@ -26,13 +28,37 @@ const VisuallyHiddenInput = styled("input")({
     width: 1,
 });
 
-const transformations = "ar_1:1,c_fill,g_face,r_12,w_193,h_193/c_pad/";
+const getLinksEndpoint = "/link";
+
+const transformations =
+    "ar_1:1,c_fill,g_face,r_12,w_193,h_193/c_pad/co_rgb:000000,e_colorize:50/";
 
 const Profiletab = () => {
+    const { linksData, updateLinksData, setLinksData } =
+        useContext(linkContext);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [userImage, setUserImage] = useState(null);
+
+    useEffect(() => {
+        (async () => {
+            console.log("Fetching user data");
+            try {
+                const resLinks = await axiosPrivate(getLinksEndpoint);
+                resLinks?.data?.links && setLinksData(resLinks.data.links);
+                const res = await axiosPrivate("/profile");
+                if (res.data.status) {
+                    setFirstName(res.data.user.firstName);
+                    setLastName(res.data.user.lastName);
+                    setEmail(res.data.user.displayEmail);
+                    setUserImage(res.data.user.profile);
+                }
+            } catch (error) {
+                console.error(error.message);
+            }
+        })();
+    }, []);
 
     const handleImage = async (file) => {
         try {
@@ -62,7 +88,7 @@ const Profiletab = () => {
                 console.error("Required filds must be provided");
                 return;
             }
-            const res = await axiosPrivate.post("/profile", {
+            const res = await axiosPrivate.post("/profile/update-user", {
                 firstName,
                 lastName,
                 email,
@@ -125,6 +151,7 @@ const Profiletab = () => {
                         <div className="profile-first-name">
                             <p>First name*</p>
                             <InputField
+                                value={firstName}
                                 onInputChange={(val) => setFirstName(val)}
                                 placeholderText="e.g. John"
                                 imgYes={true}
@@ -133,6 +160,7 @@ const Profiletab = () => {
                         <div className="profile-last-name">
                             <p>Last name*</p>
                             <InputField
+                                value={lastName}
                                 onInputChange={(val) => setLastName(val)}
                                 placeholderText="e.g. Appleseed"
                                 imgYes={true}
@@ -141,6 +169,7 @@ const Profiletab = () => {
                         <div className="profile-email">
                             <p>Email</p>
                             <InputField
+                                value={email}
                                 onInputChange={(val) => setEmail(val)}
                                 placeholderText="e.g. email@example.com"
                                 imgYes={true}

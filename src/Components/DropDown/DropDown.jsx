@@ -119,7 +119,8 @@ const linkOptions = [
 ];
 
 const DropDown = ({ onSelectPlatform, index, platform }) => {
-    const { linksData, updateLinksData } = useContext(linkContext);
+    const { linksData, updateLinksData, setLinksData } =
+        useContext(linkContext);
     const [showDropDown, setShowDropDown] = useState(false);
     const [selectedPlatform, setSelectedPlatform] = useState(null);
     const [isOptionHovered, setIsOptionHovered] = useState(null);
@@ -178,13 +179,19 @@ const DropDown = ({ onSelectPlatform, index, platform }) => {
     }, []);
 
     const selectOption = (platform, indexArg) => {
-        linksData[indexArg] = {
-            ...linksData[indexArg],
-            platform: platform,
-        };
+        // Update linksData using setLinksData
+        setLinksData((prevLinksData) => {
+            const updatedLinksData = [...prevLinksData];
+            updatedLinksData[indexArg] = {
+                ...updatedLinksData[indexArg],
+                platform: platform,
+            };
+            return updatedLinksData;
+        });
+
         onSelectPlatform(platform);
         setSelectedPlatform(platform);
-        showDropDown ? setShowDropDown(false) : setShowDropDown(true);
+        setShowDropDown((prevShowDropDown) => !prevShowDropDown);
         return;
     };
 
