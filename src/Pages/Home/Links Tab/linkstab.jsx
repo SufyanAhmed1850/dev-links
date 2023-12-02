@@ -23,12 +23,11 @@ const Linkstab = () => {
     const { linksData, updateLinksData, setLinksData } =
         useContext(linkContext);
     const [order, setOrder] = useState(linksData.length + 1);
-    console.log(linksData);
     useEffect(() => {
         (async () => {
             try {
                 const res = await axiosPrivate(getLinksEndpoint);
-                console.log(res);
+                // console.log(res);
                 res?.data?.links && setLinksData(res.data.links);
                 res?.data?.links && setOrder(res.data.links.length + 1);
             } catch (error) {
@@ -40,6 +39,16 @@ const Linkstab = () => {
     const handleAddLinkClick = () => {
         updateLinksData(order);
         setOrder(order + 1);
+    };
+
+    const handleRemoveLink = (index) => {
+        const updatedLinksData = linksData.filter((_, i) => i !== index);
+        const updatedLinksDataWithOrder = updatedLinksData.map((link, i) => ({
+            ...link,
+            order: i + 1,
+        }));
+        setLinksData(updatedLinksDataWithOrder);
+        setOrder(updatedLinksDataWithOrder.length + 1);
     };
 
     const saveToDB = async () => {
@@ -63,21 +72,25 @@ const Linkstab = () => {
                         profiles with the world!
                     </p>
                 </div>
+                <Buttonsecondary
+                    buttonSecondaryText="+ Add new link"
+                    onClick={handleAddLinkClick}
+                />
                 <div className="links-customization-main">
-                    <Buttonsecondary
-                        buttonSecondaryText="+ Add new link"
-                        onClick={handleAddLinkClick}
-                    />
                     {linksData?.length ? (
-                        linksData.map((link, index) => (
-                            <Linkscustomization
-                                key={index}
-                                order={link.order}
-                                index={index}
-                                link={link.link || ""}
-                                platform={link.platform.text || ""}
-                            />
-                        ))
+                        linksData.map((link, ind) => {
+                            console.log("Link Map", link);
+                            return (
+                                <Linkscustomization
+                                    key={ind}
+                                    order={link.order}
+                                    index={ind}
+                                    link={link.link || ""}
+                                    platform={link.platform.text || ""}
+                                    onRemove={handleRemoveLink}
+                                />
+                            );
+                        })
                     ) : (
                         <Linkscustomizationempty />
                     )}

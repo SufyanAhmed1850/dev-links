@@ -118,27 +118,17 @@ const linkOptions = [
     },
 ];
 
-const DropDown = ({ onSelectPlatform, index, platform }) => {
+const DropDown = ({ onSelectPlatform, index }) => {
     const { linksData, updateLinksData, setLinksData } =
         useContext(linkContext);
     const [showDropDown, setShowDropDown] = useState(false);
     const [selectedPlatform, setSelectedPlatform] = useState(null);
     const [isOptionHovered, setIsOptionHovered] = useState(null);
-    const hasInitialPlatform = useRef(false);
-    console.log(index);
 
     useEffect(() => {
-        if (!hasInitialPlatform.current) {
-            const platformToSelect = linkOptions.find(
-                (linkOpt) => linkOpt.text === platform,
-            );
-            if (platformToSelect) {
-                setSelectedPlatform(platformToSelect);
-            }
-            onSelectPlatform(platformToSelect);
-            hasInitialPlatform.current = true;
-        }
-    }, [platform]);
+        setSelectedPlatform((prev) => linksData[index].platform);
+        onSelectPlatform(linksData[index].platform);
+    }, [linksData]);
 
     const handlePlatformChange = (index, e) => {
         console.log(index);

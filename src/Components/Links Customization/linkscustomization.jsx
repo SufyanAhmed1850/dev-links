@@ -6,7 +6,7 @@ import DropDown from "../DropDown/DropDown";
 import { useState, useEffect, useContext } from "react";
 import linkContext from "../../../context/linkContext";
 
-const Linkscustomization = ({ order, index, link, platform }) => {
+const Linkscustomization = ({ order, index, link, onRemove }) => {
     const { linksData, updateLinksData, setLinksData } =
         useContext(linkContext);
     const [url, setUrl] = useState();
@@ -16,9 +16,6 @@ const Linkscustomization = ({ order, index, link, platform }) => {
         setSelectedPlatform(newPlatform);
     };
 
-    platform && console.log("platform", platform);
-
-    console.log(index);
     return (
         <div className="link-customization-not-empty-container">
             <div className="link-header">
@@ -28,7 +25,7 @@ const Linkscustomization = ({ order, index, link, platform }) => {
                     </div>
                     <h3>Link #{order}</h3>
                 </div>
-                <div className="link-remove">
+                <div onClick={() => onRemove(index)} className="link-remove">
                     <p>Remove</p>
                 </div>
             </div>
@@ -36,7 +33,6 @@ const Linkscustomization = ({ order, index, link, platform }) => {
                 <span>Platform</span>
                 <DropDown
                     index={index}
-                    platform={platform || ""}
                     onSelectPlatform={handlePlatformChange}
                 />
             </div>

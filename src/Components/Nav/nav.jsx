@@ -10,7 +10,7 @@ const Nav = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const isProfileRoute = location.pathname === "/profile";
-    const isHomeRoute = location.pathname === "/";
+    const isHomeRoute = location.pathname === "/links";
     const navigationHandler = (page) => {
         navigate(page);
     };
@@ -24,7 +24,7 @@ const Nav = () => {
                 <div className="nav-links">
                     <Tabs
                         clickHandler={navigationHandler}
-                        clickProp="/"
+                        clickProp="/links"
                         imgSrc={linkIcon}
                         altText="Link"
                         tabText="Links"
@@ -39,7 +39,10 @@ const Nav = () => {
                         active={isProfileRoute}
                     />
                 </div>
-                <Buttonsecondary buttonSecondaryText="Preview" />
+                <Buttonsecondary
+                    onClick={() => navigate("/preview")}
+                    buttonSecondaryText="Preview"
+                />
             </div>
         </div>
     );

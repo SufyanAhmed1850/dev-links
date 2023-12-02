@@ -4,6 +4,7 @@ import InputField from "../../Components/Input Field";
 import logoLarge from "../../assets/images/logo-devlinks-large.svg";
 import emailIcon from "../../assets/images/icon-email.svg";
 import passwordIcon from "../../assets/images/icon-password.svg";
+import userIcon from "../../assets/images/icon-username.svg";
 import Button from "../../Components/Button";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -11,6 +12,7 @@ import axios from "axios";
 const Signup = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
+    const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [repeatPassword, setRepeatPassword] = useState("");
 
@@ -23,6 +25,7 @@ const Signup = () => {
             });
             const res = await axios.post(`${import.meta.env.VITE_URL}/signup`, {
                 email,
+                userName,
                 password,
                 repeatPassword,
             });
@@ -55,6 +58,14 @@ const Signup = () => {
                         onInputChange={(emailVal) => setEmail(emailVal)}
                     />
                     <InputField
+                        value={userName}
+                        label="User name"
+                        iconSrc={userIcon}
+                        altText="user name"
+                        placeholderText="At least 6 characters"
+                        onInputChange={(userVal) => setUserName(userVal)}
+                    />
+                    <InputField
                         value={password}
                         label="Create password"
                         type="password"
@@ -63,7 +74,6 @@ const Signup = () => {
                         placeholderText="At least 8 characters"
                         onInputChange={(passVal) => setPassword(passVal)}
                     />
-
                     <InputField
                         value={repeatPassword}
                         label="Confirm password"

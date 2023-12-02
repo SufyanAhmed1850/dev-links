@@ -1,53 +1,39 @@
+import "../Preview/Preview.css";
 import { useContext, useEffect, useState } from "react";
-import Button from "../../Components/Button";
-import Buttonsecondary from "../../Components/Button Secondary/buttonsecondary";
-import "./Preview.css";
-import GithubIcon from "../../assets/images/icon-github-white.svg";
 import RightArrow from "../../assets/images/icon-arrow-right.svg";
-import UserImage from "../../assets/images/preview-user.jpg";
 import userContext from "../../../context/userContext";
 import { axiosPrivate } from "../../api/axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const transformations =
     "ar_1:1,c_fill,g_face,r_max,w_104,h_104/c_pad/co_rgb:633CFF,e_outline:outer:4:0/";
 
-const Preview = () => {
+const Share = () => {
     const navigate = useNavigate();
-    const { userData } = useContext(userContext);
-    const [links, setLinks] = useState([]);
-    console.log(userData);
-    console.log(userData.profile);
+    const params = useParams();
+    const paramToSend = params.username.toLowerCase();
+    const [userData, setUserData] = useState();
+    const [linksData, setLinksData] = useState();
 
     useEffect(() => {
         (async () => {
             try {
-                const res = await axiosPrivate("/link");
-                console.log(res.data.links);
-                setLinks(res.data.links);
-                console.log(links);
+                const res = await axiosPrivate("/share", {
+                    params: {
+                        userName: paramToSend,
+                    },
+                });
+                setUserData(res.data.user);
+                setLinksData(res.data.links);
+                console.log(res);
             } catch (error) {
                 console.log(error);
             }
         })();
     }, []);
-
-    const handleCopy = () => {
-        navigator.clipboard.writeText(
-            import.meta.env.VITE_FE_URL + "/" + userData.userName,
-        );
-    };
-
     return (
         <div className="preview-parent">
             <div className="preview-blob"></div>
-            <div className="preview-header">
-                <Buttonsecondary
-                    onClick={() => navigate("/links")}
-                    buttonSecondaryText="Back to Editor"
-                />
-                <Button handleClick={handleCopy} buttonText="Share Link" />
-            </div>
             {userData?.profile && (
                 <div className="preview-card">
                     <div className="preview-card-header">
@@ -72,7 +58,7 @@ const Preview = () => {
                         </div>
                     </div>
                     <div className="preview-card-links-parent">
-                        {links.map((link, ind) => (
+                        {linksData.map((link, ind) => (
                             <Link
                                 key={ind}
                                 to={link.link}
@@ -107,4 +93,4 @@ const Preview = () => {
     );
 };
 
-export default Preview;
+export default Share;

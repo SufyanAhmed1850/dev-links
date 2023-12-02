@@ -39,12 +39,10 @@ const InputField = ({
     const { linksData, updateLinksData, setLinksData } =
         useContext(linkContext);
     const [isFocused, setIsFocused] = useState(false);
-    const hasInitialValue = useRef(false);
 
     useEffect(() => {
-        if (!hasInitialValue.current && value) {
+        if (value) {
             setInputValue(value);
-            hasInitialValue.current = true;
         }
     }, [value]);
 
@@ -107,7 +105,7 @@ const InputField = ({
                     onChange={(e) => handleInputChange(e)}
                     onFocus={() => setIsFocused(true)}
                     onBlur={
-                        location.pathname === "/"
+                        location.pathname === "/links"
                             ? () => handleInputBlur(index)
                             : () => setIsFocused(false)
                     }

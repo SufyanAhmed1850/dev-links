@@ -43,10 +43,7 @@
 }
 
 .preview-card-header-img {
-    width: 105px;
     aspect-ratio: 1;
-    border-radius: 50%;
-    outline: 4px solid var(--purple-90-);
 }
 
 .preview-card-header-img img {
@@ -62,6 +59,7 @@
     align-items: center;
     /* gap: 8px; */
 }
+
 .preview-card-header-text p {
     color: var(--black-60-);
 }
@@ -70,14 +68,13 @@
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    max-height: 285px;
-    padding: 0 8px;
+    max-height: 360px;
     overflow-y: auto;
 }
 
 .preview-card-link {
     cursor: pointer;
-    width: 250px;
+    min-width: 281.2px;
     padding: 16px;
     display: flex;
     align-items: center;

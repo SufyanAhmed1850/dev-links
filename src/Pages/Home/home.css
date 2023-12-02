@@ -29,13 +29,15 @@
     padding: 40px 40px 0 40px;
     display: flex;
     flex-direction: column;
-    gap: 40px;
 }
 
 .links-customization-header {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    margin-bottom: 40px;
+    cursor: default;
+    user-select: none;
 }
 
 .links-customization-main {
@@ -46,6 +48,7 @@
     overflow-y: auto;
     padding-right: 8px;
     flex-basis: 550px;
+    margin-top: 24px;
 }
 
 .links-customization-links {
@@ -105,7 +108,7 @@
     padding: 43.5px 0;
     display: flex;
     flex-direction: column;
-    gap: 56px;
+    gap: 48px;
     z-index: 1000;
     height: 100%;
 }
@@ -114,12 +117,21 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 25px;
+    gap: 21px;
+}
+
+.mockup-head-name h3 {
+    font-size: 18px;
+}
+
+.mockup-head-email p {
+    font-size: 14px;
+    color: var(--black-60-);
 }
 
 .mockup-head .mockup-head-img {
-    width: 96px;
-    height: 96px;
+    width: 106px;
+    height: 106px;
     border-radius: 50%;
     background-color: #eeeeee;
 }
@@ -128,28 +140,31 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 13px;
+    gap: 8px;
+    min-height: 56px;
 }
 
-.mockup-head-name {
+.mockup-head-name-empty {
     width: 160px;
     height: 16px;
     background-color: #eeeeee;
     border-radius: 100px;
+    min-height: 27px;
 }
 
-.mockup-head-email {
+.mockup-head-email-empty {
     width: 72px;
     height: 8px;
     background-color: #eeeeee;
     border-radius: 100px;
+    min-height: 21px;
 }
 
 .mockup-links-parent {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
     max-height: 300px;
     overflow-y: auto;
 }
@@ -159,19 +174,19 @@
 }
 
 .mockup-link {
-    width: 237px;
-    min-height: 44px;
+    min-width: 237px;
+    min-height: 47.2px;
     border-radius: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 14px 16px;
+    padding: 10px 16px;
     gap: 8px;
 }
 
 .scroll-indicator {
     position: absolute;
     left: 50%;
-    bottom: 36px;
+    bottom: 28px;
     transform: translateX(-50%);
 }

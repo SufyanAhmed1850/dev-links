@@ -18,6 +18,8 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    cursor: pointer;
+    user-select: none;
 }
 .links-dropdown {
     display: flex;
@@ -30,5 +32,9 @@
     font-weight: 700;
 }
 .link-remove p:hover {
+    color: #EE3939;
+}
+
+.link-handle:hover {
     color: var(--purple-90-);
 }

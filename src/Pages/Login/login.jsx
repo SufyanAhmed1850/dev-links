@@ -15,11 +15,11 @@ const Login = () => {
     const isAuthenticated = useAuth();
     useEffect(() => {
         if (isAuthenticated) {
-            navigate("/");
+            navigate("/links");
         }
     }, [isAuthenticated, navigate]);
     const location = useLocation();
-    const from = location.state?.from?.pathname || "/";
+    const from = location.state?.from?.pathname || "/links";
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 

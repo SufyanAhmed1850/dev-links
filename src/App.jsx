@@ -5,15 +5,19 @@ import Login from "./Pages/Login/login";
 import Signup from "./Pages/Signup/signup";
 import Linkstab from "./Pages/Home/Links Tab/linkstab";
 import Profiletab from "./Pages/Home/Profile tab/profiletab";
+import Preview from "./Pages/Preview/Preview";
+import Share from "./Pages/Share/share";
 
 const App = () => {
     return (
         <>
             <Routes>
                 <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />9
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/preview" element={<Preview />} />
+                <Route path="/:username" element={<Share />} />
                 <Route
-                    path="/"
+                    path="/links"
                     element={
                         <>
                             <Home>

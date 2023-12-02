@@ -14,6 +14,7 @@ import axios from "axios";
 import { axiosPrivate } from "../../../api/axios.js";
 import { useContext } from "react";
 import linkContext from "../../../../context/linkContext.jsx";
+import userContext from "../../../../context/userContext.jsx";
 import Cookies from "js-cookie";
 
 const VisuallyHiddenInput = styled("input")({
@@ -36,6 +37,8 @@ const transformations =
 const Profiletab = () => {
     const { linksData, updateLinksData, setLinksData } =
         useContext(linkContext);
+    const { userData, setUserData } = useContext(userContext);
+
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -77,6 +80,10 @@ const Profiletab = () => {
             );
             console.log(res);
             setUserImage(res.data.url);
+            setUserData({
+                ...userData,
+                profile: res.data.url,
+            });
         } catch (error) {
             console.error(error);
         }
@@ -92,6 +99,12 @@ const Profiletab = () => {
                 firstName,
                 lastName,
                 email,
+            });
+            setUserData({
+                ...userData,
+                firstName,
+                lastName,
+                displayEmail: email,
             });
             console.log(res);
         } catch (error) {
