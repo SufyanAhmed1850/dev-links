@@ -7,6 +7,7 @@ import passwordIcon from "../../assets/images/icon-password.svg";
 import Button from "../../Components/Button";
 import { useNavigate, useLocation } from "react-router-dom";
 import { axiosPrivate } from "../../api/axios";
+import Cookies from "js-cookie";
 import useAuth from "../../../hooks/useAuth";
 const LOGIN_URL = "/login";
 
@@ -27,7 +28,7 @@ const Login = () => {
         try {
             const res = await axiosPrivate.post(LOGIN_URL, { email, password });
             console.log("res", res);
-            // Cookies.set("token", res.data.token);
+            Cookies.set("jwt", res.data.token);
             setEmail("");
             setPassword("");
             navigate(from, { replace: true });
