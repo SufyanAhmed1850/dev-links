@@ -7,6 +7,7 @@ import RightArrow from "../../assets/images/icon-arrow-right.svg";
 import userContext from "../../../context/userContext";
 import { axiosPrivate } from "../../api/axios";
 import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const transformations =
     "ar_1:1,c_fill,g_face,r_max,w_104,h_104/c_pad/co_rgb:633CFF,e_outline:outer:4:0/";
@@ -35,6 +36,15 @@ const Preview = () => {
         navigator.clipboard.writeText(
             import.meta.env.VITE_FE_URL + "/" + userData.userName,
         );
+        toast.success("The link has been copied to your clipboard!", {
+            duration: 2000,
+            position: "bottom-center",
+            style: {
+                backgroundColor: "var(--black-90-)",
+                color: "var(--white-90-)",
+                minWidth: "397px"
+            },
+        });
     };
 
     return (

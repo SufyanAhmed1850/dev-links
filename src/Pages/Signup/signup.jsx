@@ -8,6 +8,7 @@ import userIcon from "../../assets/images/icon-username.svg";
 import Button from "../../Components/Button";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -18,11 +19,6 @@ const Signup = () => {
 
     const userSignUp = async () => {
         try {
-            console.log({
-                email,
-                password,
-                repeatPassword,
-            });
             const res = await axios.post(`${import.meta.env.VITE_URL}/signup`, {
                 email,
                 userName,
@@ -33,8 +29,25 @@ const Signup = () => {
             setPassword("");
             setRepeatPassword("");
             console.log("res", res);
+            toast.success("Registration successful. You can now Login.", {
+                duration: 2000,
+                position: "bottom-center",
+                style: {
+                    backgroundColor: "var(--black-90-)",
+                    color: "var(--white-90-)",
+                    minWidth: "397px",
+                },
+            });
         } catch (error) {
             console.log(error);
+            toast.error("Kindly check and try again.", {
+                duration: 2000,
+                position: "bottom-center",
+                style: {
+                    backgroundColor: "var(--black-90-)",
+                    color: "var(--white-90-)",
+                },
+            });
         }
     };
 

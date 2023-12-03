@@ -8,6 +8,7 @@ import { axiosPrivate } from "../../../api/axios.js";
 import { useContext } from "react";
 import linkContext from "../../../../context/linkContext.jsx";
 import useAuth from "../../../../hooks/useAuth.jsx";
+import toast from "react-hot-toast";
 import { closestCenter, DndContext } from "@dnd-kit/core";
 import {
     restrictToVerticalAxis,
@@ -104,12 +105,29 @@ const Linkstab = () => {
     };
 
     const saveToDB = async () => {
+        console.log(linksData);
         try {
             const res = await axiosPrivate.post(saveLinksEndpoint, linksData);
             console.log(res);
+            toast.success("Links saved successfully!", {
+                duration: 2000,
+                position: "bottom-center",
+                style: {
+                    backgroundColor: "var(--black-90-)",
+                    color: "var(--white-90-)",
+                },
+            });
             return;
         } catch (error) {
             console.log(error);
+            toast.error("Couldn't save. Try again.", {
+                duration: 2000,
+                position: "bottom-center",
+                style: {
+                    backgroundColor: "var(--black-90-)",
+                    color: "var(--white-90-)",
+                },
+            });
             return;
         }
     };

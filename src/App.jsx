@@ -7,10 +7,12 @@ import Linkstab from "./Pages/Home/Links Tab/linkstab";
 import Profiletab from "./Pages/Home/Profile tab/profiletab";
 import Preview from "./Pages/Preview/Preview";
 import Share from "./Pages/Share/share";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
     return (
         <>
+            <Toaster />
             <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />

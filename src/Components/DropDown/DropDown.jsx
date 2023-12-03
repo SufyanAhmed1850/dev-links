@@ -61,7 +61,7 @@ const linkOptions = [
         color: "#FFFFFF",
     },
     {
-        text: "Dev.to",
+        text: "DevTo",
         image: devToIcon,
         placeholder: "e.g. https://dev.to/johnappleseed",
         backgroundColor: "#333333",
@@ -82,7 +82,7 @@ const linkOptions = [
         color: "#FFFFFF",
     },
     {
-        text: "freeCodeCamp",
+        text: "FreeCodeCamp",
         image: freeCodeCampIcon,
         placeholder: "e.g. https://www.freecodecamp.org/johnappleseed",
         backgroundColor: "#302267",
@@ -103,14 +103,14 @@ const linkOptions = [
         color: "#FFFFFF",
     },
     {
-        text: "Stack Overflow",
+        text: "StackOverflow",
         image: stackOverFlowIcon,
         placeholder: "e.g. https://stackoverflow.com/users/johnappleseed",
         backgroundColor: "#EC7100",
         color: "#FFFFFF",
     },
     {
-        text: "Frontend Mentor",
+        text: "FrontendMentor",
         image: frontendMentorIcon,
         placeholder: "e.g. https://www.frontendmentor.io/profile/johnappleseed",
         backgroundColor: "#32C9E5",

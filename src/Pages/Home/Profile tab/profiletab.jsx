@@ -6,7 +6,8 @@ import Buttonsecondary from "../../../Components/Button Secondary/buttonsecondar
 import emptyLinks from "../../../assets/images/illustration-empty.svg";
 import Linkscustomizationempty from "../../../Components/Links Customization Empty/linkscustomizationempty.jsx";
 import Linkscustomization from "../../../Components/Links Customization/linkscustomization.jsx";
-import uploadImageIcon from "../../../assets/images/icon-upload-image.svg";
+// import uploadImageIcon from "../../../assets/images/icon-upload-image.svg";
+import IconImageUpload from "../../../assets/images/IconImageUpload.jsx";
 import InputField from "../../../Components/Input Field/index.jsx";
 import "./profiletab.css";
 import { useEffect, useRef, useState } from "react";
@@ -16,6 +17,7 @@ import { useContext } from "react";
 import linkContext from "../../../../context/linkContext.jsx";
 import userContext from "../../../../context/userContext.jsx";
 import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 
 const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
@@ -84,6 +86,14 @@ const Profiletab = () => {
                 ...userData,
                 profile: res.data.url,
             });
+            toast.success("Image uploaded.", {
+                duration: 2000,
+                position: "bottom-center",
+                style: {
+                    backgroundColor: "var(--black-90-)",
+                    color: "var(--white-90-)",
+                },
+            });
         } catch (error) {
             console.error(error);
         }
@@ -107,8 +117,24 @@ const Profiletab = () => {
                 displayEmail: email,
             });
             console.log(res);
+            toast.success("Saved successfully!", {
+                duration: 2000,
+                position: "bottom-center",
+                style: {
+                    backgroundColor: "var(--black-90-)",
+                    color: "var(--white-90-)",
+                },
+            });
         } catch (error) {
             console.error(error.message);
+            toast.success("Couldn't save. Try again.", {
+                duration: 2000,
+                position: "bottom-center",
+                style: {
+                    backgroundColor: "var(--black-90-)",
+                    color: "var(--white-90-)",
+                },
+            });
         }
     };
 
@@ -147,11 +173,24 @@ const Profiletab = () => {
                                     />
                                 )}
                             </div>
-                            <img
+
+                            {/* <img
                                 src={uploadImageIcon}
                                 alt="Upload Profile Image"
-                            />
-                            <h3>+ Upload Image</h3>
+                            /> */}
+                            {userImage ? (
+                                <>
+                                    <IconImageUpload color="var(--white-90-)" />
+                                    <h3 style={{ color: "var(--white-90-)" }}>
+                                        Change Image
+                                    </h3>
+                                </>
+                            ) : (
+                                <>
+                                    <IconImageUpload />
+                                    <h3>+ Upload Image</h3>
+                                </>
+                            )}
                         </MuiButton>
                         <div className="profile-picture-instructions">
                             <p>

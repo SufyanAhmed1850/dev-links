@@ -54,6 +54,14 @@ const InputField = ({
 
     const handleInputBlur = (index, e) => {
         setIsFocused(false);
+        setLinksData((prevLinksData) => {
+            const updatedLinksData = [...prevLinksData];
+            updatedLinksData[index] = {
+                ...updatedLinksData[index],
+                link: inputValue,
+            };
+            return updatedLinksData;
+        });
         if (inputValue === "") {
             console.log("Please enter a link.");
             return;
@@ -65,16 +73,6 @@ const InputField = ({
             return;
         }
         console.log(`Valid ${platform} link: ${inputValue}`);
-
-        // Update linksData using setLinksData
-        setLinksData((prevLinksData) => {
-            const updatedLinksData = [...prevLinksData];
-            updatedLinksData[index] = {
-                ...updatedLinksData[index],
-                link: inputValue,
-            };
-            return updatedLinksData;
-        });
 
         console.log("Context", linksData);
         return;

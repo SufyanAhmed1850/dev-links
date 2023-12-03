@@ -96,9 +96,10 @@
     position: relative;
     width: 308px;
     height: 632px;
-    background-image: url(../../assets/images/mockup-border.svg);
+    background-image: url(../../assets/images/mockup-border.png);
     background-repeat: no-repeat;
     background-position: center;
+    background-size: 100%;
 }
 
 .mockup-img {
