@@ -4,7 +4,6 @@ import Buttonsecondary from "../../Components/Button Secondary/buttonsecondary";
 import "./Preview.css";
 import GithubIcon from "../../assets/images/icon-github-white.svg";
 import RightArrow from "../../assets/images/icon-arrow-right.svg";
-import UserImage from "../../assets/images/preview-user.jpg";
 import userContext from "../../../context/userContext";
 import { axiosPrivate } from "../../api/axios";
 import { Link, useNavigate } from "react-router-dom";
@@ -43,7 +42,7 @@ const Preview = () => {
             <div className="preview-blob"></div>
             <div className="preview-header">
                 <Buttonsecondary
-                    onClick={() => navigate("/links")}
+                    onClick={() => navigate("/")}
                     buttonSecondaryText="Back to Editor"
                 />
                 <Button handleClick={handleCopy} buttonText="Share Link" />

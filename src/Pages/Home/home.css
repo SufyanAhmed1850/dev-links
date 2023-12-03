@@ -44,11 +44,12 @@
     display: flex;
     flex-direction: column;
     gap: 24px;
-    max-height: 53svh;
-    overflow-y: auto;
     padding-right: 8px;
     flex-basis: 550px;
     margin-top: 24px;
+    max-height: 53svh;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .links-customization-links {

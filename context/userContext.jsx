@@ -10,7 +10,7 @@ export const UserProvider = ({ children }) => {
 
     useEffect(() => {
         if (
-            location.pathname == "/links" ||
+            location.pathname == "/" ||
             location.pathname == "/profile" ||
             location.pathname == "/preview"
         ) {

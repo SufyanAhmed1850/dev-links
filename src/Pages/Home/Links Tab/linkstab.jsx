@@ -2,17 +2,31 @@ import Button from "../../../Components/Button/index.jsx";
 import Buttonsecondary from "../../../Components/Button Secondary/buttonsecondary.jsx";
 import Linkscustomizationempty from "../../../Components/Links Customization Empty/linkscustomizationempty.jsx";
 import Linkscustomization from "../../../Components/Links Customization/linkscustomization.jsx";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { axiosPrivate } from "../../../api/axios.js";
 import { useContext } from "react";
 import linkContext from "../../../../context/linkContext.jsx";
 import useAuth from "../../../../hooks/useAuth.jsx";
+import { closestCenter, DndContext } from "@dnd-kit/core";
+import {
+    restrictToVerticalAxis,
+    restrictToWindowEdges,
+    restrictToFirstScrollableAncestor,
+} from "@dnd-kit/modifiers";
+import {
+    arrayMove,
+    SortableContext,
+    useSortable,
+    verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 
 const getLinksEndpoint = "/link";
 const saveLinksEndpoint = "/link/save";
 
 const Linkstab = () => {
+    const linksCustomizationMainRef = useRef(null);
+    const shouldScrollToBottomRef = useRef(false);
     const navigate = useNavigate();
     const isAuthenticated = useAuth();
     useEffect(() => {
@@ -27,7 +41,6 @@ const Linkstab = () => {
         (async () => {
             try {
                 const res = await axiosPrivate(getLinksEndpoint);
-                // console.log(res);
                 res?.data?.links && setLinksData(res.data.links);
                 res?.data?.links && setOrder(res.data.links.length + 1);
             } catch (error) {
@@ -36,10 +49,49 @@ const Linkstab = () => {
         })();
     }, []);
 
+    const onDragEnd = (event) => {
+        const { active, over } = event;
+        console.log(event);
+        if (active.id === over.id) {
+            return;
+        }
+        setLinksData((links) => {
+            const oldIndex = links.findIndex(
+                (link) => link.order === active.id,
+            );
+            const newIndex = links.findIndex((link) => link.order === over.id);
+            const newLinks = arrayMove(links, oldIndex, newIndex);
+            const updatedLinks = newLinks.map((link, index) => ({
+                ...link,
+                order: index + 1,
+            }));
+            return updatedLinks;
+        });
+    };
+
+    const end = () => {
+        const updatedLinksDataWithOrder = linksData.map((link, i) => ({
+            ...link,
+            order: i + 1,
+        }));
+        setLinksData(updatedLinksDataWithOrder);
+    };
+
     const handleAddLinkClick = () => {
         updateLinksData(order);
         setOrder(order + 1);
+        // Set the flag to true when the "Add new link" button is clicked
+        shouldScrollToBottomRef.current = true;
     };
+    useEffect(() => {
+        if (shouldScrollToBottomRef.current) {
+            // Scroll to the bottom when linksData changes and the flag is true
+            linksCustomizationMainRef.current.scrollTop =
+                linksCustomizationMainRef.current.scrollHeight;
+            // Reset the flag to false after scrolling
+            shouldScrollToBottomRef.current = false;
+        }
+    }, [linksData]);
 
     const handleRemoveLink = (index) => {
         const updatedLinksData = linksData.filter((_, i) => i !== index);
@@ -76,24 +128,42 @@ const Linkstab = () => {
                     buttonSecondaryText="+ Add new link"
                     onClick={handleAddLinkClick}
                 />
-                <div className="links-customization-main">
-                    {linksData?.length ? (
-                        linksData.map((link, ind) => {
-                            console.log("Link Map", link);
-                            return (
-                                <Linkscustomization
-                                    key={ind}
-                                    order={link.order}
-                                    index={ind}
-                                    link={link.link || ""}
-                                    platform={link.platform.text || ""}
-                                    onRemove={handleRemoveLink}
-                                />
-                            );
-                        })
-                    ) : (
-                        <Linkscustomizationempty />
-                    )}
+                <div
+                    className="links-customization-main"
+                    ref={linksCustomizationMainRef}
+                >
+                    <DndContext
+                        collisionDetection={closestCenter}
+                        onDragEnd={onDragEnd}
+                        modifiers={[
+                            restrictToVerticalAxis,
+                            restrictToWindowEdges,
+                            restrictToFirstScrollableAncestor,
+                        ]}
+                    >
+                        <SortableContext
+                            items={linksData.map((link) => link.order)}
+                            strategy={verticalListSortingStrategy}
+                        >
+                            {linksData?.length ? (
+                                linksData.map((link, ind) => {
+                                    return (
+                                        <Linkscustomization
+                                            key={link.link}
+                                            link={link || ""}
+                                            order={link.order}
+                                            index={ind}
+                                            // link={link.link || ""}
+                                            platform={link.platform.text || ""}
+                                            onRemove={handleRemoveLink}
+                                        />
+                                    );
+                                })
+                            ) : (
+                                <Linkscustomizationempty />
+                            )}
+                        </SortableContext>
+                    </DndContext>
                 </div>
             </div>
             <div className="links-customization-footer">

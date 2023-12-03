@@ -113,8 +113,8 @@ const linkOptions = [
         text: "Frontend Mentor",
         image: frontendMentorIcon,
         placeholder: "e.g. https://www.frontendmentor.io/profile/johnappleseed",
-        backgroundColor: "#FFFFFF",
-        color: "#333333",
+        backgroundColor: "#32C9E5",
+        color: "#FFFFFF",
     },
 ];
 

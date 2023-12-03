@@ -5,8 +5,17 @@ import LinkIcon from "../../assets/images/icon-link.svg";
 import DropDown from "../DropDown/DropDown";
 import { useState, useEffect, useContext } from "react";
 import linkContext from "../../../context/linkContext";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 const Linkscustomization = ({ order, index, link, onRemove }) => {
+    const { attributes, listeners, setNodeRef, transform, transition } =
+        useSortable({ id: link.order, handle: true });
+    const style = {
+        transition,
+        transform: CSS.Transform.toString(transform),
+    };
+
     const { linksData, updateLinksData, setLinksData } =
         useContext(linkContext);
     const [url, setUrl] = useState();
@@ -17,9 +26,17 @@ const Linkscustomization = ({ order, index, link, onRemove }) => {
     };
 
     return (
-        <div className="link-customization-not-empty-container">
+        <div
+            ref={setNodeRef}
+            style={style}
+            {...attributes}
+            className="link-customization-not-empty-container"
+        >
             <div className="link-header">
-                <div className="link-handle">
+                <div
+                    {...listeners}
+                    className="link-handle grabbing"
+                >
                     <div className="link-handle-img">
                         <img src={handle} alt="Drag and Drop Handle" />
                     </div>
@@ -40,7 +57,7 @@ const Linkscustomization = ({ order, index, link, onRemove }) => {
                 <InputField
                     index={index}
                     disabled={selectedPlatform ? false : true}
-                    value={link || ""}
+                    value={link.link || ""}
                     label={"Link"}
                     iconSrc={LinkIcon}
                     altText={"Link"}

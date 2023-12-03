@@ -105,7 +105,7 @@ const InputField = ({
                     onChange={(e) => handleInputChange(e)}
                     onFocus={() => setIsFocused(true)}
                     onBlur={
-                        location.pathname === "/links"
+                        location.pathname === "/"
                             ? () => handleInputBlur(index)
                             : () => setIsFocused(false)
                     }

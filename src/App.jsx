@@ -17,7 +17,7 @@ const App = () => {
                 <Route path="/preview" element={<Preview />} />
                 <Route path="/:username" element={<Share />} />
                 <Route
-                    path="/links"
+                    path="/"
                     element={
                         <>
                             <Home>
