@@ -205,7 +205,40 @@ const DropDown = ({ onSelectPlatform, index }) => {
                     <>
                         <div className="dropdown-option-img">
                             <img
-                                src={selectedPlatform.image}
+                                src={(() => {
+                                    switch (selectedPlatform.text) {
+                                        case "GitHub":
+                                            return githubIcon;
+                                        case "Twitter":
+                                            return twitterIcon;
+                                        case "LinkedIn":
+                                            return linkedInIcon;
+                                        case "YouTube":
+                                            return youtubeIcon;
+                                        case "Facebook":
+                                            return facebookIcon;
+                                        case "Twitch":
+                                            return twitchIcon;
+                                        case "DevTo":
+                                            return devToIcon;
+                                        case "CodeWars":
+                                            return codeWarsIcon;
+                                        case "CodePen":
+                                            return codePenIcon;
+                                        case "FreeCodeCamp":
+                                            return freeCodeCampIcon;
+                                        case "GitLab":
+                                            return gitLabIcon;
+                                        case "Hashnode":
+                                            return hashNodeIcon;
+                                        case "StackOverflow":
+                                            return stackOverFlowIcon;
+                                        case "FrontendMentor":
+                                            return frontendMentorIcon;
+                                        default:
+                                            return null;
+                                    }
+                                })()}
                                 alt={selectedPlatform.text}
                             />
                         </div>
