@@ -7,6 +7,21 @@ import MouseScroll from "../../assets/images/icon-mouse-scroll.svg";
 import rightArrowIcon from "../../assets/images/icon-arrow-right.svg";
 import userContext from "../../../context/userContext.jsx";
 
+import githubIcon from "../../assets/images/icon-github-white.svg";
+import twitterIcon from "../../assets/images/icon-twitter-white.svg";
+import linkedInIcon from "../../assets/images/icon-linkedin-white.svg";
+import youtubeIcon from "../../assets/images/icon-youtube-white.svg";
+import facebookIcon from "../../assets/images/icon-facebook-white.svg";
+import twitchIcon from "../../assets/images/icon-twitch-white.svg";
+import devToIcon from "../../assets/images/icon-devto-white.svg";
+import codeWarsIcon from "../../assets/images/icon-codewars-white.svg";
+import codePenIcon from "../../assets/images/icon-codepen-white.svg";
+import freeCodeCampIcon from "../../assets/images/icon-freecodecamp-white.svg";
+import gitLabIcon from "../../assets/images/icon-gitlab-white.svg";
+import hashNodeIcon from "../../assets/images/icon-hashnode-white.svg";
+import stackOverFlowIcon from "../../assets/images/icon-stack-white-overflow.svg";
+import frontendMentorIcon from "../../assets/images/icon-frontend-white-mentor.svg";
+
 const transformations =
     "ar_1:1,c_fill,g_face,r_max,w_96,h_96/c_pad/co_rgb:633CFF,e_outline:outer:4:0/";
 
@@ -80,10 +95,44 @@ const Home = ({ children }) => {
                                                   >
                                                       <div>
                                                           <img
-                                                              src={link?.platform?.image?.replace(
-                                                                  /(icon-[a-z]+)/,
-                                                                  "$1-white",
-                                                              )}
+                                                              src={(() => {
+                                                                  switch (
+                                                                      link
+                                                                          .platform
+                                                                          .text
+                                                                  ) {
+                                                                      case "GitHub":
+                                                                          return githubIcon;
+                                                                      case "Twitter":
+                                                                          return twitterIcon;
+                                                                      case "LinkedIn":
+                                                                          return linkedInIcon;
+                                                                      case "YouTube":
+                                                                          return youtubeIcon;
+                                                                      case "Facebook":
+                                                                          return facebookIcon;
+                                                                      case "Twitch":
+                                                                          return twitchIcon;
+                                                                      case "DevTo":
+                                                                          return devToIcon;
+                                                                      case "CodeWars":
+                                                                          return codeWarsIcon;
+                                                                      case "CodePen":
+                                                                          return codePenIcon;
+                                                                      case "FreeCodeCamp":
+                                                                          return freeCodeCampIcon;
+                                                                      case "GitLab":
+                                                                          return gitLabIcon;
+                                                                      case "Hashnode":
+                                                                          return hashNodeIcon;
+                                                                      case "StackOverflow":
+                                                                          return stackOverFlowIcon;
+                                                                      case "FrontendMentor":
+                                                                          return frontendMentorIcon;
+                                                                      default:
+                                                                          return null; // Provide a default value if necessary
+                                                                  }
+                                                              })()}
                                                               alt={
                                                                   link.platform
                                                                       .text
