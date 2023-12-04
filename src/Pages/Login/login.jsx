@@ -6,11 +6,10 @@ import emailIcon from "../../assets/images/icon-email.svg";
 import passwordIcon from "../../assets/images/icon-password.svg";
 import Button from "../../Components/Button";
 import { useNavigate, useLocation } from "react-router-dom";
-// import { axiosPrivate } from "../../api/axios";
-import axios from "axios";
+import { axiosPrivate } from "../../api/axios";
 import Cookies from "js-cookie";
 import useAuth from "../../../hooks/useAuth";
-// const LOGIN_URL = "/login";
+const LOGIN_URL = "/login";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -27,10 +26,7 @@ const Login = () => {
 
     const userLogin = async () => {
         try {
-            const res = await axios.post("https://devlinks.cyclic.app/login", {
-                email,
-                password,
-            });
+            const res = await axiosPrivate.post(LOGIN_URL, { email, password });
             console.log("res", res);
             Cookies.set("jwt", res.data.token);
             setEmail("");

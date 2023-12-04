@@ -5,7 +5,6 @@ import Linkscustomization from "../../../Components/Links Customization/linkscus
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { axiosPrivate } from "../../../api/axios.js";
-import axios from "axios";
 import { useContext } from "react";
 import linkContext from "../../../../context/linkContext.jsx";
 import useAuth from "../../../../hooks/useAuth.jsx";
@@ -42,12 +41,7 @@ const Linkstab = () => {
     useEffect(() => {
         (async () => {
             try {
-                const res = await axios.get(
-                    "https://devlinks.cyclic.app/link",
-                    {
-                        withCredentials: true, // Include credentials with the request
-                    },
-                );
+                const res = await axiosPrivate(getLinksEndpoint);
                 res?.data?.links && setLinksData(res.data.links);
                 res?.data?.links && setOrder(res.data.links.length + 1);
             } catch (error) {
@@ -113,13 +107,7 @@ const Linkstab = () => {
     const saveToDB = async () => {
         console.log(linksData);
         try {
-            const res = await axios.post(
-                "https://devlinks.cyclic.app/link/save",
-                linksData,
-                {
-                    withCredentials: true, // This line includes cookies with the request
-                },
-            );
+            const res = await axiosPrivate.post(saveLinksEndpoint, linksData);
             console.log(res);
             toast.success("Links saved successfully!", {
                 duration: 2000,
