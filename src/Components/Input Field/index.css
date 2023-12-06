@@ -25,3 +25,10 @@
 .link-url .input-container {
     background-color: var(--white-90-);
 }
+
+.input-error {
+    color: var(--red-90-);
+    white-space: nowrap;
+    padding-right: 16px;
+    user-select: none;
+}

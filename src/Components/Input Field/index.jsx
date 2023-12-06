@@ -33,12 +33,22 @@ const InputField = ({
     value,
     disabled,
     index,
+    error,
 }) => {
     const location = useLocation();
     const [inputValue, setInputValue] = useState("");
     const { linksData, updateLinksData, setLinksData } =
         useContext(linkContext);
     const [isFocused, setIsFocused] = useState(false);
+    const [haveError, setHaveError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+
+    useEffect(() => {
+        type == "password"
+            ? setErrorMessage("Please check again")
+            : setErrorMessage("Can’t be empty");
+        error && setHaveError(true);
+    }, [error]);
 
     useEffect(() => {
         if (value) {
@@ -70,6 +80,7 @@ const InputField = ({
         const pattern = linkPatterns[platform];
         if (!pattern.test(inputValue)) {
             console.log(`Invalid ${platform} link.`);
+            setErrorMessage("Please check the URL");
             return;
         }
         console.log(`Valid ${platform} link: ${inputValue}`);
@@ -82,14 +93,15 @@ const InputField = ({
         <div className="input-field-parent">
             <span>{label}</span>
             <div
-                style={
-                    isFocused
-                        ? {
-                              border: "1px solid var(--purple-90-)",
-                              boxShadow: "0 0 32px 0 #633cff40",
-                          }
-                        : {}
-                }
+                style={{
+                    border: isFocused
+                        ? "1px solid var(--purple-90-)"
+                        : "1px solid var(--black-30-)",
+                    boxShadow: isFocused ? "0 0 32px 0 #633cff40" : "none",
+                    ...(haveError
+                        ? { border: "1px solid var(--red-90-)" }
+                        : {}),
+                }}
                 className="input-container"
             >
                 {imgYes || (
@@ -105,11 +117,27 @@ const InputField = ({
                     onBlur={
                         location.pathname === "/"
                             ? () => handleInputBlur(index)
-                            : () => setIsFocused(false)
+                            : () => {
+                                  if (!inputValue) {
+                                      type == "password"
+                                          ? setErrorMessage(
+                                                "Please check again",
+                                            )
+                                          : setErrorMessage("Can’t be empty");
+
+                                      setHaveError(true);
+                                  } else {
+                                      setHaveError(false);
+                                  }
+                                  setIsFocused(false);
+                              }
                     }
                     type={type || "text"}
                     placeholder={placeholderText}
                 />
+                {haveError && (
+                    <span className="input-error">{errorMessage}</span>
+                )}
             </div>
         </div>
     );

@@ -16,9 +16,23 @@ const Signup = () => {
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [repeatPassword, setRepeatPassword] = useState("");
+    const [emptyError, setEmptyError] = useState(false);
 
     const userSignUp = async () => {
         try {
+            if (!email || !userName || !password || !repeatPassword) {
+                setEmptyError(true);
+                toast.error("All fiels are required", {
+                    duration: 2000,
+                    position: "bottom-center",
+                    style: {
+                        backgroundColor: "var(--black-90-)",
+                        color: "var(--white-90-)",
+                    },
+                });
+                return;
+            }
+            setEmptyError(false);
             const res = await axios.post(`${import.meta.env.VITE_URL}/signup`, {
                 email,
                 userName,
@@ -40,14 +54,17 @@ const Signup = () => {
             });
         } catch (error) {
             console.log(error);
-            toast.error("Kindly check and try again.", {
-                duration: 2000,
-                position: "bottom-center",
-                style: {
-                    backgroundColor: "var(--black-90-)",
-                    color: "var(--white-90-)",
+            toast.error(
+                error.response.data.message /*"Kindly check and try again." */,
+                {
+                    duration: 2000,
+                    position: "bottom-center",
+                    style: {
+                        backgroundColor: "var(--black-90-)",
+                        color: "var(--white-90-)",
+                    },
                 },
-            });
+            );
         }
     };
 
@@ -64,6 +81,7 @@ const Signup = () => {
                 <div className="signup-fields">
                     <InputField
                         value={email}
+                        error={emptyError || false}
                         label="Email address"
                         iconSrc={emailIcon}
                         altText="Email"
@@ -72,6 +90,7 @@ const Signup = () => {
                     />
                     <InputField
                         value={userName}
+                        error={emptyError || false}
                         label="User name"
                         iconSrc={userIcon}
                         altText="user name"
@@ -80,6 +99,7 @@ const Signup = () => {
                     />
                     <InputField
                         value={password}
+                        error={emptyError || false}
                         label="Create password"
                         type="password"
                         iconSrc={passwordIcon}
@@ -89,6 +109,7 @@ const Signup = () => {
                     />
                     <InputField
                         value={repeatPassword}
+                        error={emptyError || false}
                         label="Confirm password"
                         type="password"
                         iconSrc={passwordIcon}

@@ -89,7 +89,7 @@ const Share = () => {
                                     <img
                                         src={(() => {
                                             const platformText =
-                                            linksData[ind]?.platform?.text;
+                                                linksData[ind]?.platform?.text;
                                             const platformIcon = {
                                                 GitHub: githubIcon,
                                                 Twitter: twitterIcon,
