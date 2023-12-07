@@ -9,6 +9,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { axiosPrivate } from "../../api/axios";
 import Cookies from "js-cookie";
 import useAuth from "../../../hooks/useAuth";
+import toast from "react-hot-toast";
 const LOGIN_URL = "/login";
 
 const Login = () => {
@@ -22,10 +23,17 @@ const Login = () => {
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
     const [email, setEmail] = useState("");
+    const [emailError, setEmailError] = useState(false);
     const [password, setPassword] = useState("");
+    const [passwordError, setPasswordError] = useState(false);
 
     const userLogin = async () => {
         try {
+            !email ? setEmailError(true) : setEmailError(false);
+            !password ? setPasswordError(true) : setEmailError(false);
+            if (!email || !password) {
+                return;
+            }
             const res = await axiosPrivate.post(LOGIN_URL, { email, password });
             console.log("res", res);
             Cookies.set("jwt", res.data.token);
@@ -35,15 +43,24 @@ const Login = () => {
         } catch (err) {
             console.log(err);
             if (!err?.response) {
+                toast.error("No response from server", {
+                    duration: 2000,
+                    position: "bottom-center",
+                    style: {
+                        backgroundColor: "var(--black-90-)",
+                        color: "var(--white-90-)",
+                    },
+                });
                 console.error("No Server Response", err.response.data);
-            } else if (err.response?.status === 400) {
-                console.error(
-                    "Missing Username or Password",
-                    err.response.data,
-                );
-            } else if (err.response?.status === 401) {
-                console.error("Unauthorized", err.response.data);
             } else {
+                toast.error("Invalid email or password", {
+                    duration: 2000,
+                    position: "bottom-center",
+                    style: {
+                        backgroundColor: "var(--black-90-)",
+                        color: "var(--white-90-)",
+                    },
+                });
                 console.error("Login Failed", err.response.data);
             }
         }
@@ -62,6 +79,7 @@ const Login = () => {
                 <div className="login-fields">
                     <InputField
                         value={email}
+                        error={emailError}
                         onInputChange={(emailVal) => setEmail(emailVal)}
                         label="Email address"
                         iconSrc={emailIcon}
@@ -70,6 +88,7 @@ const Login = () => {
                     />
                     <InputField
                         value={password}
+                        error={passwordError}
                         onInputChange={(passVal) => setPassword(passVal)}
                         label="Password"
                         type="password"

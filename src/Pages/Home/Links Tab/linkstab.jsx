@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { axiosPrivate } from "../../../api/axios.js";
 import { useContext } from "react";
 import linkContext from "../../../../context/linkContext.jsx";
+import LinkInputSkeleton from "../../../Components/LinkInputSkeleton/LinkInputSkeleton.jsx";
 import useAuth from "../../../../hooks/useAuth.jsx";
 import toast from "react-hot-toast";
 import { closestCenter, DndContext } from "@dnd-kit/core";
@@ -30,6 +31,7 @@ const Linkstab = () => {
     const shouldScrollToBottomRef = useRef(false);
     const navigate = useNavigate();
     const isAuthenticated = useAuth();
+    const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
         if (!isAuthenticated) {
             navigate("/login");
@@ -41,11 +43,16 @@ const Linkstab = () => {
     useEffect(() => {
         (async () => {
             try {
+                if (!isAuthenticated) {
+                    return;
+                }
                 const res = await axiosPrivate(getLinksEndpoint);
                 res?.data?.links && setLinksData(res.data.links);
                 res?.data?.links && setOrder(res.data.links.length + 1);
+                setIsLoading(true);
             } catch (error) {
-                console.log(error);
+                console.error(error);
+                // setIsLoading(false);
             }
         })();
     }, []);
@@ -105,11 +112,21 @@ const Linkstab = () => {
     };
 
     const saveToDB = async () => {
-        console.log(linksData);
+        // if (linksData.length < 1) {
+        //     toast.error("No links to save", {
+        //         duration: 2000,
+        //         position: "bottom-center",
+        //         style: {
+        //             backgroundColor: "var(--black-90-)",
+        //             color: "var(--white-90-)",
+        //         },
+        //     });
+        //     return;
+        // }
         try {
             const res = await axiosPrivate.post(saveLinksEndpoint, linksData);
             console.log(res);
-            toast.success("Links saved successfully!", {
+            toast.success("Updated successfully!", {
                 duration: 2000,
                 position: "bottom-center",
                 style: {
@@ -163,7 +180,12 @@ const Linkstab = () => {
                             items={linksData.map((link) => link.order)}
                             strategy={verticalListSortingStrategy}
                         >
-                            {linksData?.length ? (
+                            {isLoading ? (
+                                <>
+                                    <LinkInputSkeleton />
+                                    <LinkInputSkeleton />
+                                </>
+                            ) : linksData?.length ? (
                                 linksData.map((link, ind) => {
                                     return (
                                         <Linkscustomization
@@ -171,6 +193,7 @@ const Linkstab = () => {
                                             link={link || ""}
                                             order={link.order}
                                             index={ind}
+                                            loading={isLoading}
                                             // link={link.link || ""}
                                             platform={link.platform.text || ""}
                                             onRemove={handleRemoveLink}

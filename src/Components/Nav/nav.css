@@ -19,3 +19,9 @@
     display: flex;
     gap: 16px;
 }
+
+.navbar-btn-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}

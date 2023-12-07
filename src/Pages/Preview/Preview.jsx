@@ -7,6 +7,7 @@ import RightArrow from "../../assets/images/icon-arrow-right.svg";
 import userContext from "../../../context/userContext";
 import { axiosPrivate } from "../../api/axios";
 import { Link, useNavigate } from "react-router-dom";
+import useAuth from "../../../hooks/useAuth";
 import toast from "react-hot-toast";
 import githubIcon from "../../assets/images/icon-github-white.svg";
 import twitterIcon from "../../assets/images/icon-twitter-white.svg";
@@ -27,7 +28,13 @@ const transformations =
     "ar_1:1,c_fill,g_face,r_max,w_104,h_104/c_pad/co_rgb:633CFF,e_outline:outer:4:0/";
 
 const Preview = () => {
+    const isAuthenticated = useAuth();
     const navigate = useNavigate();
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigate("/login");
+        }
+    }, [isAuthenticated]);
     const { userData } = useContext(userContext);
     const [links, setLinks] = useState([]);
     console.log("links---", links);
@@ -37,6 +44,9 @@ const Preview = () => {
     useEffect(() => {
         (async () => {
             try {
+                if (!isAuthenticated) {
+                    return;
+                }
                 const res = await axiosPrivate("/link");
                 console.log(res.data.links);
                 setLinks(res.data.links);

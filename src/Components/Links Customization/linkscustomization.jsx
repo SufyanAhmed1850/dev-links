@@ -15,6 +15,7 @@ const Linkscustomization = ({ order, index, link, onRemove }) => {
         transition,
         transform: CSS.Transform.toString(transform),
     };
+    // const [isLoading, setIsLoading] = useState(true);
 
     const { linksData, updateLinksData, setLinksData } =
         useContext(linkContext);
@@ -33,10 +34,7 @@ const Linkscustomization = ({ order, index, link, onRemove }) => {
             className="link-customization-not-empty-container"
         >
             <div className="link-header">
-                <div
-                    {...listeners}
-                    className="link-handle grabbing"
-                >
+                <div {...listeners} className="link-handle grabbing">
                     <div className="link-handle-img">
                         <img src={handle} alt="Drag and Drop Handle" />
                     </div>

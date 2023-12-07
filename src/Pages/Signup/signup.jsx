@@ -13,15 +13,21 @@ import toast from "react-hot-toast";
 const Signup = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
+    const [emailError, setEmailError] = useState(false);
     const [userName, setUserName] = useState("");
+    const [userNameError, setUserNameError] = useState(false);
     const [password, setPassword] = useState("");
+    const [passwordError, setPasswordError] = useState(false);
     const [repeatPassword, setRepeatPassword] = useState("");
-    const [emptyError, setEmptyError] = useState(false);
+    const [repeatError, setRepeatError] = useState(false);
 
     const userSignUp = async () => {
         try {
+            !email ? setEmailError(true) : setEmailError(false);
+            !userName ? setUserNameError(true) : setUserNameError(false);
+            !password ? setPasswordError(true) : setPasswordError(false);
+            !repeatPassword ? setRepeatError(true) : setRepeatError(false);
             if (!email || !userName || !password || !repeatPassword) {
-                setEmptyError(true);
                 toast.error("All fiels are required", {
                     duration: 2000,
                     position: "bottom-center",
@@ -32,7 +38,6 @@ const Signup = () => {
                 });
                 return;
             }
-            setEmptyError(false);
             const res = await axios.post(`${import.meta.env.VITE_URL}/signup`, {
                 email,
                 userName,
@@ -40,6 +45,7 @@ const Signup = () => {
                 repeatPassword,
             });
             setEmail("");
+            setUserName("");
             setPassword("");
             setRepeatPassword("");
             console.log("res", res);
@@ -54,17 +60,90 @@ const Signup = () => {
             });
         } catch (error) {
             console.log(error);
-            toast.error(
-                error.response.data.message /*"Kindly check and try again." */,
-                {
+            const message = error.response.data.message;
+            console.log(message);
+            if (
+                message.includes("fails to match the required pattern") &&
+                message.includes("email")
+            ) {
+                toast.error("Invalid email address", {
                     duration: 2000,
                     position: "bottom-center",
                     style: {
                         backgroundColor: "var(--black-90-)",
                         color: "var(--white-90-)",
                     },
-                },
-            );
+                });
+            } else if (
+                message.includes("length must be at least 6 characters long") &&
+                message.includes("userName")
+            ) {
+                toast.error("Username must be at least 6 characters long", {
+                    duration: 2000,
+                    position: "bottom-center",
+                    style: {
+                        backgroundColor: "var(--black-90-)",
+                        color: "var(--white-90-)",
+                    },
+                });
+            } else if (
+                message.includes("length must be at least 8 characters long") &&
+                message.includes("password")
+            ) {
+                toast.error("Password must be at least 8 characters long", {
+                    duration: 2000,
+                    position: "bottom-center",
+                    style: {
+                        backgroundColor: "var(--black-90-)",
+                        color: "var(--white-90-)",
+                    },
+                });
+            } else if (
+                message.includes("fails to match the required pattern") &&
+                message.includes("password")
+            ) {
+                toast.error("Password does not match the requirements", {
+                    duration: 2000,
+                    position: "bottom-center",
+                    style: {
+                        backgroundColor: "var(--black-90-)",
+                        color: "var(--white-90-)",
+                    },
+                });
+            } else if (
+                message.includes("duplicate") &&
+                message.includes("email")
+            ) {
+                toast.error("Email already exists", {
+                    duration: 2000,
+                    position: "bottom-center",
+                    style: {
+                        backgroundColor: "var(--black-90-)",
+                        color: "var(--white-90-)",
+                    },
+                });
+            } else if (
+                message.includes("duplicate") &&
+                message.includes("userName")
+            ) {
+                toast.error("Username already exists", {
+                    duration: 2000,
+                    position: "bottom-center",
+                    style: {
+                        backgroundColor: "var(--black-90-)",
+                        color: "var(--white-90-)",
+                    },
+                });
+            } else if (message.includes("repeatPassword")) {
+                toast.error("Passwords do not match", {
+                    duration: 2000,
+                    position: "bottom-center",
+                    style: {
+                        backgroundColor: "var(--black-90-)",
+                        color: "var(--white-90-)",
+                    },
+                });
+            }
         }
     };
 
@@ -81,7 +160,7 @@ const Signup = () => {
                 <div className="signup-fields">
                     <InputField
                         value={email}
-                        error={emptyError || false}
+                        error={emailError || false}
                         label="Email address"
                         iconSrc={emailIcon}
                         altText="Email"
@@ -90,7 +169,7 @@ const Signup = () => {
                     />
                     <InputField
                         value={userName}
-                        error={emptyError || false}
+                        error={userNameError || false}
                         label="User name"
                         iconSrc={userIcon}
                         altText="user name"
@@ -99,7 +178,7 @@ const Signup = () => {
                     />
                     <InputField
                         value={password}
-                        error={emptyError || false}
+                        error={passwordError || false}
                         label="Create password"
                         type="password"
                         iconSrc={passwordIcon}
@@ -109,7 +188,7 @@ const Signup = () => {
                     />
                     <InputField
                         value={repeatPassword}
-                        error={emptyError || false}
+                        error={repeatError || false}
                         label="Confirm password"
                         type="password"
                         iconSrc={passwordIcon}

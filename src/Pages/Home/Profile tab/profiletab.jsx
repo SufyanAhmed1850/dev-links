@@ -18,6 +18,7 @@ import linkContext from "../../../../context/linkContext.jsx";
 import userContext from "../../../../context/userContext.jsx";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
+import useAuth from "../../../../hooks/useAuth.jsx";
 
 const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
@@ -37,6 +38,7 @@ const transformations =
     "ar_1:1,c_fill,g_face,r_12,w_193,h_193/c_pad/co_rgb:000000,e_colorize:50/";
 
 const Profiletab = () => {
+    const isAuthenticated = useAuth();
     const { linksData, updateLinksData, setLinksData } =
         useContext(linkContext);
     const { userData, setUserData } = useContext(userContext);
@@ -48,8 +50,11 @@ const Profiletab = () => {
 
     useEffect(() => {
         (async () => {
-            console.log("Fetching user data");
             try {
+                if (!isAuthenticated) {
+                    return;
+                }
+                console.log("Fetching user data");
                 const resLinks = await axiosPrivate(getLinksEndpoint);
                 resLinks?.data?.links && setLinksData(resLinks.data.links);
                 const res = await axiosPrivate("/profile");
@@ -96,6 +101,15 @@ const Profiletab = () => {
             });
         } catch (error) {
             console.error(error);
+            error.response.data.message.includes("File size too large.") &&
+                toast.error("File size too large.", {
+                    duration: 2000,
+                    position: "bottom-center",
+                    style: {
+                        backgroundColor: "var(--black-90-)",
+                        color: "var(--white-90-)",
+                    },
+                });
         }
     };
 
@@ -173,11 +187,6 @@ const Profiletab = () => {
                                     />
                                 )}
                             </div>
-
-                            {/* <img
-                                src={uploadImageIcon}
-                                alt="Upload Profile Image"
-                            /> */}
                             {userImage ? (
                                 <>
                                     <IconImageUpload color="var(--white-90-)" />
@@ -194,14 +203,14 @@ const Profiletab = () => {
                         </MuiButton>
                         <div className="profile-picture-instructions">
                             <p>
-                                Suggestion: Use image dimensions as 1024x1024px
-                                or less. Use PNG or JPG format.
+                                Suggestion: Image size should be less than 10mb.
+                                Use PNG or JPG format.
                             </p>
                         </div>
                     </div>
                     <div className="profile-details-data">
                         <div className="profile-first-name">
-                            <p>First name*</p>
+                            <p>First name</p>
                             <InputField
                                 value={firstName}
                                 onInputChange={(val) => setFirstName(val)}
@@ -210,7 +219,7 @@ const Profiletab = () => {
                             />
                         </div>
                         <div className="profile-last-name">
-                            <p>Last name*</p>
+                            <p>Last name</p>
                             <InputField
                                 value={lastName}
                                 onInputChange={(val) => setLastName(val)}

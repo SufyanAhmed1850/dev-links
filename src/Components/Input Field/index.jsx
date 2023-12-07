@@ -62,8 +62,23 @@ const InputField = ({
         return;
     };
 
-    const handleInputBlur = (index, e) => {
+    const handleInputBlur = (index) => {
         setIsFocused(false);
+
+        const platform = linksData[index].platform.text;
+        const pattern = linkPatterns[platform];
+
+        // Immediately set error state for the current input validation
+        const isValid = pattern.test(inputValue);
+        setHaveError(!isValid);
+        setErrorMessage(isValid ? "" : "Please check the URL");
+
+        // Do not proceed to set the link in context if the input is invalid
+        if (!isValid) {
+            console.log(`Invalid ${platform} link.`);
+            return;
+        }
+
         setLinksData((prevLinksData) => {
             const updatedLinksData = [...prevLinksData];
             updatedLinksData[index] = {
@@ -72,21 +87,7 @@ const InputField = ({
             };
             return updatedLinksData;
         });
-        if (inputValue === "") {
-            console.log("Please enter a link.");
-            return;
-        }
-        const platform = linksData[index].platform.text;
-        const pattern = linkPatterns[platform];
-        if (!pattern.test(inputValue)) {
-            console.log(`Invalid ${platform} link.`);
-            setErrorMessage("Please check the URL");
-            return;
-        }
         console.log(`Valid ${platform} link: ${inputValue}`);
-
-        console.log("Context", linksData);
-        return;
     };
 
     return (
