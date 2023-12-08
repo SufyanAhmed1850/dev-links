@@ -9,6 +9,7 @@ const userContext = createContext();
 
 export const UserProvider = ({ children }) => {
     const [userData, setUserData] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
     const location = useLocation();
     const isAuthenticated = useAuth();
     const navigate = useNavigate();
@@ -26,7 +27,9 @@ export const UserProvider = ({ children }) => {
                     }
                     const res = await axiosPrivate("/profile");
                     setUserData(res.data.user);
+                    setIsLoading(false);
                 } catch (error) {
+                    setIsLoading(false);
                     const errorMessage = error.response.data.message;
                     console.error(error);
                     if (errorMessage == "jwt malformed") {
@@ -38,7 +41,7 @@ export const UserProvider = ({ children }) => {
         }
     }, [location.pathname]);
     return (
-        <userContext.Provider value={{ userData, setUserData }}>
+        <userContext.Provider value={{ userData, setUserData, isLoading }}>
             {children}
         </userContext.Provider>
     );

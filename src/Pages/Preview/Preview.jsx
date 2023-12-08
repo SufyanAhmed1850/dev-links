@@ -87,10 +87,27 @@ const Preview = () => {
                 />
                 <Button handleClick={handleCopy} buttonText="Share Link" />
             </div>
-            <div className="preview-card">
-                {isLoading ? (
+            {isLoading ? (
+                <div className="preview-card">
                     <PreviewHeaderSkeleton />
-                ) : (
+                    <div className="preview-card-links-parent">
+                        {linksLoading
+                            ? [0, 1, 2, 3, 4].map((map, index) => (
+                                  <Skeleton.Button
+                                      active={isLoading}
+                                      key={index}
+                                      style={{
+                                          width: 281,
+                                          height: 56,
+                                          borderRadius: 8,
+                                      }}
+                                  />
+                              ))
+                            : null}
+                    </div>
+                </div>
+            ) : (
+                <div className="preview-card">
                     <div className="preview-card-header">
                         <div className="preview-card-header-img">
                             {userData?.profile && (
@@ -112,70 +129,71 @@ const Preview = () => {
                             )}
                         </div>
                     </div>
-                )}
-                <div className="preview-card-links-parent">
-                    {linksLoading
-                        ? [0, 1, 2].map((map, index) => (
-                              <Skeleton.Button
-                                  active={isLoading}
-                                  key={index}
-                                  style={{
-                                      width: 237,
-                                      height: 47,
-                                      borderRadius: 8,
-                                  }}
-                              />
-                          ))
-                        : links.map((link, ind) => (
-                              <Link
-                                  key={ind}
-                                  to={link.link}
-                                  target="_blank"
-                                  className="preview-card-link"
-                                  style={{
-                                      backgroundColor:
-                                          link.platform.backgroundColor,
-                                      cursor: "pointer",
-                                      textDecoration: "none",
-                                  }}
-                              >
-                                  <div>
-                                      <img
-                                          src={(() => {
-                                              const platformText =
-                                                  links[ind]?.platform?.text;
-                                              const platformIcon = {
-                                                  GitHub: githubIcon,
-                                                  Twitter: twitterIcon,
-                                                  LinkedIn: linkedInIcon,
-                                                  YouTube: youtubeIcon,
-                                                  Facebook: facebookIcon,
-                                                  Twitch: twitchIcon,
-                                                  DevTo: devToIcon,
-                                                  CodeWars: codeWarsIcon,
-                                                  CodePen: codePenIcon,
-                                                  FreeCodeCamp:
-                                                      freeCodeCampIcon,
-                                                  GitLab: gitLabIcon,
-                                                  Hashnode: hashNodeIcon,
-                                                  StackOverflow:
-                                                      stackOverFlowIcon,
-                                                  FrontendMentor:
-                                                      frontendMentorIcon,
-                                              }[platformText];
-                                              return platformIcon || null;
-                                          })()}
-                                          alt={link.platform.text}
-                                      />
-                                  </div>
-                                  <p>{link.platform.text}</p>
-                                  <div>
-                                      <img src={RightArrow} alt="Arrow" />
-                                  </div>
-                              </Link>
-                          ))}
+                    <div className="preview-card-links-parent">
+                        {linksLoading
+                            ? [0, 1, 2, 3, 4].map((map, index) => (
+                                  <Skeleton.Button
+                                      active={isLoading}
+                                      key={index}
+                                      style={{
+                                          width: 281,
+                                          height: 56,
+                                          borderRadius: 8,
+                                      }}
+                                  />
+                              ))
+                            : links.map((link, ind) => (
+                                  <Link
+                                      key={ind}
+                                      to={link.link}
+                                      target="_blank"
+                                      className="preview-card-link"
+                                      style={{
+                                          backgroundColor:
+                                              link.platform.backgroundColor,
+                                          cursor: "pointer",
+                                          textDecoration: "none",
+                                      }}
+                                  >
+                                      <div>
+                                          <img
+                                              src={(() => {
+                                                  const platformText =
+                                                      links[ind]?.platform
+                                                          ?.text;
+                                                  const platformIcon = {
+                                                      GitHub: githubIcon,
+                                                      Twitter: twitterIcon,
+                                                      LinkedIn: linkedInIcon,
+                                                      YouTube: youtubeIcon,
+                                                      Facebook: facebookIcon,
+                                                      Twitch: twitchIcon,
+                                                      DevTo: devToIcon,
+                                                      CodeWars: codeWarsIcon,
+                                                      CodePen: codePenIcon,
+                                                      FreeCodeCamp:
+                                                          freeCodeCampIcon,
+                                                      GitLab: gitLabIcon,
+                                                      Hashnode: hashNodeIcon,
+                                                      StackOverflow:
+                                                          stackOverFlowIcon,
+                                                      FrontendMentor:
+                                                          frontendMentorIcon,
+                                                  }[platformText];
+                                                  return platformIcon || null;
+                                              })()}
+                                              alt={link.platform.text}
+                                          />
+                                      </div>
+                                      <p>{link.platform.text}</p>
+                                      <div>
+                                          <img src={RightArrow} alt="Arrow" />
+                                      </div>
+                                  </Link>
+                              ))}
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 };

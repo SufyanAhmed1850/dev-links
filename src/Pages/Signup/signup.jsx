@@ -21,6 +21,12 @@ const Signup = () => {
     const [repeatPassword, setRepeatPassword] = useState("");
     const [repeatError, setRepeatError] = useState(false);
 
+    const handleEnterKeyPress = (event) => {
+        if (event.key === "Enter") {
+            userSignUp();
+        }
+    };
+
     const userSignUp = async () => {
         try {
             !email ? setEmailError(true) : setEmailError(false);
@@ -166,6 +172,7 @@ const Signup = () => {
                         altText="Email"
                         placeholderText="e.g. alex@email.com"
                         onInputChange={(emailVal) => setEmail(emailVal)}
+                        onKeyPress={handleEnterKeyPress}
                     />
                     <InputField
                         value={userName}
@@ -175,6 +182,7 @@ const Signup = () => {
                         altText="user name"
                         placeholderText="At least 6 characters"
                         onInputChange={(userVal) => setUserName(userVal)}
+                        onKeyPress={handleEnterKeyPress}
                     />
                     <InputField
                         value={password}
@@ -185,6 +193,7 @@ const Signup = () => {
                         altText="Password"
                         placeholderText="At least 8 characters"
                         onInputChange={(passVal) => setPassword(passVal)}
+                        onKeyPress={handleEnterKeyPress}
                     />
                     <InputField
                         value={repeatPassword}
@@ -197,6 +206,7 @@ const Signup = () => {
                         onInputChange={(repPassVal) =>
                             setRepeatPassword(repPassVal)
                         }
+                        onKeyPress={handleEnterKeyPress}
                     />
 
                     <Button handleClick={userSignUp} buttonText="Signup" />

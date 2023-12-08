@@ -18,6 +18,8 @@ import gitLabIcon from "../../assets/images/icon-gitlab-white.svg";
 import hashNodeIcon from "../../assets/images/icon-hashnode-white.svg";
 import stackOverFlowIcon from "../../assets/images/icon-stack-white-overflow.svg";
 import frontendMentorIcon from "../../assets/images/icon-frontend-white-mentor.svg";
+import PreviewHeaderSkeleton from "../../Components/Skeleton/PreviewHeaderSkeleton/PreviewHeaderSkeleton";
+import { Skeleton } from "antd";
 
 const transformations =
     "ar_1:1,c_fill,g_face,r_max,w_104,h_104/c_pad/co_rgb:633CFF,e_outline:outer:4:0/";
@@ -26,6 +28,7 @@ const Share = () => {
     const navigate = useNavigate();
     const params = useParams();
     const paramToSend = params.username.toLowerCase();
+    const [isLoading, setIsLoading] = useState(true);
     const [userData, setUserData] = useState();
     const [linksData, setLinksData] = useState();
 
@@ -39,7 +42,7 @@ const Share = () => {
                 });
                 setUserData(res.data.user);
                 setLinksData(res.data.links);
-                console.log(res);
+                setIsLoading(false);
             } catch (error) {
                 console.log(error);
             }
@@ -48,80 +51,100 @@ const Share = () => {
     return (
         <div className="preview-parent">
             <div className="preview-blob"></div>
-            {userData?.profile && (
+            {isLoading ? (
                 <div className="preview-card">
-                    <div className="preview-card-header">
-                        <div className="preview-card-header-img">
-                            {userData?.profile && (
-                                <img
-                                    src={`${userData?.profile.replace(
-                                        "/upload/",
-                                        `/upload/${transformations}`,
-                                    )}`}
-                                    alt="profile"
-                                />
-                            )}
-                        </div>
-                        <div className="preview-card-header-text">
-                            {userData?.firstName && (
-                                <h2>{`${userData?.firstName} ${userData?.lastName}`}</h2>
-                            )}
-                            {userData?.displayEmail && (
-                                <p>{userData?.displayEmail}</p>
-                            )}
-                        </div>
-                    </div>
+                    <PreviewHeaderSkeleton />
                     <div className="preview-card-links-parent">
-                        {linksData.map((link, ind) => (
-                            <Link
-                                key={ind}
-                                to={link.link}
-                                target="_blank"
-                                className="preview-card-link"
+                        {[0, 1, 2, 3, 4].map((map, index) => (
+                            <Skeleton.Button
+                                active={isLoading}
+                                key={index}
                                 style={{
-                                    backgroundColor:
-                                        link.platform.backgroundColor,
-                                    cursor: "pointer",
-                                    textDecoration: "none",
+                                    width: 281,
+                                    height: 56,
+                                    borderRadius: 8,
                                 }}
-                            >
-                                <div>
-                                    <img
-                                        src={(() => {
-                                            const platformText =
-                                                linksData[ind]?.platform?.text;
-                                            const platformIcon = {
-                                                GitHub: githubIcon,
-                                                Twitter: twitterIcon,
-                                                LinkedIn: linkedInIcon,
-                                                YouTube: youtubeIcon,
-                                                Facebook: facebookIcon,
-                                                Twitch: twitchIcon,
-                                                DevTo: devToIcon,
-                                                CodeWars: codeWarsIcon,
-                                                CodePen: codePenIcon,
-                                                FreeCodeCamp: freeCodeCampIcon,
-                                                GitLab: gitLabIcon,
-                                                Hashnode: hashNodeIcon,
-                                                StackOverflow:
-                                                    stackOverFlowIcon,
-                                                FrontendMentor:
-                                                    frontendMentorIcon,
-                                            }[platformText];
-
-                                            return platformIcon || null;
-                                        })()}
-                                        alt={link.platform.text}
-                                    />
-                                </div>
-                                <p>{link.platform.text}</p>
-                                <div>
-                                    <img src={RightArrow} alt="Arrow" />
-                                </div>
-                            </Link>
+                            />
                         ))}
                     </div>
                 </div>
+            ) : (
+                userData?.profile && (
+                    <div className="preview-card">
+                        <div className="preview-card-header">
+                            <div className="preview-card-header-img">
+                                {userData?.profile && (
+                                    <img
+                                        src={`${userData?.profile.replace(
+                                            "/upload/",
+                                            `/upload/${transformations}`,
+                                        )}`}
+                                        alt="profile"
+                                    />
+                                )}
+                            </div>
+                            <div className="preview-card-header-text">
+                                {userData?.firstName && (
+                                    <h2>{`${userData?.firstName} ${userData?.lastName}`}</h2>
+                                )}
+                                {userData?.displayEmail && (
+                                    <p>{userData?.displayEmail}</p>
+                                )}
+                            </div>
+                        </div>
+                        <div className="preview-card-links-parent">
+                            {linksData.map((link, ind) => (
+                                <Link
+                                    key={ind}
+                                    to={link.link}
+                                    target="_blank"
+                                    className="preview-card-link"
+                                    style={{
+                                        backgroundColor:
+                                            link.platform.backgroundColor,
+                                        cursor: "pointer",
+                                        textDecoration: "none",
+                                    }}
+                                >
+                                    <div>
+                                        <img
+                                            src={(() => {
+                                                const platformText =
+                                                    linksData[ind]?.platform
+                                                        ?.text;
+                                                const platformIcon = {
+                                                    GitHub: githubIcon,
+                                                    Twitter: twitterIcon,
+                                                    LinkedIn: linkedInIcon,
+                                                    YouTube: youtubeIcon,
+                                                    Facebook: facebookIcon,
+                                                    Twitch: twitchIcon,
+                                                    DevTo: devToIcon,
+                                                    CodeWars: codeWarsIcon,
+                                                    CodePen: codePenIcon,
+                                                    FreeCodeCamp:
+                                                        freeCodeCampIcon,
+                                                    GitLab: gitLabIcon,
+                                                    Hashnode: hashNodeIcon,
+                                                    StackOverflow:
+                                                        stackOverFlowIcon,
+                                                    FrontendMentor:
+                                                        frontendMentorIcon,
+                                                }[platformText];
+                                                return platformIcon || null;
+                                            })()}
+                                            alt={link.platform.text}
+                                        />
+                                    </div>
+                                    <p>{link.platform.text}</p>
+                                    <div>
+                                        <img src={RightArrow} alt="Arrow" />
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+                )
             )}
         </div>
     );

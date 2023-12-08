@@ -29,6 +29,7 @@ const InputField = ({
     placeholderText,
     imgYes,
     onInputChange,
+    onKeyPress,
     type,
     value,
     disabled,
@@ -51,9 +52,7 @@ const InputField = ({
     }, [error]);
 
     useEffect(() => {
-        if (value) {
-            setInputValue(value);
-        }
+        setInputValue(value);
     }, [value]);
 
     const handleInputChange = (e) => {
@@ -68,12 +67,10 @@ const InputField = ({
         const platform = linksData[index].platform.text;
         const pattern = linkPatterns[platform];
 
-        // Immediately set error state for the current input validation
         const isValid = pattern.test(inputValue);
         setHaveError(!isValid);
         setErrorMessage(isValid ? "" : "Please check the URL");
 
-        // Do not proceed to set the link in context if the input is invalid
         if (!isValid) {
             console.log(`Invalid ${platform} link.`);
             return;
@@ -133,6 +130,7 @@ const InputField = ({
                                   setIsFocused(false);
                               }
                     }
+                    onKeyDown={onKeyPress || null}
                     type={type || "text"}
                     placeholder={placeholderText}
                 />

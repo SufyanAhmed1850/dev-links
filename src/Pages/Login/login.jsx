@@ -27,6 +27,12 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [passwordError, setPasswordError] = useState(false);
 
+    const handleEnterKeyPress = (event) => {
+        if (event.key === "Enter") {
+            userLogin();
+        }
+    };
+
     const userLogin = async () => {
         try {
             !email ? setEmailError(true) : setEmailError(false);
@@ -95,6 +101,7 @@ const Login = () => {
                         iconSrc={passwordIcon}
                         altText="Password"
                         placeholderText="Enter your password"
+                        onKeyPress={handleEnterKeyPress}
                     />
 
                     <Button handleClick={userLogin} buttonText="Login" />
