@@ -114,6 +114,12 @@ const Profiletab = () => {
         }
     };
 
+    const handleEnterKeyPress = (event) => {
+        if (event.key === "Enter") {
+            saveUserDetails();
+        }
+    };
+
     const saveUserDetails = async () => {
         try {
             if (!firstName || !lastName) {
@@ -171,11 +177,15 @@ const Profiletab = () => {
                         {isLoading ? (
                             <Skeleton.Button
                                 active
-                                style={{ width: 190, height: 190, borderRadius: 12 }}
+                                style={{
+                                    width: 190,
+                                    height: 190,
+                                    borderRadius: 12,
+                                }}
                             />
                         ) : (
                             <MuiButton
-                            sx={{borderRadius:"12px"}}
+                                sx={{ borderRadius: "12px" }}
                                 component="label"
                                 className="upload-profile-image-main"
                             >
@@ -228,21 +238,23 @@ const Profiletab = () => {
                     ) : (
                         <div className="profile-details-data">
                             <div className="profile-first-name">
-                                <p>First name</p>
+                                <p>First name*</p>
                                 <InputField
                                     value={firstName}
                                     onInputChange={(val) => setFirstName(val)}
                                     placeholderText="e.g. John"
                                     imgYes={true}
+                                    onKeyPress={handleEnterKeyPress}
                                 />
                             </div>
                             <div className="profile-last-name">
-                                <p>Last name</p>
+                                <p>Last name*</p>
                                 <InputField
                                     value={lastName}
                                     onInputChange={(val) => setLastName(val)}
                                     placeholderText="e.g. Appleseed"
                                     imgYes={true}
+                                    onKeyPress={handleEnterKeyPress}
                                 />
                             </div>
                             <div className="profile-email">
@@ -252,6 +264,7 @@ const Profiletab = () => {
                                     onInputChange={(val) => setEmail(val)}
                                     placeholderText="e.g. email@example.com"
                                     imgYes={true}
+                                    onKeyPress={handleEnterKeyPress}
                                 />
                             </div>
                         </div>
