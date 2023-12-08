@@ -36,7 +36,7 @@ const Login = () => {
             }
             const res = await axiosPrivate.post(LOGIN_URL, { email, password });
             console.log("res", res);
-            Cookies.set("jwt", res.data.token);
+            Cookies.set("jwt", res.data.token, { expires: 7 });
             setEmail("");
             setPassword("");
             navigate(from, { replace: true });

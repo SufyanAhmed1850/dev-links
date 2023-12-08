@@ -23,6 +23,8 @@ import gitLabIcon from "../../assets/images/icon-gitlab-white.svg";
 import hashNodeIcon from "../../assets/images/icon-hashnode-white.svg";
 import stackOverFlowIcon from "../../assets/images/icon-stack-white-overflow.svg";
 import frontendMentorIcon from "../../assets/images/icon-frontend-white-mentor.svg";
+import PreviewHeaderSkeleton from "../../Components/Skeleton/PreviewHeaderSkeleton/PreviewHeaderSkeleton";
+import { Skeleton } from "antd";
 
 const transformations =
     "ar_1:1,c_fill,g_face,r_max,w_104,h_104/c_pad/co_rgb:633CFF,e_outline:outer:4:0/";
@@ -35,8 +37,9 @@ const Preview = () => {
             navigate("/login");
         }
     }, [isAuthenticated]);
-    const { userData } = useContext(userContext);
+    const { userData, isLoading } = useContext(userContext);
     const [links, setLinks] = useState([]);
+    const [linksLoading, setLinksLoading] = useState(true);
     console.log("links---", links);
     console.log(userData);
     console.log(userData.profile);
@@ -50,9 +53,11 @@ const Preview = () => {
                 const res = await axiosPrivate("/link");
                 console.log(res.data.links);
                 setLinks(res.data.links);
+                setLinksLoading(false);
                 console.log(links);
             } catch (error) {
                 console.log(error);
+                setLinksLoading(false);
             }
         })();
     }, []);
@@ -82,8 +87,10 @@ const Preview = () => {
                 />
                 <Button handleClick={handleCopy} buttonText="Share Link" />
             </div>
-            {userData?.profile && (
-                <div className="preview-card">
+            <div className="preview-card">
+                {isLoading ? (
+                    <PreviewHeaderSkeleton />
+                ) : (
                     <div className="preview-card-header">
                         <div className="preview-card-header-img">
                             {userData?.profile && (
@@ -105,58 +112,70 @@ const Preview = () => {
                             )}
                         </div>
                     </div>
-                    <div className="preview-card-links-parent">
-                        {links.map((link, ind) => (
-                            <Link
-                                key={ind}
-                                to={link.link}
-                                target="_blank"
-                                className="preview-card-link"
-                                style={{
-                                    backgroundColor:
-                                        link.platform.backgroundColor,
-                                    cursor: "pointer",
-                                    textDecoration: "none",
-                                }}
-                            >
-                                <div>
-                                    <img
-                                        src={(() => {
-                                            const platformText =
-                                                links[ind]?.platform?.text;
-                                            const platformIcon = {
-                                                GitHub: githubIcon,
-                                                Twitter: twitterIcon,
-                                                LinkedIn: linkedInIcon,
-                                                YouTube: youtubeIcon,
-                                                Facebook: facebookIcon,
-                                                Twitch: twitchIcon,
-                                                DevTo: devToIcon,
-                                                CodeWars: codeWarsIcon,
-                                                CodePen: codePenIcon,
-                                                FreeCodeCamp: freeCodeCampIcon,
-                                                GitLab: gitLabIcon,
-                                                Hashnode: hashNodeIcon,
-                                                StackOverflow:
-                                                    stackOverFlowIcon,
-                                                FrontendMentor:
-                                                    frontendMentorIcon,
-                                            }[platformText];
-
-                                            return platformIcon || null;
-                                        })()}
-                                        alt={link.platform.text}
-                                    />
-                                </div>
-                                <p>{link.platform.text}</p>
-                                <div>
-                                    <img src={RightArrow} alt="Arrow" />
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
+                )}
+                <div className="preview-card-links-parent">
+                    {linksLoading
+                        ? [0, 1, 2].map((map, index) => (
+                              <Skeleton.Button
+                                  active={isLoading}
+                                  key={index}
+                                  style={{
+                                      width: 237,
+                                      height: 47,
+                                      borderRadius: 8,
+                                  }}
+                              />
+                          ))
+                        : links.map((link, ind) => (
+                              <Link
+                                  key={ind}
+                                  to={link.link}
+                                  target="_blank"
+                                  className="preview-card-link"
+                                  style={{
+                                      backgroundColor:
+                                          link.platform.backgroundColor,
+                                      cursor: "pointer",
+                                      textDecoration: "none",
+                                  }}
+                              >
+                                  <div>
+                                      <img
+                                          src={(() => {
+                                              const platformText =
+                                                  links[ind]?.platform?.text;
+                                              const platformIcon = {
+                                                  GitHub: githubIcon,
+                                                  Twitter: twitterIcon,
+                                                  LinkedIn: linkedInIcon,
+                                                  YouTube: youtubeIcon,
+                                                  Facebook: facebookIcon,
+                                                  Twitch: twitchIcon,
+                                                  DevTo: devToIcon,
+                                                  CodeWars: codeWarsIcon,
+                                                  CodePen: codePenIcon,
+                                                  FreeCodeCamp:
+                                                      freeCodeCampIcon,
+                                                  GitLab: gitLabIcon,
+                                                  Hashnode: hashNodeIcon,
+                                                  StackOverflow:
+                                                      stackOverFlowIcon,
+                                                  FrontendMentor:
+                                                      frontendMentorIcon,
+                                              }[platformText];
+                                              return platformIcon || null;
+                                          })()}
+                                          alt={link.platform.text}
+                                      />
+                                  </div>
+                                  <p>{link.platform.text}</p>
+                                  <div>
+                                      <img src={RightArrow} alt="Arrow" />
+                                  </div>
+                              </Link>
+                          ))}
                 </div>
-            )}
+            </div>
         </div>
     );
 };

@@ -6,7 +6,6 @@ import Buttonsecondary from "../../../Components/Button Secondary/buttonsecondar
 import emptyLinks from "../../../assets/images/illustration-empty.svg";
 import Linkscustomizationempty from "../../../Components/Links Customization Empty/linkscustomizationempty.jsx";
 import Linkscustomization from "../../../Components/Links Customization/linkscustomization.jsx";
-// import uploadImageIcon from "../../../assets/images/icon-upload-image.svg";
 import IconImageUpload from "../../../assets/images/IconImageUpload.jsx";
 import InputField from "../../../Components/Input Field/index.jsx";
 import "./profiletab.css";
@@ -19,6 +18,8 @@ import userContext from "../../../../context/userContext.jsx";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import useAuth from "../../../../hooks/useAuth.jsx";
+import PreviewFieldsSkeleton from "../../../Components/PreviewFieldsSkeleton/PreviewFieldsSkeleton.jsx";
+import { Skeleton } from "antd";
 
 const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
@@ -41,7 +42,7 @@ const Profiletab = () => {
     const isAuthenticated = useAuth();
     const { linksData, updateLinksData, setLinksData } =
         useContext(linkContext);
-    const { userData, setUserData } = useContext(userContext);
+    const { userData, setUserData, isLoading } = useContext(userContext);
 
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -167,40 +168,54 @@ const Profiletab = () => {
                         <div className="profile-picture-text">
                             <p>Profile picture</p>
                         </div>
-                        <MuiButton
-                            component="label"
-                            className="upload-profile-image-main"
-                        >
-                            <VisuallyHiddenInput
-                                onChange={(e) => handleImage(e.target.files[0])}
-                                type="file"
-                                accept="image/png, image/jpeg"
+                        {isLoading ? (
+                            <Skeleton.Button
+                                active
+                                style={{ width: 190, height: 190, borderRadius: 12 }}
                             />
-                            <div className="upload-image">
-                                {userImage && (
-                                    <img
-                                        src={`${userImage.replace(
-                                            "/upload/",
-                                            `/upload/${transformations}`,
-                                        )}`}
-                                        alt="user"
-                                    />
+                        ) : (
+                            <MuiButton
+                            sx={{borderRadius:"12px"}}
+                                component="label"
+                                className="upload-profile-image-main"
+                            >
+                                <VisuallyHiddenInput
+                                    onChange={(e) =>
+                                        handleImage(e.target.files[0])
+                                    }
+                                    type="file"
+                                    accept="image/png, image/jpeg"
+                                />
+                                <div className="upload-image">
+                                    {userImage && (
+                                        <img
+                                            src={`${userImage.replace(
+                                                "/upload/",
+                                                `/upload/${transformations}`,
+                                            )}`}
+                                            alt="user"
+                                        />
+                                    )}
+                                </div>
+                                {userImage ? (
+                                    <>
+                                        <IconImageUpload color="var(--white-90-)" />
+                                        <h3
+                                            style={{
+                                                color: "var(--white-90-)",
+                                            }}
+                                        >
+                                            Change Image
+                                        </h3>
+                                    </>
+                                ) : (
+                                    <>
+                                        <IconImageUpload />
+                                        <h3>+ Upload Image</h3>
+                                    </>
                                 )}
-                            </div>
-                            {userImage ? (
-                                <>
-                                    <IconImageUpload color="var(--white-90-)" />
-                                    <h3 style={{ color: "var(--white-90-)" }}>
-                                        Change Image
-                                    </h3>
-                                </>
-                            ) : (
-                                <>
-                                    <IconImageUpload />
-                                    <h3>+ Upload Image</h3>
-                                </>
-                            )}
-                        </MuiButton>
+                            </MuiButton>
+                        )}
                         <div className="profile-picture-instructions">
                             <p>
                                 Suggestion: Image size should be less than 10mb.
@@ -208,35 +223,39 @@ const Profiletab = () => {
                             </p>
                         </div>
                     </div>
-                    <div className="profile-details-data">
-                        <div className="profile-first-name">
-                            <p>First name</p>
-                            <InputField
-                                value={firstName}
-                                onInputChange={(val) => setFirstName(val)}
-                                placeholderText="e.g. John"
-                                imgYes={true}
-                            />
+                    {isLoading ? (
+                        <PreviewFieldsSkeleton />
+                    ) : (
+                        <div className="profile-details-data">
+                            <div className="profile-first-name">
+                                <p>First name</p>
+                                <InputField
+                                    value={firstName}
+                                    onInputChange={(val) => setFirstName(val)}
+                                    placeholderText="e.g. John"
+                                    imgYes={true}
+                                />
+                            </div>
+                            <div className="profile-last-name">
+                                <p>Last name</p>
+                                <InputField
+                                    value={lastName}
+                                    onInputChange={(val) => setLastName(val)}
+                                    placeholderText="e.g. Appleseed"
+                                    imgYes={true}
+                                />
+                            </div>
+                            <div className="profile-email">
+                                <p>Email</p>
+                                <InputField
+                                    value={email}
+                                    onInputChange={(val) => setEmail(val)}
+                                    placeholderText="e.g. email@example.com"
+                                    imgYes={true}
+                                />
+                            </div>
                         </div>
-                        <div className="profile-last-name">
-                            <p>Last name</p>
-                            <InputField
-                                value={lastName}
-                                onInputChange={(val) => setLastName(val)}
-                                placeholderText="e.g. Appleseed"
-                                imgYes={true}
-                            />
-                        </div>
-                        <div className="profile-email">
-                            <p>Email</p>
-                            <InputField
-                                value={email}
-                                onInputChange={(val) => setEmail(val)}
-                                placeholderText="e.g. email@example.com"
-                                imgYes={true}
-                            />
-                        </div>
-                    </div>
+                    )}
                 </div>
             </div>
             <div className="profile-details-footer">

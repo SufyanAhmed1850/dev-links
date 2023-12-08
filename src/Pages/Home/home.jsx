@@ -1,11 +1,12 @@
 import "./home.css";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import Nav from "../../Components/Nav/nav.jsx";
 import linkContext from "../../../context/linkContext.jsx";
 import MouseScroll from "../../assets/images/icon-mouse-scroll.svg";
 import rightArrowIcon from "../../assets/images/icon-arrow-right.svg";
 import userContext from "../../../context/userContext.jsx";
+import { Skeleton } from "antd";
 
 import githubIcon from "../../assets/images/icon-github-white.svg";
 import twitterIcon from "../../assets/images/icon-twitter-white.svg";
@@ -21,12 +22,13 @@ import gitLabIcon from "../../assets/images/icon-gitlab-white.svg";
 import hashNodeIcon from "../../assets/images/icon-hashnode-white.svg";
 import stackOverFlowIcon from "../../assets/images/icon-stack-white-overflow.svg";
 import frontendMentorIcon from "../../assets/images/icon-frontend-white-mentor.svg";
+import MockupHeadSkeleton from "../../Components/MockupHeadSkeleton/MockupHeadSkeleton.jsx";
 
 const transformations =
     "ar_1:1,c_fill,g_face,r_max,w_96,h_96/c_pad/co_rgb:633CFF,e_outline:outer:4:0/";
 
 const Home = ({ children }) => {
-    const { userData, setUserData } = useContext(userContext);
+    const { userData, setUserData, isLoading } = useContext(userContext);
     const { linksData, updateLinksData, setLinksData } =
         useContext(linkContext);
     return (
@@ -36,43 +38,47 @@ const Home = ({ children }) => {
                 <div className="mockup-container">
                     <div className="mockup">
                         <div className="mockup-divs-container">
-                            <div className="mockup-head">
-                                <div className="mockup-head-img">
-                                    {userData?.profile && (
-                                        <img
-                                            src={`${userData?.profile.replace(
-                                                "/upload/",
-                                                `/upload/${transformations}`,
-                                            )}`}
-                                            alt="profile"
-                                        />
-                                    )}
-                                </div>
-                                <div className="mockup-head-title">
-                                    <div
-                                        className={`mockup-head-name ${
-                                            userData?.firstName
-                                                ? ""
-                                                : "mockup-head-name-empty"
-                                        }`}
-                                    >
-                                        {userData?.firstName && (
-                                            <h3>{`${userData?.firstName} ${userData?.lastName}`}</h3>
+                            {isLoading ? (
+                                <MockupHeadSkeleton />
+                            ) : (
+                                <div className="mockup-head">
+                                    <div className="mockup-head-img">
+                                        {userData?.profile && (
+                                            <img
+                                                src={`${userData?.profile.replace(
+                                                    "/upload/",
+                                                    `/upload/${transformations}`,
+                                                )}`}
+                                                alt="profile"
+                                            />
                                         )}
                                     </div>
-                                    <div
-                                        className={`mockup-head-email ${
-                                            userData?.displayEmail
-                                                ? ""
-                                                : "mockup-head-email-empty"
-                                        }`}
-                                    >
-                                        {userData?.displayEmail && (
-                                            <p>{userData?.displayEmail}</p>
-                                        )}
+                                    <div className="mockup-head-title">
+                                        <div
+                                            className={`mockup-head-name ${
+                                                userData?.firstName
+                                                    ? ""
+                                                    : "mockup-head-name-empty"
+                                            }`}
+                                        >
+                                            {userData?.firstName && (
+                                                <h3>{`${userData?.firstName} ${userData?.lastName}`}</h3>
+                                            )}
+                                        </div>
+                                        <div
+                                            className={`mockup-head-email ${
+                                                userData?.displayEmail
+                                                    ? ""
+                                                    : "mockup-head-email-empty"
+                                            }`}
+                                        >
+                                            {userData?.displayEmail && (
+                                                <p>{userData?.displayEmail}</p>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            )}
                             <div>
                                 <div className="mockup-links-parent">
                                     {linksData && linksData[0]?.link
@@ -130,7 +136,7 @@ const Home = ({ children }) => {
                                                                       case "FrontendMentor":
                                                                           return frontendMentorIcon;
                                                                       default:
-                                                                          return null; // Provide a default value if necessary
+                                                                          return null;
                                                                   }
                                                               })()}
                                                               alt={
@@ -161,14 +167,23 @@ const Home = ({ children }) => {
                                               </Link>
                                           ))
                                         : [0, 1, 2, 3, 4].map((map, index) => (
-                                              <div
+                                              <Skeleton.Button
+                                                  active={isLoading}
                                                   key={index}
-                                                  className="mockup-link"
                                                   style={{
-                                                      backgroundColor:
-                                                          "#EEEEEE",
+                                                      width: 237,
+                                                      height: 47,
+                                                      borderRadius: 8,
                                                   }}
-                                              ></div>
+                                              />
+                                              //   <div
+                                              //       key={index}
+                                              //       className="mockup-link"
+                                              //       style={{
+                                              //           backgroundColor:
+                                              //               "#EEEEEE",
+                                              //       }}
+                                              //   ></div>
                                           ))}
                                 </div>
                                 {linksData.length > 5 && (

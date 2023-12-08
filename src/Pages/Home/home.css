@@ -151,7 +151,6 @@
     height: 16px;
     background-color: #eeeeee;
     border-radius: 100px;
-    min-height: 27px;
 }
 
 .mockup-head-email-empty {
@@ -159,7 +158,6 @@
     height: 8px;
     background-color: #eeeeee;
     border-radius: 100px;
-    min-height: 21px;
 }
 
 .mockup-links-parent {

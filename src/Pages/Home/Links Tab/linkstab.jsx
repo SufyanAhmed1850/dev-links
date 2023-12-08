@@ -49,10 +49,10 @@ const Linkstab = () => {
                 const res = await axiosPrivate(getLinksEndpoint);
                 res?.data?.links && setLinksData(res.data.links);
                 res?.data?.links && setOrder(res.data.links.length + 1);
-                setIsLoading(true);
+                setIsLoading(false);
             } catch (error) {
                 console.error(error);
-                // setIsLoading(false);
+                setIsLoading(false);
             }
         })();
     }, []);
