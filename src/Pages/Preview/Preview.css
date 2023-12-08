@@ -35,6 +35,20 @@
     gap: 56px;
 }
 
+.error-card {
+    max-width: 800px;
+    width: 80%;
+    padding: 16px;
+    border-radius: 24px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+}
+
+.error-card img {
+    width: 100%;
+}
+
 .preview-card-header {
     display: flex;
     flex-direction: column;

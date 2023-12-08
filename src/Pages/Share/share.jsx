@@ -20,6 +20,7 @@ import stackOverFlowIcon from "../../assets/images/icon-stack-white-overflow.svg
 import frontendMentorIcon from "../../assets/images/icon-frontend-white-mentor.svg";
 import PreviewHeaderSkeleton from "../../Components/Skeleton/PreviewHeaderSkeleton/PreviewHeaderSkeleton";
 import { Skeleton } from "antd";
+import error404Icon from "../../assets/images/404.svg";
 
 const transformations =
     "ar_1:1,c_fill,g_face,r_max,w_104,h_104/c_pad/co_rgb:633CFF,e_outline:outer:4:0/";
@@ -31,6 +32,7 @@ const Share = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [userData, setUserData] = useState();
     const [linksData, setLinksData] = useState();
+    const [is404, setIs404] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -45,12 +47,19 @@ const Share = () => {
                 setIsLoading(false);
             } catch (error) {
                 console.log(error);
+                console.log(error.response.data.code);
+                if (error.response.data.code === 404) {
+                    setIsLoading(false);
+                    setIs404(true);
+                }
             }
         })();
     }, []);
+
     return (
         <div className="preview-parent">
-            <div className="preview-blob"></div>
+            {is404 || <div className="preview-blob"></div>}
+
             {isLoading ? (
                 <div className="preview-card">
                     <PreviewHeaderSkeleton />
@@ -67,6 +76,10 @@ const Share = () => {
                             />
                         ))}
                     </div>
+                </div>
+            ) : is404 ? (
+                <div className="error-card">
+                    <img src={error404Icon} alt="404 Error" />
                 </div>
             ) : (
                 userData?.profile && (
