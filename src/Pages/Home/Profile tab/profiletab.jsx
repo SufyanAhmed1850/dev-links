@@ -55,7 +55,6 @@ const Profiletab = () => {
                 if (!isAuthenticated) {
                     return;
                 }
-                console.log("Fetching user data");
                 const resLinks = await axiosPrivate(getLinksEndpoint);
                 resLinks?.data?.links && setLinksData(resLinks.data.links);
                 const res = await axiosPrivate("/profile");

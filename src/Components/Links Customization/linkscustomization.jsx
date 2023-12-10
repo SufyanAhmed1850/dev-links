@@ -7,6 +7,7 @@ import { useState, useEffect, useContext } from "react";
 import linkContext from "../../../context/linkContext";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { motion, useAnimation } from "framer-motion";
 
 const Linkscustomization = ({ order, index, link, onRemove }) => {
     const { attributes, listeners, setNodeRef, transform, transition } =

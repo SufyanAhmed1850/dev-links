@@ -1,5 +1,6 @@
 import "./DropDown.css";
 import { useEffect, useState, useRef, useContext } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import linkContext from "../../../context/linkContext";
 import downArrow from "../../assets/images/icon-chevron-down.svg";
 import githubIcon from "../../assets/images/icon-github.svg";
@@ -149,7 +150,6 @@ const DropDown = ({ onSelectPlatform, index }) => {
 
     const toggleDropDown = () => {
         setShowDropDown(!showDropDown);
-        return;
     };
     const handleClickOutside = (event) => {
         if (
@@ -185,9 +185,105 @@ const DropDown = ({ onSelectPlatform, index }) => {
         return;
     };
 
+    //     return (
+    //         <div className="dropdown" ref={dropdownRef}>
+    //             <div
+    //                 className={`dropbtn${
+    //                     selectedPlatform ? " select-dropdown" : ""
+    //                 }`}
+    //                 style={
+    //                     showDropDown
+    //                         ? {
+    //                               boxShadow: "0 0 32px 0 #633cff40",
+    //                               border: "1px solid var(--purple-90-)",
+    //                           }
+    //                         : {}
+    //                 }
+    //                 onClick={toggleDropDown}
+    //             >
+    //                 {selectedPlatform ? (
+    //                     <>
+    //                         <div className="dropdown-option-img">
+    //                             <img
+    //                                 src={(() => {
+    //                                     switch (selectedPlatform.text) {
+    //                                         case "GitHub":
+    //                                             return githubIcon;
+    //                                         case "Twitter":
+    //                                             return twitterIcon;
+    //                                         case "LinkedIn":
+    //                                             return linkedInIcon;
+    //                                         case "YouTube":
+    //                                             return youtubeIcon;
+    //                                         case "Facebook":
+    //                                             return facebookIcon;
+    //                                         case "Twitch":
+    //                                             return twitchIcon;
+    //                                         case "DevTo":
+    //                                             return devToIcon;
+    //                                         case "CodeWars":
+    //                                             return codeWarsIcon;
+    //                                         case "CodePen":
+    //                                             return codePenIcon;
+    //                                         case "FreeCodeCamp":
+    //                                             return freeCodeCampIcon;
+    //                                         case "GitLab":
+    //                                             return gitLabIcon;
+    //                                         case "Hashnode":
+    //                                             return hashNodeIcon;
+    //                                         case "StackOverflow":
+    //                                             return stackOverFlowIcon;
+    //                                         case "FrontendMentor":
+    //                                             return frontendMentorIcon;
+    //                                         default:
+    //                                             return null;
+    //                                     }
+    //                                 })()}
+    //                                 alt={selectedPlatform.text}
+    //                             />
+    //                         </div>
+    //                         <p className="dropdown-option-text">
+    //                             {selectedPlatform.text}
+    //                         </p>
+    //                     </>
+    //                 ) : (
+    //                     <>
+    //                         <p>Select an option</p>
+    //                         <div>
+    //                             <img src={downArrow} alt="Down" />
+    //                         </div>
+    //                     </>
+    //                 )}
+    //             </div>
+    //             {showDropDown && (
+    //                 <div className="dropdown-options-container">
+    //                     {linkOptions.map((option, ind) => (
+    //                         <div
+    //                             key={ind}
+    //                             onClick={() => selectOption(option, index)}
+    //                             onMouseEnter={() => handleMouseEnter(ind)}
+    //                             onMouseLeave={handleMouseLeave}
+    //                             className={`dropdown-option ${
+    //                                 isOptionHovered === ind ? "hovered" : ""
+    //                             }`}
+    //                         >
+    //                             <div className="dropdown-option-img">
+    //                                 <img src={option.image} alt={option.text} />
+    //                             </div>
+    //                             <p className="dropdown-option-text">
+    //                                 {option.text}
+    //                             </p>
+    //                         </div>
+    //                     ))}
+    //                 </div>
+    //             )}
+    //         </div>
+    //     );
+    // };
+
     return (
         <div className="dropdown" ref={dropdownRef}>
-            <div
+            <motion.div
                 className={`dropbtn${
                     selectedPlatform ? " select-dropdown" : ""
                 }`}
@@ -254,29 +350,41 @@ const DropDown = ({ onSelectPlatform, index }) => {
                         </div>
                     </>
                 )}
-            </div>
-            {showDropDown && (
-                <div className="dropdown-options-container">
-                    {linkOptions.map((option, ind) => (
-                        <div
-                            key={ind}
-                            onClick={() => selectOption(option, index)}
-                            onMouseEnter={() => handleMouseEnter(ind)}
-                            onMouseLeave={handleMouseLeave}
-                            className={`dropdown-option ${
-                                isOptionHovered === ind ? "hovered" : ""
-                            }`}
-                        >
-                            <div className="dropdown-option-img">
-                                <img src={option.image} alt={option.text} />
-                            </div>
-                            <p className="dropdown-option-text">
-                                {option.text}
-                            </p>
-                        </div>
-                    ))}
-                </div>
-            )}
+            </motion.div>
+            <AnimatePresence>
+                {showDropDown && (
+                    <motion.div
+                        className="dropdown-options-container"
+                        initial={{ height: 0, opacity: 0, y: -10 }}
+                        animate={{ height: "auto", opacity: 1, y: 0 }}
+                        exit={{ height: 0, opacity: 0, y: -10 }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 300,
+                            damping: 25,
+                        }}
+                    >
+                        {linkOptions.map((option, ind) => (
+                            <motion.div
+                                key={ind}
+                                onClick={() => selectOption(option, index)}
+                                onMouseEnter={() => handleMouseEnter(ind)}
+                                onMouseLeave={handleMouseLeave}
+                                className={`dropdown-option ${
+                                    isOptionHovered === ind ? "hovered" : ""
+                                }`}
+                            >
+                                <div className="dropdown-option-img">
+                                    <img src={option.image} alt={option.text} />
+                                </div>
+                                <p className="dropdown-option-text">
+                                    {option.text}
+                                </p>
+                            </motion.div>
+                        ))}
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };

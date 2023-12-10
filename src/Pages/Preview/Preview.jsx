@@ -40,9 +40,6 @@ const Preview = () => {
     const { userData, isLoading } = useContext(userContext);
     const [links, setLinks] = useState([]);
     const [linksLoading, setLinksLoading] = useState(true);
-    console.log("links---", links);
-    console.log(userData);
-    console.log(userData.profile);
 
     useEffect(() => {
         (async () => {
@@ -51,10 +48,8 @@ const Preview = () => {
                     return;
                 }
                 const res = await axiosPrivate("/link");
-                console.log(res.data.links);
                 setLinks(res.data.links);
                 setLinksLoading(false);
-                console.log(links);
             } catch (error) {
                 console.log(error);
                 setLinksLoading(false);
