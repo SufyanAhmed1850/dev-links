@@ -239,7 +239,7 @@ const Profiletab = () => {
                             <div className="profile-first-name">
                                 <p>First name*</p>
                                 <InputField
-                                    value={firstName}
+                                    value={firstName || ""}
                                     onInputChange={(val) => setFirstName(val)}
                                     placeholderText="e.g. John"
                                     imgYes={true}
@@ -249,7 +249,7 @@ const Profiletab = () => {
                             <div className="profile-last-name">
                                 <p>Last name*</p>
                                 <InputField
-                                    value={lastName}
+                                    value={lastName || ""}
                                     onInputChange={(val) => setLastName(val)}
                                     placeholderText="e.g. Appleseed"
                                     imgYes={true}
@@ -259,7 +259,7 @@ const Profiletab = () => {
                             <div className="profile-email">
                                 <p>Email</p>
                                 <InputField
-                                    value={email}
+                                    value={email || ""}
                                     onInputChange={(val) => setEmail(val)}
                                     placeholderText="e.g. email@example.com"
                                     imgYes={true}

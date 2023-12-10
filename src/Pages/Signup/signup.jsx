@@ -1,17 +1,27 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./signup.css";
 import InputField from "../../Components/Input Field";
 import logoLarge from "../../assets/images/logo-devlinks-large.svg";
 import emailIcon from "../../assets/images/icon-email.svg";
 import passwordIcon from "../../assets/images/icon-password.svg";
 import userIcon from "../../assets/images/icon-username.svg";
+import githubLogoIcon from "../../assets/images/icon-github-mark-white.svg";
+import googleLogoIcon from "../../assets/images/icon-google.svg";
 import Button from "../../Components/Button";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
+import useAuth from "../../../hooks/useAuth";
+import Cookies from "js-cookie";
 
 const Signup = () => {
     const navigate = useNavigate();
+    const isAuthenticated = useAuth();
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate("/");
+        }
+    }, [isAuthenticated, navigate]);
     const [email, setEmail] = useState("");
     const [emailError, setEmailError] = useState(false);
     const [userName, setUserName] = useState("");
@@ -20,6 +30,8 @@ const Signup = () => {
     const [passwordError, setPasswordError] = useState(false);
     const [repeatPassword, setRepeatPassword] = useState("");
     const [repeatError, setRepeatError] = useState(false);
+    const [disable, setDisable] = useState(false);
+    const from = location.state?.from?.pathname || "/";
 
     const handleEnterKeyPress = (event) => {
         if (event.key === "Enter") {
@@ -29,6 +41,7 @@ const Signup = () => {
 
     const userSignUp = async () => {
         try {
+            setDisable(true);
             !email ? setEmailError(true) : setEmailError(false);
             !userName ? setUserNameError(true) : setUserNameError(false);
             !password ? setPasswordError(true) : setPasswordError(false);
@@ -50,20 +63,21 @@ const Signup = () => {
                 password,
                 repeatPassword,
             });
+            Cookies.set("jwt", res.data.token, { expires: 7 });
             setEmail("");
             setUserName("");
             setPassword("");
             setRepeatPassword("");
-            console.log("res", res);
-            toast.success("Registration successful. You can now Login.", {
+            toast.success("Registered Successfully", {
                 duration: 2000,
                 position: "bottom-center",
                 style: {
                     backgroundColor: "var(--black-90-)",
                     color: "var(--white-90-)",
-                    minWidth: "397px",
                 },
             });
+            navigate(from, { replace: true });
+            console.log("res", res);
         } catch (error) {
             console.log(error);
             const message = error.response.data.message;
@@ -150,6 +164,8 @@ const Signup = () => {
                     },
                 });
             }
+        } finally {
+            setDisable(false);
         }
     };
 
@@ -209,7 +225,26 @@ const Signup = () => {
                         onKeyPress={handleEnterKeyPress}
                     />
 
-                    <Button handleClick={userSignUp} buttonText="Signup" />
+                    <Button
+                        disabled={disable}
+                        loadingText={disable && "Signing up..."}
+                        handleClick={userSignUp}
+                        buttonText="Signup"
+                    />
+                    {/* <div className="continue-socials">
+                        <div className="line"></div>
+                        <h3>Or continue with</h3>
+                    </div>
+                    <div className="login-socials">
+                        <div className="login-with-google">
+                            <img src={googleLogoIcon} alt="Google Logo" />
+                            <h3>Google</h3>
+                        </div>
+                        <div className="login-with-github">
+                            <img src={githubLogoIcon} alt="Github Logo" />
+                            <h3>GitHub</h3>
+                        </div>
+                    </div> */}
                     <p>
                         Already have an account?{" "}
                         <span

@@ -134,10 +134,17 @@ const InputField = ({
                     type={type || "text"}
                     placeholder={placeholderText}
                 />
+
                 {haveError && (
                     <span className="input-error">{errorMessage}</span>
                 )}
             </div>
+            {label == "Create password" && (
+                <p className="password-hint">
+                    At least one lowercase letter,
+                    uppercase letter, and number
+                </p>
+            )}
         </div>
     );
 };

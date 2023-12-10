@@ -5,6 +5,8 @@ import logoLarge from "../../assets/images/logo-devlinks-large.svg";
 import emailIcon from "../../assets/images/icon-email.svg";
 import passwordIcon from "../../assets/images/icon-password.svg";
 import Button from "../../Components/Button";
+import githubLogoIcon from "../../assets/images/icon-github-mark-white.svg";
+import googleLogoIcon from "../../assets/images/icon-google.svg";
 import { useNavigate, useLocation } from "react-router-dom";
 import { axiosPrivate } from "../../api/axios";
 import Cookies from "js-cookie";
@@ -26,6 +28,7 @@ const Login = () => {
     const [emailError, setEmailError] = useState(false);
     const [password, setPassword] = useState("");
     const [passwordError, setPasswordError] = useState(false);
+    const [disable, setDisable] = useState(false);
 
     const handleEnterKeyPress = (event) => {
         if (event.key === "Enter") {
@@ -35,6 +38,7 @@ const Login = () => {
 
     const userLogin = async () => {
         try {
+            setDisable(true);
             !email ? setEmailError(true) : setEmailError(false);
             !password ? setPasswordError(true) : setEmailError(false);
             if (!email || !password) {
@@ -69,6 +73,8 @@ const Login = () => {
                 });
                 console.error("Login Failed", err.response.data);
             }
+        } finally {
+            setDisable(false);
         }
     };
 
@@ -104,7 +110,26 @@ const Login = () => {
                         onKeyPress={handleEnterKeyPress}
                     />
 
-                    <Button handleClick={userLogin} buttonText="Login" />
+                    <Button
+                        disabled={disable}
+                        loadingText={disable && "Logging in..."}
+                        handleClick={userLogin}
+                        buttonText="Login"
+                    />
+                    {/* <div className="continue-socials">
+                        <div className="line"></div>
+                        <h3>Or continue with</h3>
+                    </div>
+                    <div className="login-socials">
+                        <div className="login-with-google">
+                            <img src={googleLogoIcon} alt="Google Logo" />
+                            <h3>Google</h3>
+                        </div>
+                        <div className="login-with-github">
+                            <img src={githubLogoIcon} alt="Github Logo" />
+                            <h3>GitHub</h3>
+                        </div>
+                    </div> */}
                     <p>
                         Don’t have an account?{" "}
                         <span
