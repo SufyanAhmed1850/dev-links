@@ -25,9 +25,12 @@ export const UserProvider = ({ children }) => {
                         navigate("/login");
                         return;
                     }
-                    const res = await axiosPrivate("/profile");
-                    setUserData(res.data.user);
-                    setIsLoading(false);
+                    if (Object.keys(userData).length === 0) {
+                        const res = await axiosPrivate("/profile");
+                        console.log(res.data.user);
+                        setUserData(res.data.user);
+                        setIsLoading(false);
+                    }
                 } catch (error) {
                     setIsLoading(false);
                     const errorMessage = error.response.data.message;
