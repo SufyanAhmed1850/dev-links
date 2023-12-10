@@ -20,6 +20,7 @@ import toast from "react-hot-toast";
 import useAuth from "../../../../hooks/useAuth.jsx";
 import PreviewFieldsSkeleton from "../../../Components/PreviewFieldsSkeleton/PreviewFieldsSkeleton.jsx";
 import { Skeleton } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
@@ -39,7 +40,6 @@ const transformations =
     "ar_1:1,c_fill,g_face,r_12,w_193,h_193/c_pad/co_rgb:000000,e_colorize:50/";
 
 const Profiletab = () => {
-    const isAuthenticated = useAuth();
     const { linksData, updateLinksData, setLinksData } =
         useContext(linkContext);
     const { userData, setUserData, isLoading } = useContext(userContext);
@@ -48,24 +48,26 @@ const Profiletab = () => {
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [userImage, setUserImage] = useState(null);
+    const [disable, setDisable] = useState(false);
+
+    useEffect(() => {
+        setFirstName(userData.firstName);
+        setLastName(userData.lastName);
+        setEmail(userData.displayEmail);
+        setUserImage(userData.profile);
+    }, [userData]);
 
     useEffect(() => {
         (async () => {
             try {
-                if (!isAuthenticated) {
-                    return;
+                if (!linksData[0]?.link) {
+                    const resLinks = await axiosPrivate(getLinksEndpoint);
+                    resLinks?.data?.links && setLinksData(resLinks.data.links);
                 }
-                const resLinks = await axiosPrivate(getLinksEndpoint);
-                resLinks?.data?.links && setLinksData(resLinks.data.links);
-                const res = await axiosPrivate("/profile");
-                if (res.data.status) {
-                    setFirstName(res.data.user.firstName);
-                    setLastName(res.data.user.lastName);
-                    setEmail(res.data.user.displayEmail);
-                    setUserImage(res.data.user.profile);
-                }
+                return;
             } catch (error) {
                 console.error(error.message);
+                return;
             }
         })();
     }, []);
@@ -121,6 +123,7 @@ const Profiletab = () => {
 
     const saveUserDetails = async () => {
         try {
+            setDisable(true);
             if (!firstName || !lastName) {
                 console.error("Required filds must be provided");
                 return;
@@ -155,6 +158,8 @@ const Profiletab = () => {
                     color: "var(--white-90-)",
                 },
             });
+        } finally {
+            setDisable(false);
         }
     };
 
@@ -272,7 +277,12 @@ const Profiletab = () => {
             </div>
             <div className="profile-details-footer">
                 <div className="profile-details-footer-btn">
-                    <Button handleClick={saveUserDetails} buttonText="Save" />
+                    <Button
+                        disabled={disable}
+                        loadingText={disable && "Saving..."}
+                        handleClick={saveUserDetails}
+                        buttonText="Save"
+                    />
                 </div>
             </div>
         </>

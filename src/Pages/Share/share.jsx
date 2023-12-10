@@ -4,6 +4,8 @@ import RightArrow from "../../assets/images/icon-arrow-right.svg";
 import userContext from "../../../context/userContext";
 import { axiosPrivate } from "../../api/axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import PreviewHeaderSkeleton from "../../Components/Skeleton/PreviewHeaderSkeleton/PreviewHeaderSkeleton";
+import { Skeleton } from "antd";
 import githubIcon from "../../assets/images/icon-github-white.svg";
 import twitterIcon from "../../assets/images/icon-twitter-white.svg";
 import linkedInIcon from "../../assets/images/icon-linkedin-white.svg";
@@ -18,8 +20,22 @@ import gitLabIcon from "../../assets/images/icon-gitlab-white.svg";
 import hashNodeIcon from "../../assets/images/icon-hashnode-white.svg";
 import stackOverFlowIcon from "../../assets/images/icon-stack-white-overflow.svg";
 import frontendMentorIcon from "../../assets/images/icon-frontend-white-mentor.svg";
-import PreviewHeaderSkeleton from "../../Components/Skeleton/PreviewHeaderSkeleton/PreviewHeaderSkeleton";
-import { Skeleton } from "antd";
+import whatsappIcon from "../../assets/images/icon-whatsapp-white.svg";
+import xdaIcon from "../../assets/images/icon-xda-white.svg";
+import instagramIcon from "../../assets/images/icon-instagram-white.svg";
+import discordIcon from "../../assets/images/icon-discord-white.svg";
+import telegramIcon from "../../assets/images/icon-telegram-white.svg";
+import threadsIcon from "../../assets/images/icon-threads-white.svg";
+import websiteIcon from "../../assets/images/icon-website-white.svg";
+import redditIcon from "../../assets/images/icon-reddit-white.svg";
+import quoraIcon from "../../assets/images/icon-quora-white.svg";
+import tiktokIcon from "../../assets/images/icon-tiktok-white.svg";
+import snapchatIcon from "../../assets/images/icon-snapchat-white.svg";
+import tumblrIcon from "../../assets/images/icon-tumblr-white.svg";
+import fiverrIcon from "../../assets/images/icon-fiverr-white.svg";
+import upworkIcon from "../../assets/images/icon-upwork-white.svg";
+import mediumIcon from "../../assets/images/icon-medium-white.svg";
+import skypeIcon from "../../assets/images/icon-skype-white.svg";
 import error404Icon from "../../assets/images/404.svg";
 
 const transformations =
@@ -107,10 +123,15 @@ const Share = () => {
                         </div>
                         <div className="preview-card-links-parent">
                             {linksData.map((link, ind) => (
-                                <Link
+                                <a
                                     key={ind}
-                                    to={link.link}
+                                    href={
+                                        link.link.startsWith("http")
+                                            ? link.link
+                                            : `https://${link.link}`
+                                    }
                                     target="_blank"
+                                    rel="noopener noreferrer"
                                     className="preview-card-link"
                                     style={{
                                         backgroundColor:
@@ -143,6 +164,22 @@ const Share = () => {
                                                         stackOverFlowIcon,
                                                     FrontendMentor:
                                                         frontendMentorIcon,
+                                                    WhatsApp: whatsappIcon,
+                                                    XDA: xdaIcon,
+                                                    Instagram: instagramIcon,
+                                                    Discord: discordIcon,
+                                                    Telegram: telegramIcon,
+                                                    Threads: threadsIcon,
+                                                    Website: websiteIcon,
+                                                    Reddit: redditIcon,
+                                                    Quora: quoraIcon,
+                                                    TikTok: tiktokIcon,
+                                                    Snapchat: snapchatIcon,
+                                                    Tumblr: tumblrIcon,
+                                                    Fiverr: fiverrIcon,
+                                                    Upwork: upworkIcon,
+                                                    Medium: mediumIcon,
+                                                    Skype: skypeIcon,
                                                 }[platformText];
                                                 return platformIcon || null;
                                             })()}
@@ -153,7 +190,7 @@ const Share = () => {
                                     <div>
                                         <img src={RightArrow} alt="Arrow" />
                                     </div>
-                                </Link>
+                                </a>
                             ))}
                         </div>
                     </div>

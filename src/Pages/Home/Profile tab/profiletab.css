@@ -125,6 +125,6 @@
 }
 
 .profile-details-footer-btn {
-    max-width: 91px;
+    width: max-content;
     align-self: flex-end;
 }

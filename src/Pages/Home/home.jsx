@@ -7,7 +7,7 @@ import MouseScroll from "../../assets/images/icon-mouse-scroll.svg";
 import rightArrowIcon from "../../assets/images/icon-arrow-right.svg";
 import userContext from "../../../context/userContext.jsx";
 import { Skeleton } from "antd";
-
+import MockupHeadSkeleton from "../../Components/MockupHeadSkeleton/MockupHeadSkeleton.jsx";
 import githubIcon from "../../assets/images/icon-github-white.svg";
 import twitterIcon from "../../assets/images/icon-twitter-white.svg";
 import linkedInIcon from "../../assets/images/icon-linkedin-white.svg";
@@ -22,8 +22,22 @@ import gitLabIcon from "../../assets/images/icon-gitlab-white.svg";
 import hashNodeIcon from "../../assets/images/icon-hashnode-white.svg";
 import stackOverFlowIcon from "../../assets/images/icon-stack-white-overflow.svg";
 import frontendMentorIcon from "../../assets/images/icon-frontend-white-mentor.svg";
-import MockupHeadSkeleton from "../../Components/MockupHeadSkeleton/MockupHeadSkeleton.jsx";
-
+import whatsappIcon from "../../assets/images/icon-whatsapp-white.svg";
+import xdaIcon from "../../assets/images/icon-xda-white.svg";
+import instagramIcon from "../../assets/images/icon-instagram-white.svg";
+import discordIcon from "../../assets/images/icon-discord-white.svg";
+import telegramIcon from "../../assets/images/icon-telegram-white.svg";
+import threadsIcon from "../../assets/images/icon-threads-white.svg";
+import websiteIcon from "../../assets/images/icon-website-white.svg";
+import redditIcon from "../../assets/images/icon-reddit-white.svg";
+import quoraIcon from "../../assets/images/icon-quora-white.svg";
+import tiktokIcon from "../../assets/images/icon-tiktok-white.svg";
+import snapchatIcon from "../../assets/images/icon-snapchat-white.svg";
+import tumblrIcon from "../../assets/images/icon-tumblr-white.svg";
+import fiverrIcon from "../../assets/images/icon-fiverr-white.svg";
+import upworkIcon from "../../assets/images/icon-upwork-white.svg";
+import mediumIcon from "../../assets/images/icon-medium-white.svg";
+import skypeIcon from "../../assets/images/icon-skype-white.svg";
 const transformations =
     "ar_1:1,c_fill,g_face,r_max,w_96,h_96/c_pad/co_rgb:633CFF,e_outline:outer:4:0/";
 
@@ -81,91 +95,132 @@ const Home = ({ children }) => {
                             )}
                             <div>
                                 <div className="mockup-links-parent">
-                                    {linksData && linksData[0]?.link
-                                        ? linksData.map((link, ind) => (
-                                              <Link
-                                                  key={ind}
-                                                  className="mockup-link-redirect"
-                                                  to={link.link}
-                                                  target="_blank"
-                                              >
-                                                  <div
-                                                      key={ind}
-                                                      className="mockup-link"
-                                                      style={{
-                                                          backgroundColor:
-                                                              link.platform
-                                                                  .backgroundColor,
-                                                          cursor: "pointer",
-                                                      }}
-                                                  >
-                                                      <div>
-                                                          <img
-                                                              src={(() => {
-                                                                  switch (
+                                    {linksData?.length > 0 &&
+                                    linksData.some((link) => link.link !== "")
+                                        ? linksData.map(
+                                              (link, ind) =>
+                                                  link.link && (
+                                                      <a
+                                                          key={ind}
+                                                          className="mockup-link-redirect"
+                                                          href={
+                                                              link.link.startsWith(
+                                                                  "http",
+                                                              )
+                                                                  ? link.link
+                                                                  : `https://${link.link}`
+                                                          }
+                                                          target="_blank"
+                                                          rel="noopener noreferrer"
+                                                      >
+                                                          <div
+                                                              key={ind}
+                                                              className="mockup-link"
+                                                              style={{
+                                                                  backgroundColor:
+                                                                      link
+                                                                          .platform
+                                                                          .backgroundColor,
+                                                                  cursor: "pointer",
+                                                              }}
+                                                          >
+                                                              <div>
+                                                                  <img
+                                                                      src={(() => {
+                                                                          const platformText =
+                                                                              link
+                                                                                  ?.platform
+                                                                                  ?.text;
+                                                                          const platformIcon =
+                                                                              {
+                                                                                  GitHub: githubIcon,
+                                                                                  Twitter:
+                                                                                      twitterIcon,
+                                                                                  LinkedIn:
+                                                                                      linkedInIcon,
+                                                                                  YouTube:
+                                                                                      youtubeIcon,
+                                                                                  Facebook:
+                                                                                      facebookIcon,
+                                                                                  Twitch: twitchIcon,
+                                                                                  DevTo: devToIcon,
+                                                                                  CodeWars:
+                                                                                      codeWarsIcon,
+                                                                                  CodePen:
+                                                                                      codePenIcon,
+                                                                                  FreeCodeCamp:
+                                                                                      freeCodeCampIcon,
+                                                                                  GitLab: gitLabIcon,
+                                                                                  Hashnode:
+                                                                                      hashNodeIcon,
+                                                                                  StackOverflow:
+                                                                                      stackOverFlowIcon,
+                                                                                  FrontendMentor:
+                                                                                      frontendMentorIcon,
+                                                                                  WhatsApp:
+                                                                                      whatsappIcon,
+                                                                                  XDA: xdaIcon,
+                                                                                  Instagram:
+                                                                                      instagramIcon,
+                                                                                  Discord:
+                                                                                      discordIcon,
+                                                                                  Telegram:
+                                                                                      telegramIcon,
+                                                                                  Threads:
+                                                                                      threadsIcon,
+                                                                                  Website:
+                                                                                      websiteIcon,
+                                                                                  Reddit: redditIcon,
+                                                                                  Quora: quoraIcon,
+                                                                                  TikTok: tiktokIcon,
+                                                                                  Snapchat:
+                                                                                      snapchatIcon,
+                                                                                  Tumblr: tumblrIcon,
+                                                                                  Fiverr: fiverrIcon,
+                                                                                  Upwork: upworkIcon,
+                                                                                  Medium: mediumIcon,
+                                                                                  Skype: skypeIcon,
+                                                                              }[
+                                                                                  platformText
+                                                                              ];
+                                                                          return (
+                                                                              platformIcon ||
+                                                                              null
+                                                                          );
+                                                                      })()}
+                                                                      alt={
+                                                                          link
+                                                                              .platform
+                                                                              .text
+                                                                      }
+                                                                  />
+                                                              </div>
+                                                              <p
+                                                                  style={{
+                                                                      color: link
+                                                                          .platform
+                                                                          .color,
+                                                                      flex: 1,
+                                                                  }}
+                                                              >
+                                                                  {
                                                                       link
                                                                           .platform
                                                                           .text
-                                                                  ) {
-                                                                      case "GitHub":
-                                                                          return githubIcon;
-                                                                      case "Twitter":
-                                                                          return twitterIcon;
-                                                                      case "LinkedIn":
-                                                                          return linkedInIcon;
-                                                                      case "YouTube":
-                                                                          return youtubeIcon;
-                                                                      case "Facebook":
-                                                                          return facebookIcon;
-                                                                      case "Twitch":
-                                                                          return twitchIcon;
-                                                                      case "DevTo":
-                                                                          return devToIcon;
-                                                                      case "CodeWars":
-                                                                          return codeWarsIcon;
-                                                                      case "CodePen":
-                                                                          return codePenIcon;
-                                                                      case "FreeCodeCamp":
-                                                                          return freeCodeCampIcon;
-                                                                      case "GitLab":
-                                                                          return gitLabIcon;
-                                                                      case "Hashnode":
-                                                                          return hashNodeIcon;
-                                                                      case "StackOverflow":
-                                                                          return stackOverFlowIcon;
-                                                                      case "FrontendMentor":
-                                                                          return frontendMentorIcon;
-                                                                      default:
-                                                                          return null;
                                                                   }
-                                                              })()}
-                                                              alt={
-                                                                  link.platform
-                                                                      .text
-                                                              }
-                                                          />
-                                                      </div>
-                                                      <p
-                                                          style={{
-                                                              color: link
-                                                                  .platform
-                                                                  .color,
-                                                              flex: 1,
-                                                          }}
-                                                      >
-                                                          {link.platform.text}
-                                                      </p>
-                                                      <div>
-                                                          <img
-                                                              src={
-                                                                  rightArrowIcon
-                                                              }
-                                                              alt="right arrow"
-                                                          />
-                                                      </div>
-                                                  </div>
-                                              </Link>
-                                          ))
+                                                              </p>
+                                                              <div>
+                                                                  <img
+                                                                      src={
+                                                                          rightArrowIcon
+                                                                      }
+                                                                      alt="right arrow"
+                                                                  />
+                                                              </div>
+                                                          </div>
+                                                      </a>
+                                                  ),
+                                          )
                                         : [0, 1, 2, 3, 4].map((map, index) => (
                                               <Skeleton.Button
                                                   active={isLoading}
@@ -176,24 +231,19 @@ const Home = ({ children }) => {
                                                       borderRadius: 8,
                                                   }}
                                               />
-                                              //   <div
-                                              //       key={index}
-                                              //       className="mockup-link"
-                                              //       style={{
-                                              //           backgroundColor:
-                                              //               "#EEEEEE",
-                                              //       }}
-                                              //   ></div>
                                           ))}
                                 </div>
-                                {linksData.length > 5 && (
-                                    <div className="scroll-indicator">
-                                        <img
-                                            src={MouseScroll}
-                                            alt="Scroll Indicator"
-                                        />
-                                    </div>
-                                )}
+                                {linksData.length > 5 &&
+                                    linksData.every(
+                                        (link) => link.link !== "",
+                                    ) && (
+                                        <div className="scroll-indicator">
+                                            <img
+                                                src={MouseScroll}
+                                                alt="Scroll Indicator"
+                                            />
+                                        </div>
+                                    )}
                             </div>
                         </div>
                     </div>

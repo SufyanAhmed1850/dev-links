@@ -2,7 +2,7 @@ import Button from "../../../Components/Button/index.jsx";
 import Buttonsecondary from "../../../Components/Button Secondary/buttonsecondary.jsx";
 import Linkscustomizationempty from "../../../Components/Links Customization Empty/linkscustomizationempty.jsx";
 import Linkscustomization from "../../../Components/Links Customization/linkscustomization.jsx";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { axiosPrivate } from "../../../api/axios.js";
 import { useContext } from "react";
@@ -19,7 +19,6 @@ import {
 import {
     arrayMove,
     SortableContext,
-    useSortable,
     verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 
@@ -27,32 +26,37 @@ const getLinksEndpoint = "/link";
 const saveLinksEndpoint = "/link/save";
 
 const Linkstab = () => {
-    const linksCustomizationMainRef = useRef(null);
-    const shouldScrollToBottomRef = useRef(false);
     const navigate = useNavigate();
     const isAuthenticated = useAuth();
-    const [isLoading, setIsLoading] = useState(true);
+    if (!isAuthenticated) {
+        navigate("/login");
+        return;
+    }
     useEffect(() => {
         if (!isAuthenticated) {
             navigate("/login");
         }
     }, [isAuthenticated, navigate]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [disable, setDisable] = useState(false);
+
     const { linksData, updateLinksData, setLinksData } =
         useContext(linkContext);
-    const [order, setOrder] = useState(linksData.length + 1);
+    const [order, setOrder] = useState(1);
+
     useEffect(() => {
         (async () => {
             try {
-                if (!isAuthenticated) {
-                    return;
+                if (linksData.length === 0) {
+                    const res = await axiosPrivate("/link");
+                    res?.data?.links && setLinksData(res.data.links);
                 }
-                const res = await axiosPrivate(getLinksEndpoint);
-                res?.data?.links && setLinksData(res.data.links);
-                res?.data?.links && setOrder(res.data.links.length + 1);
                 setIsLoading(false);
+                return;
             } catch (error) {
                 console.error(error);
                 setIsLoading(false);
+                return;
             }
         })();
     }, []);
@@ -68,6 +72,7 @@ const Linkstab = () => {
                 (link) => link.order === active.id,
             );
             const newIndex = links.findIndex((link) => link.order === over.id);
+            console.log(oldIndex, newIndex);
             const newLinks = arrayMove(links, oldIndex, newIndex);
             const updatedLinks = newLinks.map((link, index) => ({
                 ...link,
@@ -77,30 +82,16 @@ const Linkstab = () => {
         });
     };
 
-    const end = () => {
-        const updatedLinksDataWithOrder = linksData.map((link, i) => ({
-            ...link,
-            order: i + 1,
-        }));
-        setLinksData(updatedLinksDataWithOrder);
-    };
-
     const handleAddLinkClick = () => {
         updateLinksData(order);
-        setOrder(order + 1);
-        // Set the flag to true when the "Add new link" button is clicked
-        shouldScrollToBottomRef.current = true;
+        // setOrder(1);
+        setLinksData((prev) =>
+            prev.map((link, index) => ({
+                ...link,
+                order: index + 1,
+            })),
+        );
     };
-    useEffect(() => {
-        if (shouldScrollToBottomRef.current) {
-            // Scroll to the bottom when linksData changes and the flag is true
-            linksCustomizationMainRef.current.scrollTop =
-                linksCustomizationMainRef.current.scrollHeight;
-            // Reset the flag to false after scrolling
-            shouldScrollToBottomRef.current = false;
-        }
-    }, [linksData]);
-
     const handleRemoveLink = (index) => {
         const updatedLinksData = linksData.filter((_, i) => i !== index);
         const updatedLinksDataWithOrder = updatedLinksData.map((link, i) => ({
@@ -112,18 +103,8 @@ const Linkstab = () => {
     };
 
     const saveToDB = async () => {
-        // if (linksData.length < 1) {
-        //     toast.error("No links to save", {
-        //         duration: 2000,
-        //         position: "bottom-center",
-        //         style: {
-        //             backgroundColor: "var(--black-90-)",
-        //             color: "var(--white-90-)",
-        //         },
-        //     });
-        //     return;
-        // }
         try {
+            setDisable(true);
             const res = await axiosPrivate.post(saveLinksEndpoint, linksData);
             console.log(res);
             toast.success("Updated successfully!", {
@@ -146,6 +127,8 @@ const Linkstab = () => {
                 },
             });
             return;
+        } finally {
+            setDisable(false);
         }
     };
 
@@ -163,10 +146,7 @@ const Linkstab = () => {
                     buttonSecondaryText="+ Add new link"
                     onClick={handleAddLinkClick}
                 />
-                <div
-                    className="links-customization-main"
-                    ref={linksCustomizationMainRef}
-                >
+                <div className="links-customization-main">
                     <DndContext
                         collisionDetection={closestCenter}
                         onDragEnd={onDragEnd}
@@ -177,7 +157,11 @@ const Linkstab = () => {
                         ]}
                     >
                         <SortableContext
-                            items={linksData.map((link) => link.order)}
+                            items={
+                                linksData
+                                    ? linksData.map((link) => link.order)
+                                    : []
+                            }
                             strategy={verticalListSortingStrategy}
                         >
                             {isLoading ? (
@@ -185,21 +169,18 @@ const Linkstab = () => {
                                     <LinkInputSkeleton />
                                     <LinkInputSkeleton />
                                 </>
-                            ) : linksData?.length ? (
-                                linksData.map((link, ind) => {
-                                    return (
-                                        <Linkscustomization
-                                            key={link.link}
-                                            link={link || ""}
-                                            order={link.order}
-                                            index={ind}
-                                            loading={isLoading}
-                                            // link={link.link || ""}
-                                            platform={link.platform.text || ""}
-                                            onRemove={handleRemoveLink}
-                                        />
-                                    );
-                                })
+                            ) : linksData && linksData.length ? (
+                                linksData.map((link, ind) => (
+                                    <Linkscustomization
+                                        key={link.link}
+                                        link={link || ""}
+                                        order={link.order}
+                                        index={ind}
+                                        loading={isLoading}
+                                        platform={link.platform.text || ""}
+                                        onRemove={handleRemoveLink}
+                                    />
+                                ))
                             ) : (
                                 <Linkscustomizationempty />
                             )}
@@ -209,7 +190,12 @@ const Linkstab = () => {
             </div>
             <div className="links-customization-footer">
                 <div className="links-customization-footer-btn">
-                    <Button handleClick={saveToDB} buttonText="Save" />
+                    <Button
+                        disabled={disable}
+                        loadingText={disable && "Saving..."}
+                        handleClick={saveToDB}
+                        buttonText="Save"
+                    />
                 </div>
             </div>
         </>

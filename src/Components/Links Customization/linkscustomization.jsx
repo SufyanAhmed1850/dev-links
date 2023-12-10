@@ -16,7 +16,6 @@ const Linkscustomization = ({ order, index, link, onRemove }) => {
         transition,
         transform: CSS.Transform.toString(transform),
     };
-    // const [isLoading, setIsLoading] = useState(true);
 
     const { linksData, updateLinksData, setLinksData } =
         useContext(linkContext);
