@@ -413,8 +413,7 @@ const DropDown = ({ onSelectPlatform, index }) => {
                                 <div className="dropdown-option-img">
                                     <img
                                         src={(() => {
-                                            const platformText =
-                                                selectedPlatform?.text;
+                                            const platformText = option?.text;
                                             const platformIcon = {
                                                 GitHub: githubIcon,
                                                 Twitter: twitterIcon,
