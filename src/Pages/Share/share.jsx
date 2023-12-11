@@ -36,7 +36,6 @@ import fiverrIcon from "../../assets/images/icon-fiverr-white.svg";
 import upworkIcon from "../../assets/images/icon-upwork-white.svg";
 import mediumIcon from "../../assets/images/icon-medium-white.svg";
 import skypeIcon from "../../assets/images/icon-skype-white.svg";
-import error404Icon from "../../assets/images/404.svg";
 
 const transformations =
     "ar_1:1,c_fill,g_face,r_max,w_104,h_104/c_pad/co_rgb:633CFF,e_outline:outer:4:0/";
