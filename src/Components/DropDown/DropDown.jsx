@@ -411,7 +411,48 @@ const DropDown = ({ onSelectPlatform, index }) => {
                                 }`}
                             >
                                 <div className="dropdown-option-img">
-                                    <img src={option.image} alt={option.text} />
+                                    <img
+                                        src={(() => {
+                                            const platformText =
+                                                selectedPlatform?.text;
+                                            const platformIcon = {
+                                                GitHub: githubIcon,
+                                                Twitter: twitterIcon,
+                                                LinkedIn: linkedInIcon,
+                                                YouTube: youtubeIcon,
+                                                Facebook: facebookIcon,
+                                                Twitch: twitchIcon,
+                                                DevTo: devToIcon,
+                                                CodeWars: codeWarsIcon,
+                                                CodePen: codePenIcon,
+                                                FreeCodeCamp: freeCodeCampIcon,
+                                                GitLab: gitLabIcon,
+                                                Hashnode: hashNodeIcon,
+                                                StackOverflow:
+                                                    stackOverFlowIcon,
+                                                FrontendMentor:
+                                                    frontendMentorIcon,
+                                                WhatsApp: whatsappIcon,
+                                                XDA: xdaIcon,
+                                                Instagram: instagramIcon,
+                                                Discord: discordIcon,
+                                                Telegram: telegramIcon,
+                                                Threads: threadsIcon,
+                                                Website: websiteIcon,
+                                                Reddit: redditIcon,
+                                                Quora: quoraIcon,
+                                                TikTok: tiktokIcon,
+                                                Snapchat: snapchatIcon,
+                                                Tumblr: tumblrIcon,
+                                                Fiverr: fiverrIcon,
+                                                Upwork: upworkIcon,
+                                                Medium: mediumIcon,
+                                                Skype: skypeIcon,
+                                            }[platformText];
+                                            return platformIcon || null;
+                                        })()}
+                                        alt={option.text}
+                                    />
                                 </div>
                                 <p className="dropdown-option-text">
                                     {option.text}
