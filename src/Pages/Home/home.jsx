@@ -39,7 +39,7 @@ import upworkIcon from "../../assets/images/icon-upwork-white.svg";
 import mediumIcon from "../../assets/images/icon-medium-white.svg";
 import skypeIcon from "../../assets/images/icon-skype-white.svg";
 const transformations =
-    "ar_1:1,c_fill,g_face,r_max,w_96,h_96/c_pad/co_rgb:633CFF,e_outline:outer:4:0/";
+    "f_avif,ar_1:1,c_fill,g_face,r_max,w_96,h_96/c_pad/co_rgb:633CFF,e_outline:outer:4:0/";
 
 const Home = ({ children }) => {
     const { userData, setUserData, isLoading } = useContext(userContext);

@@ -37,7 +37,7 @@ const VisuallyHiddenInput = styled("input")({
 const getLinksEndpoint = "/link";
 
 const transformations =
-    "ar_1:1,c_fill,g_face,r_12,w_193,h_193/c_pad/co_rgb:000000,e_colorize:50/";
+    "f_avif,ar_1:1,c_fill,g_face,r_12,w_193,h_193/c_pad/co_rgb:000000,e_colorize:50/";
 
 const Profiletab = () => {
     const { linksData, updateLinksData, setLinksData } =
