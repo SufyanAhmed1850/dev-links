@@ -40,25 +40,25 @@ const transformations =
     "f_avif,ar_1:1,c_fill,g_face,r_12,w_193,h_193/c_pad/co_rgb:000000,e_colorize:50/";
 
 const Profiletab = () => {
+    const navigate = useNavigate();
     const { linksData, updateLinksData, setLinksData } =
         useContext(linkContext);
     const { userData, setUserData, isLoading } = useContext(userContext);
-
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [email, setEmail] = useState("");
     const [userImage, setUserImage] = useState(null);
     const [disable, setDisable] = useState(false);
+    const [isImageUploading, setIsImageUploading] = useState(false);
+    const isAuthenticated = useAuth();
 
     useEffect(() => {
-        setFirstName(userData.firstName);
-        setLastName(userData.lastName);
-        setEmail(userData.displayEmail);
         setUserImage(userData.profile);
     }, [userData]);
 
     useEffect(() => {
         (async () => {
+            if (!isAuthenticated) {
+                navigate("/login");
+                return;
+            }
             try {
                 if (!linksData[0]?.link) {
                     const resLinks = await axiosPrivate(getLinksEndpoint);
@@ -72,47 +72,69 @@ const Profiletab = () => {
         })();
     }, []);
 
-    const handleImage = async (file) => {
-        try {
-            const formData = new FormData();
-            formData.append("file", file);
-            console.log(formData);
-            const res = await axios.post(
-                import.meta.env.VITE_URL + "/profile/image",
-                formData,
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                        Authorization: `Bearer ${Cookies.get("jwt")}`,
-                    },
+    const handleImage = (file) => {
+        if (isImageUploading) {
+            return;
+        }
+        console.log("UPLOAD");
+        setIsImageUploading(true);
+        const formData = new FormData();
+        formData.append("file", file);
+        const promise = axios
+            .post(import.meta.env.VITE_URL + "/profile/image", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    Authorization: `Bearer ${Cookies.get("jwt")}`,
                 },
-            );
-            console.log(res);
-            setUserImage(res.data.url);
-            setUserData({
-                ...userData,
-                profile: res.data.url,
-            });
-            toast.success("Image uploaded.", {
-                duration: 2000,
-                position: "bottom-center",
+            })
+            .then((res) => {
+                console.log(res);
+                setUserImage(res.data.url);
+                setUserData({
+                    ...userData,
+                    profile: res.data.url,
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+                if (
+                    error.response &&
+                    error.response.data.message.includes("File size too large.")
+                ) {
+                    error.message = "File size exceeds 10MB.";
+                } else if (error?.response?.data) {
+                    error.message = "Failed to upload image. try again";
+                } else {
+                    error.message = "No response from the server.";
+                }
+                return Promise.reject(error);
+            })
+            .finally(() => setIsImageUploading(false));
+        toast.promise(
+            promise,
+            {
+                loading: "Uploading image...",
+                success: "Image uploaded successfully!",
+                error: (err) => err.message,
+            },
+            {
                 style: {
-                    backgroundColor: "var(--black-90-)",
+                    background: "var(--black-90-)",
                     color: "var(--white-90-)",
                 },
-            });
-        } catch (error) {
-            console.error(error);
-            error.response.data.message.includes("File size too large.") &&
-                toast.error("File size too large.", {
+                loading: {
+                    position: "bottom-center",
+                },
+                success: {
                     duration: 2000,
                     position: "bottom-center",
-                    style: {
-                        backgroundColor: "var(--black-90-)",
-                        color: "var(--white-90-)",
-                    },
-                });
-        }
+                },
+                error: {
+                    duration: 2000,
+                    position: "bottom-center",
+                },
+            },
+        );
     };
 
     const handleEnterKeyPress = (event) => {
@@ -124,20 +146,14 @@ const Profiletab = () => {
     const saveUserDetails = async () => {
         try {
             setDisable(true);
-            if (!firstName || !lastName) {
+            if (!userData.firstName || !userData.lastName) {
                 console.error("Required filds must be provided");
                 return;
             }
             const res = await axiosPrivate.post("/profile/update-user", {
-                firstName,
-                lastName,
-                email,
-            });
-            setUserData({
-                ...userData,
-                firstName,
-                lastName,
-                displayEmail: email,
+                firstName: userData.firstName,
+                lastName: userData.lastName,
+                displayEmail: userData.displayEmail,
             });
             console.log(res);
             toast.success("Saved successfully!", {
@@ -232,7 +248,7 @@ const Profiletab = () => {
                         )}
                         <div className="profile-picture-instructions">
                             <p>
-                                Suggestion: Image size should be less than 10mb.
+                                Suggestion: Image size should be less than 10MB.
                                 Use PNG or JPG format.
                             </p>
                         </div>
@@ -244,8 +260,13 @@ const Profiletab = () => {
                             <div className="profile-first-name">
                                 <p>First name*</p>
                                 <InputField
-                                    value={firstName || ""}
-                                    onInputChange={(val) => setFirstName(val)}
+                                    value={userData.firstName || ""}
+                                    onInputChange={(val) =>
+                                        setUserData({
+                                            ...userData,
+                                            firstName: val,
+                                        })
+                                    }
                                     placeholderText="e.g. John"
                                     imgYes={true}
                                     onKeyPress={handleEnterKeyPress}
@@ -254,8 +275,13 @@ const Profiletab = () => {
                             <div className="profile-last-name">
                                 <p>Last name*</p>
                                 <InputField
-                                    value={lastName || ""}
-                                    onInputChange={(val) => setLastName(val)}
+                                    value={userData.lastName || ""}
+                                    onInputChange={(val) =>
+                                        setUserData({
+                                            ...userData,
+                                            lastName: val,
+                                        })
+                                    }
                                     placeholderText="e.g. Appleseed"
                                     imgYes={true}
                                     onKeyPress={handleEnterKeyPress}
@@ -264,8 +290,13 @@ const Profiletab = () => {
                             <div className="profile-email">
                                 <p>Email</p>
                                 <InputField
-                                    value={email || ""}
-                                    onInputChange={(val) => setEmail(val)}
+                                    value={userData.displayEmail || ""}
+                                    onInputChange={(val) =>
+                                        setUserData({
+                                            ...userData,
+                                            displayEmail: val,
+                                        })
+                                    }
                                     placeholderText="e.g. email@example.com"
                                     imgYes={true}
                                     onKeyPress={handleEnterKeyPress}
@@ -290,3 +321,51 @@ const Profiletab = () => {
 };
 
 export default Profiletab;
+
+// const saveUserDetails = () => {
+//     setDisable(true);
+//     if (!userData.firstName || !userData.lastName) {
+//         console.error("Required filds must be provided");
+//         return;
+//     }
+//     const detailsPromise = axiosPrivate
+//         .post("/profile/update-user", {
+//             firstName: userData.firstName,
+//             lastName: userData.lastName,
+//             displayEmail: userData.displayEmail,
+//         })
+//         .then((res) => {
+//             console.log(res);
+//         })
+//         .catch((error) => {
+//             console.error(error.message);
+//             error.message = "Couldn't save. Try again.";
+//             return Promise.reject(error);
+//         })
+//         .finally(() => setDisable(false));
+//     toast.promise(
+//         detailsPromise,
+//         {
+//             loading: "Saving...",
+//             success: "Saved successfully!",
+//             error: (err) => err.message,
+//         },
+//         {
+//             style: {
+//                 background: "var(--black-90-)",
+//                 color: "var(--white-90-)",
+//             },
+//             loading: {
+//                 position: "bottom-center",
+//             },
+//             success: {
+//                 duration: 2000,
+//                 position: "bottom-center",
+//             },
+//             error: {
+//                 duration: 2000,
+//                 position: "bottom-center",
+//             },
+//         },
+//     );
+// };

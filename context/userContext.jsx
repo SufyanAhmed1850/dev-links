@@ -10,6 +10,7 @@ const userContext = createContext();
 export const UserProvider = ({ children }) => {
     const [userData, setUserData] = useState({});
     const [isLoading, setIsLoading] = useState(true);
+    const [isDataFetched, setIsDataFetched] = useState(false);
     const location = useLocation();
     const isAuthenticated = useAuth();
     const navigate = useNavigate();
@@ -25,11 +26,12 @@ export const UserProvider = ({ children }) => {
                         navigate("/login");
                         return;
                     }
-                    if (Object.keys(userData).length === 0) {
+                    if (!isDataFetched) {
                         const res = await axiosPrivate("/profile");
                         console.log(res.data.user);
                         setUserData(res.data.user);
                         setIsLoading(false);
+                        setIsDataFetched(true);
                     }
                 } catch (error) {
                     setIsLoading(false);
@@ -44,7 +46,9 @@ export const UserProvider = ({ children }) => {
         }
     }, [location.pathname]);
     return (
-        <userContext.Provider value={{ userData, setUserData, isLoading }}>
+        <userContext.Provider
+            value={{ userData, setUserData, isLoading, setIsDataFetched }}
+        >
             {children}
         </userContext.Provider>
     );

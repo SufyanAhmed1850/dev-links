@@ -36,18 +36,7 @@ const linkPatterns = {
     Fiverr: /^((https?:\/\/)?www\.fiverr\.com\/\S+)\/?$/,
     Upwork: /^((https?:\/\/)?www\.upwork\.com\/freelancer\/\S+)\/?$/,
     Medium: /^((https?:\/\/)?medium\.com\/@\S+)\/?$/,
-    Skype: /^((https?:\/\/)?join\.skype\.com\/invite\/\S+)\/?$/,
 };
-
-// Sorting the link patterns by key
-const sortedLinkPatterns = Object.fromEntries(
-    Object.entries(linkPatterns).sort(([keyA], [keyB]) =>
-        keyA.localeCompare(keyB),
-    ),
-);
-
-// Convert the sorted link patterns to a string
-const sortedLinkPatternsString = JSON.stringify(sortedLinkPatterns, null, 2);
 
 const InputField = ({
     label,
@@ -79,7 +68,21 @@ const InputField = ({
     }, [error]);
 
     useEffect(() => {
-        setInputValue(value);
+        value && setInputValue(value);
+        if (location.pathname == "/" && value) {
+            const platform = linksData[index].platform.text;
+            const pattern = linkPatterns[platform];
+            const isValid = pattern.test(value);
+            if (!isValid) {
+                setHaveError(true);
+                setErrorMessage("Please check the URL");
+                console.log(`Invalid ${platform} link.`);
+            } else {
+                setHaveError(false);
+                setErrorMessage("");
+                console.log(`Valid ${platform} link: ${inputValue}`);
+            }
+        }
     }, [value]);
 
     const handleInputChange = (e) => {
@@ -91,27 +94,12 @@ const InputField = ({
     const handleInputBlur = (index) => {
         setIsFocused(false);
 
-        const platform = linksData[index].platform.text;
-        const pattern = linkPatterns[platform];
+        linksData[index] = {
+            ...linksData[index],
+            link: inputValue,
+        };
 
-        const isValid = pattern.test(inputValue);
-        setHaveError(!isValid);
-        setErrorMessage(isValid ? "" : "Please check the URL");
-
-        if (!isValid) {
-            console.log(`Invalid ${platform} link.`);
-            return;
-        }
-
-        setLinksData((prevLinksData) => {
-            const updatedLinksData = [...prevLinksData];
-            updatedLinksData[index] = {
-                ...updatedLinksData[index],
-                link: inputValue,
-            };
-            return updatedLinksData;
-        });
-        console.log(`Valid ${platform} link: ${inputValue}`);
+        setLinksData([...linksData]);
     };
 
     return (

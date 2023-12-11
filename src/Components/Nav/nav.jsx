@@ -1,3 +1,4 @@
+import "./nav.css";
 import logoLarge from "../../assets/images/logo-devlinks-large.svg";
 import linkIcon from "../../assets/images/icon-link.svg";
 import profilIcon from "../../assets/images/icon-profile-details-header.svg";
@@ -11,12 +12,14 @@ import { useState, useContext } from "react";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { WarningTwoTone } from "@ant-design/icons";
-import "./nav.css";
+import userContext from "../../../context/userContext";
+import { axiosPrivate } from "../../api/axios";
 
 const Nav = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const { linksData } = useContext(linkContext);
+    const { linksData, setLinksData } = useContext(linkContext);
+    const { userData, setUserData, setIsDataFetched } = useContext(userContext);
     const [isLogoutHovered, setIsLogoutHovered] = useState(false);
     const isProfileRoute = location.pathname === "/profile";
     const isHomeRoute = location.pathname === "/";
@@ -24,23 +27,94 @@ const Nav = () => {
         navigate(page);
     };
 
+    const saveAllData = () => {
+        const linksPromise = axiosPrivate
+            .post("/link/save", linksData)
+            .then((res) => {
+                console.log(res);
+                return res.data; // Assuming you want to pass along the result
+            })
+            .catch((err) => {
+                console.error(err);
+                return Promise.reject(err);
+            });
+
+        const detailsPromise = axiosPrivate
+            .post("/profile/update-user", {
+                firstName: userData.firstName,
+                lastName: userData.lastName,
+                displayEmail: userData.displayEmail,
+            })
+            .then((res) => {
+                console.log(res);
+                return res.data; // Assuming you want to pass along the result
+            })
+            .catch((err) => {
+                console.error(err);
+                return Promise.reject(err);
+            });
+
+        // Use Promise.all to execute both promises concurrently
+        const a = Promise.all([linksPromise, detailsPromise])
+            .then((results) => {
+                console.log("Both promises resolved:", results);
+                navigate("/preview");
+            })
+            .catch((errors) => {
+                console.error("At least one promise rejected:", errors);
+                return Promise.reject(errors);
+            });
+        toast.promise(
+            a,
+            {
+                loading: "Saving...",
+                success: "Saved successfully!",
+                error: (err) => "err.message,",
+            },
+            {
+                style: {
+                    background: "var(--black-90-)",
+                    color: "var(--white-90-)",
+                },
+                loading: {
+                    position: "bottom-center",
+                },
+                success: {
+                    duration: 2000,
+                    position: "bottom-center",
+                },
+                error: {
+                    duration: 2000,
+                    position: "bottom-center",
+                },
+            },
+        );
+    };
+
     const navigateToPreview = () => {
-        linksData.some((link) => link.link !== "")
-            ? navigate("/preview")
-            : toast.error("Add links to preview", {
-                  icon: (
-                      <WarningTwoTone
-                          style={{ fontSize: 20 }}
-                          twoToneColor="#FFD700"
-                      />
-                  ),
-                  duration: 2000,
-                  position: "bottom-center",
-                  style: {
-                      backgroundColor: "var(--black-90-)",
-                      color: "var(--white-90-)",
-                  },
-              });
+        if (
+            linksData.some((link) => link.link !== "") &&
+            userData.profile &&
+            userData.firstName &&
+            userData.lastName
+        ) {
+            saveAllData();
+        } else {
+            toast.error("Add links to preview", {
+                icon: (
+                    <WarningTwoTone
+                        style={{ fontSize: 16 }}
+                        twoToneColor="#FFD700"
+                    />
+                ),
+                duration: 2000,
+                position: "bottom-center",
+                style: {
+                    backgroundColor: "var(--black-90-)",
+                    color: "var(--white-90-)",
+                },
+            });
+        }
     };
 
     return (
@@ -77,6 +151,9 @@ const Nav = () => {
                         onMouseEnter={() => setIsLogoutHovered(true)}
                         onMouseLeave={() => setIsLogoutHovered(false)}
                         onClick={() => {
+                            setIsDataFetched(false);
+                            setUserData({});
+                            setLinksData([]);
                             Cookies.remove("jwt");
                             navigate("/");
                         }}

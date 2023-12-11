@@ -32,7 +32,6 @@ import tumblrIcon from "../../assets/images/icon-tumblr.svg";
 import fiverrIcon from "../../assets/images/icon-fiverr.svg";
 import upworkIcon from "../../assets/images/icon-upwork.svg";
 import mediumIcon from "../../assets/images/icon-medium.svg";
-import skypeIcon from "../../assets/images/icon-skype.svg";
 
 const linkOptions = [
     {
@@ -101,7 +100,7 @@ const linkOptions = [
     {
         text: "GitHub",
         image: "/src/assets/images/icon-github.svg",
-        placeholder: "e.g. https://www.github.com/johnappleseed",
+        placeholder: "e.g. https://github.com/johnappleseed",
         backgroundColor: "#1A1A1A",
         color: "#FFFFFF",
     },
@@ -152,13 +151,6 @@ const linkOptions = [
         image: "/src/assets/images/icon-reddit.svg",
         placeholder: "e.g. https://www.reddit.com/user/johnappleseed",
         backgroundColor: "#FF4500",
-        color: "#FFFFFF",
-    },
-    {
-        text: "Skype",
-        image: "/src/assets/images/icon-skype.svg",
-        placeholder: "e.g. https://join.skype.com/invite/johnappleseed",
-        backgroundColor: "#00AFF0",
         color: "#FFFFFF",
     },
     {
@@ -213,14 +205,14 @@ const linkOptions = [
     {
         text: "Twitter",
         image: "/src/assets/images/icon-twitter.svg",
-        placeholder: "e.g. https://www.twitter.com/johnappleseed",
+        placeholder: "e.g. https://twitter.com/johnappleseed",
         backgroundColor: "#43B7E9",
         color: "#FFFFFF",
     },
     {
         text: "Upwork",
         image: "/src/assets/images/icon-upwork.svg",
-        placeholder: "e.g. https://www.upwork.com/freelancer/johnappleseed",
+        placeholder: "e.g. https://www.upwork.com/freelancers/johnappleseed",
         backgroundColor: "#6FDA44",
         color: "#FFFFFF",
     },
@@ -257,8 +249,7 @@ const DropDown = ({ onSelectPlatform, index }) => {
     const [isOptionHovered, setIsOptionHovered] = useState(null);
 
     useEffect(() => {
-        setSelectedPlatform((prev) => linksData[index].platform);
-        onSelectPlatform(linksData[index].platform);
+        setSelectedPlatform(linksData[index].platform);
     }, [linksData]);
 
     const handlePlatformChange = (index, e) => {
@@ -367,7 +358,6 @@ const DropDown = ({ onSelectPlatform, index }) => {
                                         Fiverr: fiverrIcon,
                                         Upwork: upworkIcon,
                                         Medium: mediumIcon,
-                                        Skype: skypeIcon,
                                     }[platformText];
                                     return platformIcon || null;
                                 })()}
@@ -446,7 +436,6 @@ const DropDown = ({ onSelectPlatform, index }) => {
                                                 Fiverr: fiverrIcon,
                                                 Upwork: upworkIcon,
                                                 Medium: mediumIcon,
-                                                Skype: skypeIcon,
                                             }[platformText];
                                             return platformIcon || null;
                                         })()}

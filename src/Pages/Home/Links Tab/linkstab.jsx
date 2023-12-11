@@ -28,10 +28,7 @@ const saveLinksEndpoint = "/link/save";
 const Linkstab = () => {
     const navigate = useNavigate();
     const isAuthenticated = useAuth();
-    if (!isAuthenticated) {
-        navigate("/login");
-        return;
-    }
+
     useEffect(() => {
         if (!isAuthenticated) {
             navigate("/login");
@@ -46,6 +43,10 @@ const Linkstab = () => {
 
     useEffect(() => {
         (async () => {
+            if (!isAuthenticated) {
+                navigate("/login");
+                return;
+            }
             try {
                 if (linksData.length === 0) {
                     const res = await axiosPrivate("/link");
@@ -131,6 +132,7 @@ const Linkstab = () => {
             setDisable(false);
         }
     };
+    console.log(linksData);
 
     return (
         <>
@@ -172,7 +174,7 @@ const Linkstab = () => {
                             ) : linksData && linksData.length ? (
                                 linksData.map((link, ind) => (
                                     <Linkscustomization
-                                        key={link.link}
+                                        key={`${link.link}-${link.order}`}
                                         link={link || ""}
                                         order={link.order}
                                         index={ind}

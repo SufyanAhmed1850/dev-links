@@ -16,14 +16,23 @@ const Linkscustomization = ({ order, index, link, onRemove }) => {
         transition,
         transform: CSS.Transform.toString(transform),
     };
-
     const { linksData, updateLinksData, setLinksData } =
         useContext(linkContext);
     const [url, setUrl] = useState();
-    const [selectedPlatform, setSelectedPlatform] = useState(null);
+
+    useEffect(() => {
+        setUrl(linksData[index].link);
+    }, [linksData]);
 
     const handlePlatformChange = (newPlatform) => {
-        setSelectedPlatform(newPlatform);
+        const updatedLinksData = [...linksData];
+        updatedLinksData[index].platform = newPlatform;
+        setLinksData(updatedLinksData);
+    };
+    const updateLinkVal = (val) => {
+        const updatedLinksData = [...linksData];
+        updatedLinksData[index].link = val;
+        setLinksData(updatedLinksData);
     };
 
     return (
@@ -54,16 +63,15 @@ const Linkscustomization = ({ order, index, link, onRemove }) => {
             <div className="link-url">
                 <InputField
                     index={index}
-                    disabled={selectedPlatform ? false : true}
-                    value={link.link || ""}
+                    disabled={linksData[index]?.platform ? false : true}
+                    value={url || ""}
                     label={"Link"}
                     iconSrc={LinkIcon}
                     altText={"Link"}
-                    onInputChange={(urlVal) => setUrl(urlVal)}
+                    onInputChange={(val) => setUrl(val)}
                     placeholderText={
-                        selectedPlatform
-                            ? selectedPlatform.placeholder
-                            : "Select an option from dropdown"
+                        linksData[index]?.platform?.placeholder ||
+                        "Select an option from dropdown"
                     }
                 />
             </div>
