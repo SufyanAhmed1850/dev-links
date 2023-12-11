@@ -94,7 +94,7 @@ const Share = () => {
                 </div>
             ) : is404 ? (
                 <div className="error-card">
-                    <img src={"https://res.cloudinary.com/dke5jqhus/image/upload/f_avif/v1702298868/dev_links/404_xljmnn.svg"} alt="404 Error" />
+                    <img src={"https://res.cloudinary.com/dke5jqhus/image/upload/f_avif/v1702304618/dev_links/dsxt4vnkvn2sa7kuqnrp.webp"} alt="404 Error" />
                 </div>
             ) : (
                 userData?.profile && (
