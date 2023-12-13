@@ -24,6 +24,40 @@ import {
 // const getLinksEndpoint = "/link";
 const saveLinksEndpoint = "/link/save";
 
+const linkPatterns = {
+    GitHub: /^((https?:\/\/)?(www\.)?github\.com\/\S+)\/?$/i,
+    Twitter: /^((https?:\/\/)?(www\.)?twitter\.com\/\S+)\/?$/i,
+    LinkedIn: /^((https?:\/\/)?(www\.)?linkedin\.com\/in\/\S+)\/?$/i,
+    YouTube: /^((https?:\/\/)?(www\.)?youtube\.com\/\S+)\/?$/i,
+    Facebook: /^((https?:\/\/)?(www\.)?facebook\.com\/\S+)\/?$/i,
+    Twitch: /^((https?:\/\/)?(www\.)?twitch\.tv\/\S+)\/?$/i,
+    DevTo: /^((https?:\/\/)?(www\.)?dev\.to\/\S+)\/?$/i,
+    CodeWars: /^((https?:\/\/)?(www\.)?codewars\.com\/users\/\S+)\/?$/i,
+    CodePen: /^((https?:\/\/)?(www\.)?codepen\.io\/\S+)\/?$/i,
+    FreeCodeCamp: /^((https?:\/\/)?(www\.)?freecodecamp\.org\/\S+)\/?$/i,
+    GitLab: /^((https?:\/\/)?(www\.)?gitlab\.com\/\S+)\/?$/i,
+    Hashnode: /^((https?:\/\/)?(www\.)?hashnode\.com\/@\S+\/?)$/i,
+    StackOverflow:
+        /^((https?:\/\/)?(www\.)?stackoverflow\.com\/users\/\S+)\/?$/i,
+    FrontendMentor:
+        /^((https?:\/\/)?(www\.)?frontendmentor\.io\/profile\/\S+)\/?$/i,
+    WhatsApp: /^((https?:\/\/)?wa\.me\/\S+)\/?$/i,
+    XDA: /^((https?:\/\/)?(www\.)?xdaforums\.com\/m\/\S+)\/?$/i,
+    Instagram: /^((https?:\/\/)?(www\.)?instagram\.com\/\S+)\/?$/i,
+    Discord: /^((https?:\/\/)?discord\.com\/users\/\S+)\/?$/i,
+    Telegram: /^((https?:\/\/)?t\.me\/\S+)\/?$/i,
+    Threads: /^((https?:\/\/)?threads\.com\/user\/\S+)\/?$/i,
+    Website: /^((https?:\/\/)?\S+)\/?$/i,
+    Reddit: /^((https?:\/\/)?(www\.)?reddit\.com\/user\/\S+)\/?$/i,
+    Quora: /^((https?:\/\/)?(www\.)?quora\.com\/profile\/\S+)\/?$/i,
+    TikTok: /^((https?:\/\/)?(www\.)?tiktok\.com\/@\S+)\/?$/i,
+    Snapchat: /^((https?:\/\/)?(www\.)?snapchat\.com\/add\/\S+)\/?$/i,
+    Tumblr: /^((https?:\/\/)?(www\.)?tumblr\.com\/\S*)$/i,
+    Fiverr: /^((https?:\/\/)?(www\.)?fiverr\.com\/\S+)\/?$/i,
+    Upwork: /^((https?:\/\/)?(www\.)?\.upwork\.com\/freelancers\/\S+)\/?$/i,
+    Medium: /^((https?:\/\/)?medium\.com\/@\S+)\/?$/i,
+};
+
 const Linkstab = () => {
     const navigate = useNavigate();
     const isAuthenticated = useAuth();
@@ -69,7 +103,7 @@ const Linkstab = () => {
         }
         setLinksData((links) => {
             const oldIndex = links.findIndex(
-                (link) => link.order === active.id
+                (link) => link.order === active.id,
             );
             const newIndex = links.findIndex((link) => link.order === over.id);
             console.log(oldIndex, newIndex);
@@ -89,7 +123,7 @@ const Linkstab = () => {
             prev.map((link, index) => ({
                 ...link,
                 order: index + 1,
-            }))
+            })),
         );
     };
     const handleRemoveLink = (index) => {
@@ -105,6 +139,26 @@ const Linkstab = () => {
     const saveToDB = async () => {
         try {
             setDisable(true);
+
+            const invalidLink = linksData.find((link) => {
+                const platform = link.platform.text;
+                const pattern = linkPatterns[platform];
+                return !pattern.test(link.link);
+            });
+
+            if (invalidLink) {
+                console.log("Invalid link:", invalidLink);
+                toast.error("Invalid link. Couldn't save. Try again.", {
+                    duration: 2000,
+                    position: "bottom-center",
+                    style: {
+                        backgroundColor: "var(--black-90-)",
+                        color: "var(--white-90-)",
+                    },
+                });
+                return;
+            }
+
             const res = await axiosPrivate.post(saveLinksEndpoint, linksData);
             console.log(res);
             toast.success("Updated successfully!", {
@@ -131,7 +185,6 @@ const Linkstab = () => {
             setDisable(false);
         }
     };
-    console.log(linksData);
 
     return (
         <>

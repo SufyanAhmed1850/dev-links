@@ -17,7 +17,6 @@ const Linkscustomization = ({ order, index, link, onRemove }) => {
         transition,
         isDragging,
     } = useSortable({ id: link.order, handle: true });
-    console.log("Is Dragging:", isDragging);
     const style = {
         transition,
         transform: CSS.Transform.toString(transform),
@@ -31,11 +30,6 @@ const Linkscustomization = ({ order, index, link, onRemove }) => {
         updatedLinksData[index].platform = newPlatform;
         setLinksData(updatedLinksData);
     };
-    // const updateLinkVal = (val) => {
-    //     const updatedLinksData = [...linksData];
-    //     updatedLinksData[index].link = val;
-    //     setLinksData(updatedLinksData);
-    // };
 
     return (
         <div

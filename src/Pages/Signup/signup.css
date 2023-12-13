@@ -1,7 +1,7 @@
 .signup-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: safe center;
     align-items: center;
     gap: 52px;
     height: 100svh;
@@ -99,7 +99,7 @@
     .signup-container {
         background-color: var(--white-90-);
         justify-content: flex-start;
-        padding: 32px;
+        padding: 24px;
     }
 
     .signup-card {
@@ -109,5 +109,11 @@
 
     .auth-logo {
         align-self: flex-start;
+    }
+}
+
+@media (height <= 840px) {
+    .signup-container {
+        margin: 24px 0;
     }
 }

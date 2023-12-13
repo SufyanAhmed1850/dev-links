@@ -5,6 +5,7 @@ import Nav from "../../Components/Nav/nav.jsx";
 import linkContext from "../../../context/linkContext.jsx";
 import MouseScroll from "../../assets/images/icon-mouse-scroll.svg";
 import rightArrowIcon from "../../assets/images/icon-arrow-right.svg";
+import rightArrowIconBlack from "../../assets/images/icon-arrow-right-black.svg";
 import userContext from "../../../context/userContext.jsx";
 import { Skeleton } from "antd";
 import MockupHeadSkeleton from "../../Components/MockupHeadSkeleton/MockupHeadSkeleton.jsx";
@@ -32,13 +33,13 @@ import websiteIcon from "../../assets/images/icon-website-white.svg";
 import redditIcon from "../../assets/images/icon-reddit-white.svg";
 import quoraIcon from "../../assets/images/icon-quora-white.svg";
 import tiktokIcon from "../../assets/images/icon-tiktok-white.svg";
-import snapchatIcon from "../../assets/images/icon-snapchat-white.svg";
+import snapchatIcon from "../../assets/images/icon-snapchat-black.svg";
 import tumblrIcon from "../../assets/images/icon-tumblr-white.svg";
 import fiverrIcon from "../../assets/images/icon-fiverr-white.svg";
 import upworkIcon from "../../assets/images/icon-upwork-white.svg";
 import mediumIcon from "../../assets/images/icon-medium-white.svg";
 const transformations =
-    "f_webp,ar_1:1,c_fill,g_face,r_max,w_96,h_96/c_pad/co_rgb:633CFF,e_outline:outer:4:0/";
+    "f_webp,ar_1:1,c_fill,g_face,r_max,w_300,h_300/c_pad/co_rgb:633CFF,e_outline:outer:14:0/";
 
 const Home = ({ children }) => {
     const { userData, setUserData, isLoading } = useContext(userContext);
@@ -228,7 +229,12 @@ const Home = ({ children }) => {
                                                                   <div>
                                                                       <img
                                                                           src={
-                                                                              rightArrowIcon
+                                                                              link
+                                                                                  .platform
+                                                                                  .text ==
+                                                                              "#000000"
+                                                                                  ? rightArrowIconBlack
+                                                                                  : rightArrowIcon
                                                                           }
                                                                           alt="right arrow"
                                                                       />

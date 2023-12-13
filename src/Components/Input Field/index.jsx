@@ -5,37 +5,37 @@ import { useLocation } from "react-router-dom";
 import linkContext from "../../../context/linkContext";
 
 const linkPatterns = {
-    GitHub: /^((https?:\/\/)?(www\.)?github\.com\/\S+)\/?$/,
-    Twitter: /^((https?:\/\/)?(www\.)?twitter\.com\/\S+)\/?$/,
-    LinkedIn: /^((https?:\/\/)?(www\.)?linkedin\.com\/in\/\S+)\/?$/,
-    YouTube: /^((https?:\/\/)?(www\.)?youtube\.com\/\S+)\/?$/,
-    Facebook: /^((https?:\/\/)?(www\.)?facebook\.com\/\S+)\/?$/,
-    Twitch: /^((https?:\/\/)?(www\.)?twitch\.tv\/\S+)\/?$/,
-    DevTo: /^((https?:\/\/)?(www\.)?dev\.to\/\S+)\/?$/,
-    CodeWars: /^((https?:\/\/)?(www\.)?codewars\.com\/users\/\S+)\/?$/,
-    CodePen: /^((https?:\/\/)?(www\.)?codepen\.io\/\S+)\/?$/,
-    FreeCodeCamp: /^((https?:\/\/)?(www\.)?freecodecamp\.org\/\S+)\/?$/,
-    GitLab: /^((https?:\/\/)?(www\.)?gitlab\.com\/\S+)\/?$/,
-    Hashnode: /^((https?:\/\/)?(www\.)?hashnode\.com\/@\S+\/?)$/,
+    GitHub: /^((https?:\/\/)?(www\.)?github\.com\/\S+)\/?$/i,
+    Twitter: /^((https?:\/\/)?(www\.)?twitter\.com\/\S+)\/?$/i,
+    LinkedIn: /^((https?:\/\/)?(www\.)?linkedin\.com\/in\/\S+)\/?$/i,
+    YouTube: /^((https?:\/\/)?(www\.)?youtube\.com\/\S+)\/?$/i,
+    Facebook: /^((https?:\/\/)?(www\.)?facebook\.com\/\S+)\/?$/i,
+    Twitch: /^((https?:\/\/)?(www\.)?twitch\.tv\/\S+)\/?$/i,
+    DevTo: /^((https?:\/\/)?(www\.)?dev\.to\/\S+)\/?$/i,
+    CodeWars: /^((https?:\/\/)?(www\.)?codewars\.com\/users\/\S+)\/?$/i,
+    CodePen: /^((https?:\/\/)?(www\.)?codepen\.io\/\S+)\/?$/i,
+    FreeCodeCamp: /^((https?:\/\/)?(www\.)?freecodecamp\.org\/\S+)\/?$/i,
+    GitLab: /^((https?:\/\/)?(www\.)?gitlab\.com\/\S+)\/?$/i,
+    Hashnode: /^((https?:\/\/)?(www\.)?hashnode\.com\/@\S+\/?)$/i,
     StackOverflow:
-        /^((https?:\/\/)?(www\.)?stackoverflow\.com\/users\/\S+)\/?$/,
+        /^((https?:\/\/)?(www\.)?stackoverflow\.com\/users\/\S+)\/?$/i,
     FrontendMentor:
-        /^((https?:\/\/)?(www\.)?frontendmentor\.io\/profile\/\S+)\/?$/,
-    WhatsApp: /^((https?:\/\/)?wa\.me\/\S+)\/?$/,
-    XDA: /^((https?:\/\/)?(www\.)?xda-developers\.com\/m\/\S+)\/?$/,
-    Instagram: /^((https?:\/\/)?(www\.)?instagram\.com\/\S+)\/?$/,
-    Discord: /^((https?:\/\/)?discord\.com\/users\/\S+)\/?$/,
-    Telegram: /^((https?:\/\/)?t\.me\/\S+)\/?$/,
-    Threads: /^((https?:\/\/)?threads\.com\/user\/\S+)\/?$/,
-    Website: /^((https?:\/\/)?\S+)\/?$/,
-    Reddit: /^((https?:\/\/)?(www\.)?reddit\.com\/user\/\S+)\/?$/,
-    Quora: /^((https?:\/\/)?(www\.)?quora\.com\/profile\/\S+)\/?$/,
-    TikTok: /^((https?:\/\/)?(www\.)?tiktok\.com\/@\S+)\/?$/,
-    Snapchat: /^((https?:\/\/)?(www\.)?snapchat\.com\/add\/\S+)\/?$/,
-    Tumblr: /^((https?:\/\/)?\S+\.tumblr\.com)\/?$/,
-    Fiverr: /^((https?:\/\/)?(www\.)?fiverr\.com\/\S+)\/?$/,
-    Upwork: /^((https?:\/\/)?(www\.)?\.upwork\.com\/freelancer\/\S+)\/?$/,
-    Medium: /^((https?:\/\/)?medium\.com\/@\S+)\/?$/,
+        /^((https?:\/\/)?(www\.)?frontendmentor\.io\/profile\/\S+)\/?$/i,
+    WhatsApp: /^((https?:\/\/)?wa\.me\/\S+)\/?$/i,
+    XDA: /^((https?:\/\/)?(www\.)?xdaforums\.com\/m\/\S+)\/?$/i,
+    Instagram: /^((https?:\/\/)?(www\.)?instagram\.com\/\S+)\/?$/i,
+    Discord: /^((https?:\/\/)?discord\.com\/users\/\S+)\/?$/i,
+    Telegram: /^((https?:\/\/)?t\.me\/\S+)\/?$/i,
+    Threads: /^((https?:\/\/)?threads\.com\/user\/\S+)\/?$/i,
+    Website: /^((https?:\/\/)?\S+)\/?$/i,
+    Reddit: /^((https?:\/\/)?(www\.)?reddit\.com\/user\/\S+)\/?$/i,
+    Quora: /^((https?:\/\/)?(www\.)?quora\.com\/profile\/\S+)\/?$/i,
+    TikTok: /^((https?:\/\/)?(www\.)?tiktok\.com\/@\S+)\/?$/i,
+    Snapchat: /^((https?:\/\/)?(www\.)?snapchat\.com\/add\/\S+)\/?$/i,
+    Tumblr: /^((https?:\/\/)?(www\.)?tumblr\.com\/\S*)$/i,
+    Fiverr: /^((https?:\/\/)?(www\.)?fiverr\.com\/\S+)\/?$/i,
+    Upwork: /^((https?:\/\/)?(www\.)?\.upwork\.com\/freelancers\/\S+)\/?$/i,
+    Medium: /^((https?:\/\/)?medium\.com\/@\S+)\/?$/i,
 };
 
 const InputField = ({
@@ -127,7 +127,7 @@ const InputField = ({
                                   if (!inputValue) {
                                       type == "password"
                                           ? setErrorMessage(
-                                                "Please check again"
+                                                "Please check again",
                                             )
                                           : setErrorMessage("Can’t be empty");
                                       setHaveError(true);

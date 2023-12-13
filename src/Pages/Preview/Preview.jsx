@@ -3,6 +3,7 @@ import Button from "../../Components/Button";
 import Buttonsecondary from "../../Components/Button Secondary/buttonsecondary";
 import "./Preview.css";
 import RightArrow from "../../assets/images/icon-arrow-right.svg";
+import RightArrowBlack from "../../assets/images/icon-arrow-right-black.svg";
 import userContext from "../../../context/userContext";
 import { axiosPrivate } from "../../api/axios";
 import { Link, useNavigate } from "react-router-dom";
@@ -35,14 +36,14 @@ import websiteIcon from "../../assets/images/icon-website-white.svg";
 import redditIcon from "../../assets/images/icon-reddit-white.svg";
 import quoraIcon from "../../assets/images/icon-quora-white.svg";
 import tiktokIcon from "../../assets/images/icon-tiktok-white.svg";
-import snapchatIcon from "../../assets/images/icon-snapchat-white.svg";
+import snapchatIcon from "../../assets/images/icon-snapchat-black.svg";
 import tumblrIcon from "../../assets/images/icon-tumblr-white.svg";
 import fiverrIcon from "../../assets/images/icon-fiverr-white.svg";
 import upworkIcon from "../../assets/images/icon-upwork-white.svg";
 import mediumIcon from "../../assets/images/icon-medium-white.svg";
 
 const transformations =
-    "f_webp,ar_1:1,c_fill,g_face,r_max,w_104,h_104/c_pad/co_rgb:633CFF,e_outline:outer:4:0/";
+    "f_webp,ar_1:1,c_fill,g_face,r_max,w_300,h_300/c_pad/co_rgb:633CFF,e_outline:outer:14:0/";
 
 const Preview = () => {
     const isAuthenticated = useAuth();
@@ -88,7 +89,7 @@ const Preview = () => {
             },
         });
     };
-
+    console.log(linksData);
     return (
         <div className="preview-parent">
             <div className="preview-blob"></div>
@@ -217,9 +218,19 @@ const Preview = () => {
                                               alt={link.platform.text}
                                           />
                                       </div>
-                                      <p>{link.platform.text}</p>
+                                      <p style={{ color: link.platform.color }}>
+                                          {link.platform.text}
+                                      </p>
                                       <div>
-                                          <img src={RightArrow} alt="Arrow" />
+                                          <img
+                                              src={
+                                                  link.platform.color ==
+                                                  "#000000"
+                                                      ? RightArrowBlack
+                                                      : RightArrow
+                                              }
+                                              alt="Arrow"
+                                          />
                                       </div>
                                   </a>
                               ))}

@@ -191,7 +191,7 @@ const linkOptions = [
     {
         text: "Tumblr",
         image: "/src/assets/images/icon-tumblr.svg",
-        placeholder: "e.g. https://johnappleseed.tumblr.com",
+        placeholder: "e.g. https://www.tumblr.com/johnappleseed",
         backgroundColor: "#35465C",
         color: "#FFFFFF",
     },
@@ -226,7 +226,7 @@ const linkOptions = [
     {
         text: "XDA",
         image: "/src/assets/images/icon-xda.svg",
-        placeholder: "e.g. https://www.xda-developers.com/member/johnappleseed",
+        placeholder: "e.g. https://xdaforums.com/m/johnappleseed",
         backgroundColor: "#0066CC",
         color: "#FFFFFF",
     },
@@ -239,18 +239,16 @@ const linkOptions = [
     },
 ];
 
-console.log(linkOptions.length);
 
 const DropDown = ({ onSelectPlatform, index }) => {
     const { linksData, updateLinksData, setLinksData } =
         useContext(linkContext);
     const [showDropDown, setShowDropDown] = useState(false);
-    const [selectedPlatform, setSelectedPlatform] = useState(null);
+    const [selectedPlatform, setSelectedPlatform] = useState(
+        linksData[index]?.platform || null,
+    );
     const [isOptionHovered, setIsOptionHovered] = useState(null);
 
-    useEffect(() => {
-        setSelectedPlatform(linksData[index].platform);
-    }, [linksData]);
 
     const handlePlatformChange = (index, e) => {
         console.log(index);

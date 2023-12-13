@@ -34,7 +34,7 @@ const VisuallyHiddenInput = styled("input")({
 const getLinksEndpoint = "/link";
 
 const transformations =
-    "f_webp,ar_1:1,c_fill,g_face,r_12,w_193,h_193/c_pad/co_rgb:000000,e_colorize:50/";
+    "f_webp,ar_1:1,c_fill,g_face,r_12,w_300,h_300/c_pad/co_rgb:000000,e_colorize:50/";
 
 const Profiletab = () => {
     const navigate = useNavigate();
@@ -185,6 +185,7 @@ const Profiletab = () => {
                     <div className="profile-details-heading">
                         <h2>Profile Details</h2>
                         <IconButton
+                        className="logout-btn"
                             onMouseEnter={() => setIsLogoutHovered(true)}
                             onMouseLeave={() => setIsLogoutHovered(false)}
                             onClick={() => {
@@ -337,51 +338,3 @@ const Profiletab = () => {
 };
 
 export default Profiletab;
-
-// const saveUserDetails = () => {
-//     setDisable(true);
-//     if (!userData.firstName || !userData.lastName) {
-//         console.error("Required filds must be provided");
-//         return;
-//     }
-//     const detailsPromise = axiosPrivate
-//         .post("/profile/update-user", {
-//             firstName: userData.firstName,
-//             lastName: userData.lastName,
-//             displayEmail: userData.displayEmail,
-//         })
-//         .then((res) => {
-//             console.log(res);
-//         })
-//         .catch((error) => {
-//             console.error(error.message);
-//             error.message = "Couldn't save. Try again.";
-//             return Promise.reject(error);
-//         })
-//         .finally(() => setDisable(false));
-//     toast.promise(
-//         detailsPromise,
-//         {
-//             loading: "Saving...",
-//             success: "Saved successfully!",
-//             error: (err) => err.message,
-//         },
-//         {
-//             style: {
-//                 background: "var(--black-90-)",
-//                 color: "var(--white-90-)",
-//             },
-//             loading: {
-//                 position: "bottom-center",
-//             },
-//             success: {
-//                 duration: 2000,
-//                 position: "bottom-center",
-//             },
-//             error: {
-//                 duration: 2000,
-//                 position: "bottom-center",
-//             },
-//         },
-//     );
-// };
