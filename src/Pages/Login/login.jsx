@@ -80,7 +80,7 @@ const Login = () => {
 
     return (
         <div className="login-container">
-            <div className="logo">
+            <div className="auth-logo">
                 <img src={logoLarge} alt="Logo" />
             </div>
             <div className="login-card">
