@@ -10,7 +10,7 @@
     gap: 24px;
     flex: 1;
     /* overflow: hidden; */
-    padding: 24px;
+    padding: 24px 24px 0 24px;
 }
 
 .home-main > div {
@@ -45,7 +45,7 @@
     flex-direction: column;
     gap: 24px;
     padding-right: 8px;
-    flex-basis: 550px;
+    /* flex-basis: 550px; */
     margin-top: 24px;
     /* max-height: 53svh; */
     overflow-y: auto;
@@ -94,7 +94,8 @@
     align-items: center;
     overflow: auto;
     flex: 0.4;
-    padding: 101.5px 0 0 0;
+    /* padding: 101.5px 0 0 0; */
+    padding: 60px 0 0 0;
 }
 
 .mockup {
@@ -105,6 +106,7 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: 100%;
+    position: fixed;
 }
 
 .mockup-img {
@@ -216,7 +218,7 @@
 
 @media (width <=440px) {
     .home-main {
-        padding: 16px 0 16px 0;
+        padding: 16px 0 0 0;
     }
     h2 {
         font-size: 24px !important;
