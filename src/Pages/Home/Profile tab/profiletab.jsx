@@ -1,17 +1,12 @@
 import { styled } from "@mui/material/styles";
 import { Button as MuiButton } from "@mui/material";
-import Mockup from "../../../assets/images/mockup-border.svg";
 import Button from "../../../Components/Button/index.jsx";
-import Buttonsecondary from "../../../Components/Button Secondary/buttonsecondary.jsx";
-import emptyLinks from "../../../assets/images/illustration-empty.svg";
-import Linkscustomizationempty from "../../../Components/Links Customization Empty/linkscustomizationempty.jsx";
-import Linkscustomization from "../../../Components/Links Customization/linkscustomization.jsx";
 import IconImageUpload from "../../../assets/images/IconImageUpload.jsx";
 import InputField from "../../../Components/Input Field/index.jsx";
 import IconLogout from "../../../assets/images/IconLogout";
 import { IconButton } from "@mui/material";
 import "./profiletab.css";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { axiosPrivate } from "../../../api/axios.js";
 import { useContext } from "react";

@@ -3,7 +3,7 @@ import handle from "../../assets/images/icon-drag-and-drop.svg";
 import InputField from "../Input Field";
 import LinkIcon from "../../assets/images/icon-link.svg";
 import DropDown from "../DropDown/DropDown";
-import { useState, useEffect, useContext } from "react";
+import { useContext } from "react";
 import linkContext from "../../../context/linkContext";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -23,11 +23,11 @@ const Linkscustomization = ({ order, index, link, onRemove }) => {
         updatedLinksData[index].platform = newPlatform;
         setLinksData(updatedLinksData);
     };
-    const updateLinkVal = (val) => {
-        const updatedLinksData = [...linksData];
-        updatedLinksData[index].link = val;
-        setLinksData(updatedLinksData);
-    };
+    // const updateLinkVal = (val) => {
+    //     const updatedLinksData = [...linksData];
+    //     updatedLinksData[index].link = val;
+    //     setLinksData(updatedLinksData);
+    // };
 
     return (
         <div

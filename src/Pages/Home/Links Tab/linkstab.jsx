@@ -21,7 +21,7 @@ import {
     SortableContext,
     verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-const getLinksEndpoint = "/link";
+// const getLinksEndpoint = "/link";
 const saveLinksEndpoint = "/link/save";
 
 const Linkstab = () => {
