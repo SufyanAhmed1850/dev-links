@@ -7,7 +7,7 @@ import linkContext from "../../../context/linkContext";
 import Tabs from "../Tabs/tabs";
 import Buttonsecondary from "../Button Secondary/buttonsecondary";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import toast from "react-hot-toast";
 import { WarningTwoTone } from "@ant-design/icons";
 import userContext from "../../../context/userContext";
@@ -15,6 +15,23 @@ import { axiosPrivate } from "../../api/axios";
 import { useMediaQuery } from "react-responsive";
 
 const Nav = () => {
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            // Check if the scroll position is greater than 0
+            const scrolled = window.scrollY > 0;
+            setIsScrolled(scrolled);
+        };
+
+        // Add scroll event listener
+        window.addEventListener("scroll", handleScroll);
+
+        // Cleanup the event listener on component unmount
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
     const is750 = useMediaQuery({ maxWidth: 750 });
     const is625 = useMediaQuery({ maxWidth: 625 });
     const logoSrc = is750 ? logoSmall : logoLarge;
@@ -121,7 +138,7 @@ const Nav = () => {
 
     return (
         <div className="nav-container">
-            <div className="nav-section">
+            <div className={`nav-section ${isScrolled ? "box-shadow" : ""}`}>
                 <div className="nav-logo">
                     <img
                         src={logoSrc}
@@ -156,7 +173,6 @@ const Nav = () => {
                         buttonSecondaryText="Preview"
                         screenWidth={is625}
                     />
-                    
                 </div>
             </div>
         </div>
