@@ -30,7 +30,7 @@
     padding: 0 !important;
 }
 
-@media (width <=375px) {
+@media (width <=440px) {
     .nav-container{
         padding: 0;
     }

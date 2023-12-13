@@ -132,6 +132,11 @@
     justify-content: end;
     padding: 24px 40px;
     border-top: 1px solid var(--black-30-);
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    background-color: var(--white-90-);
+    border-radius: 0 0 12px 12px;
 }
 
 .profile-details-footer-btn {
@@ -149,6 +154,10 @@
     .profile-details {
         padding: 24px 24px 0 24px;
     }
+
+    .profile-details-footer {
+        padding: 24px;
+    }
 }
 
 
@@ -157,5 +166,20 @@
         flex-direction: column;
         gap: 16px;
         align-items: flex-start;
+    }
+
+    .profile-details-footer {
+        padding: 24px;
+    }
+
+}
+
+@media (width <= 440px) {
+    .profile-details-footer {
+        padding: 16px 24px;
+    }
+
+    .profile-details-footer-btn {
+        width: 100%;
     }
 }
