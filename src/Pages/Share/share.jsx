@@ -125,7 +125,25 @@ const Share = () => {
                                 )}
                             </div>
                         </div>
-                        <div className="preview-card-links-parent">
+                        <div
+                            className="preview-card-links-parent"
+                            style={
+                                linksData.length > 5
+                                    ? {
+                                          maxWidth: "1000px",
+                                          display: "flex",
+                                          justifyContent: "safe center",
+                                          flexWrap: "wrap",
+                                          gap: "20px",
+                                      }
+                                    : {
+                                          display: "grid",
+                                          gridTemplateRows: "repeat(5, 1fr)",
+                                          gridAutoFlow: "column",
+                                          gap: "20px",
+                                      }
+                            }
+                        >
                             {linksData.map((link, ind) => (
                                 <a
                                     key={ind}
