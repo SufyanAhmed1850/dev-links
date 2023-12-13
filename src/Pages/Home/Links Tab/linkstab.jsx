@@ -21,7 +21,6 @@ import {
     SortableContext,
     verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-
 const getLinksEndpoint = "/link";
 const saveLinksEndpoint = "/link/save";
 
@@ -70,7 +69,7 @@ const Linkstab = () => {
         }
         setLinksData((links) => {
             const oldIndex = links.findIndex(
-                (link) => link.order === active.id,
+                (link) => link.order === active.id
             );
             const newIndex = links.findIndex((link) => link.order === over.id);
             console.log(oldIndex, newIndex);
@@ -90,7 +89,7 @@ const Linkstab = () => {
             prev.map((link, index) => ({
                 ...link,
                 order: index + 1,
-            })),
+            }))
         );
     };
     const handleRemoveLink = (index) => {

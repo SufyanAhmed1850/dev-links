@@ -8,6 +8,8 @@ import Linkscustomizationempty from "../../../Components/Links Customization Emp
 import Linkscustomization from "../../../Components/Links Customization/linkscustomization.jsx";
 import IconImageUpload from "../../../assets/images/IconImageUpload.jsx";
 import InputField from "../../../Components/Input Field/index.jsx";
+import IconLogout from "../../../assets/images/IconLogout";
+import { IconButton } from "@mui/material";
 import "./profiletab.css";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
@@ -37,17 +39,19 @@ const VisuallyHiddenInput = styled("input")({
 const getLinksEndpoint = "/link";
 
 const transformations =
-    "f_avif,ar_1:1,c_fill,g_face,r_12,w_193,h_193/c_pad/co_rgb:000000,e_colorize:50/";
+    "f_webp,ar_1:1,c_fill,g_face,r_12,w_193,h_193/c_pad/co_rgb:000000,e_colorize:50/";
 
 const Profiletab = () => {
     const navigate = useNavigate();
     const { linksData, updateLinksData, setLinksData } =
         useContext(linkContext);
     const { userData, setUserData, isLoading } = useContext(userContext);
+    const [isLogoutHovered, setIsLogoutHovered] = useState(false);
     const [userImage, setUserImage] = useState(null);
     const [disable, setDisable] = useState(false);
     const [isImageUploading, setIsImageUploading] = useState(false);
     const isAuthenticated = useAuth();
+    const {setIsDataFetched } = useContext(userContext);
 
     useEffect(() => {
         setUserImage(userData.profile);
@@ -183,7 +187,24 @@ const Profiletab = () => {
         <>
             <div className="profile-details">
                 <div className="profile-details-header">
-                    <h2>Profile Details</h2>
+                    <div className="profile-details-heading">
+                        <h2>Profile Details</h2>
+                        <IconButton
+                            onMouseEnter={() => setIsLogoutHovered(true)}
+                            onMouseLeave={() => setIsLogoutHovered(false)}
+                            onClick={() => {
+                                setIsDataFetched(false);
+                                setUserData({});
+                                setLinksData([]);
+                                Cookies.remove("jwt");
+                                navigate("/");
+                            }}
+                        >
+                            <IconLogout
+                                fill={isLogoutHovered && "var(--red-90-)"}
+                            />
+                        </IconButton>
+                    </div>
                     <p>
                         Add your details to create a personal touch to your
                         profile.

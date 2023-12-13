@@ -25,3 +25,13 @@
     align-items: center;
     gap: 16px;
 }
+
+.css-78trlr-MuiButtonBase-root-MuiIconButton-root {
+    padding: 0 !important;
+}
+
+@media (width <=375px) {
+    .nav-container{
+        padding: 0;
+    }
+}

@@ -22,19 +22,19 @@ const linkPatterns = {
     FrontendMentor:
         /^((https?:\/\/)?(www\.)?frontendmentor\.io\/profile\/\S+)\/?$/,
     WhatsApp: /^((https?:\/\/)?wa\.me\/\S+)\/?$/,
-    XDA: /^((https?:\/\/)?(www\.)?xda-developers\.com\/member\/\S+)\/?$/,
+    XDA: /^((https?:\/\/)?(www\.)?xda-developers\.com\/m\/\S+)\/?$/,
     Instagram: /^((https?:\/\/)?(www\.)?instagram\.com\/\S+)\/?$/,
     Discord: /^((https?:\/\/)?discord\.com\/users\/\S+)\/?$/,
     Telegram: /^((https?:\/\/)?t\.me\/\S+)\/?$/,
     Threads: /^((https?:\/\/)?threads\.com\/user\/\S+)\/?$/,
     Website: /^((https?:\/\/)?\S+)\/?$/,
-    Reddit: /^((https?:\/\/)?www\.reddit\.com\/user\/\S+)\/?$/,
-    Quora: /^((https?:\/\/)?www\.quora\.com\/profile\/\S+)\/?$/,
-    TikTok: /^((https?:\/\/)?www\.tiktok\.com\/@\S+)\/?$/,
-    Snapchat: /^((https?:\/\/)?www\.snapchat\.com\/add\/\S+)\/?$/,
+    Reddit: /^((https?:\/\/)?(www\.)?reddit\.com\/user\/\S+)\/?$/,
+    Quora: /^((https?:\/\/)?(www\.)?quora\.com\/profile\/\S+)\/?$/,
+    TikTok: /^((https?:\/\/)?(www\.)?tiktok\.com\/@\S+)\/?$/,
+    Snapchat: /^((https?:\/\/)?(www\.)?snapchat\.com\/add\/\S+)\/?$/,
     Tumblr: /^((https?:\/\/)?\S+\.tumblr\.com)\/?$/,
-    Fiverr: /^((https?:\/\/)?www\.fiverr\.com\/\S+)\/?$/,
-    Upwork: /^((https?:\/\/)?www\.upwork\.com\/freelancer\/\S+)\/?$/,
+    Fiverr: /^((https?:\/\/)?(www\.)?fiverr\.com\/\S+)\/?$/,
+    Upwork: /^((https?:\/\/)?(www\.)?\.upwork\.com\/freelancer\/\S+)\/?$/,
     Medium: /^((https?:\/\/)?medium\.com\/@\S+)\/?$/,
 };
 
@@ -53,7 +53,7 @@ const InputField = ({
     error,
 }) => {
     const location = useLocation();
-    const [inputValue, setInputValue] = useState("");
+    const [inputValue, setInputValue] = useState(value || "");
     const { linksData, updateLinksData, setLinksData } =
         useContext(linkContext);
     const [isFocused, setIsFocused] = useState(false);
@@ -67,39 +67,32 @@ const InputField = ({
         error && setHaveError(true);
     }, [error]);
 
-    useEffect(() => {
-        value && setInputValue(value);
-        if (location.pathname == "/" && value) {
-            const platform = linksData[index].platform.text;
-            const pattern = linkPatterns[platform];
-            const isValid = pattern.test(value);
-            if (!isValid) {
-                setHaveError(true);
-                setErrorMessage("Please check the URL");
-                console.log(`Invalid ${platform} link.`);
-            } else {
-                setHaveError(false);
-                setErrorMessage("");
-                console.log(`Valid ${platform} link: ${inputValue}`);
-            }
-        }
-    }, [value]);
-
     const handleInputChange = (e) => {
         setInputValue(e.target.value);
-        onInputChange(e.target.value);
+        onInputChange && onInputChange(e.target.value);
         return;
     };
 
     const handleInputBlur = (index) => {
         setIsFocused(false);
 
-        linksData[index] = {
-            ...linksData[index],
-            link: inputValue,
-        };
-
-        setLinksData([...linksData]);
+        const platform = linksData[index].platform.text;
+        const pattern = linkPatterns[platform];
+        const isValid = pattern.test(inputValue);
+        if (!isValid) {
+            setHaveError(true);
+            setErrorMessage("Please check the URL");
+            console.log(`Invalid ${platform} link.`);
+        } else {
+            linksData[index] = {
+                ...linksData[index],
+                link: inputValue,
+            };
+            setLinksData([...linksData]);
+            setHaveError(false);
+            setErrorMessage("");
+            console.log(`Valid ${platform} link: ${inputValue}`);
+        }
     };
 
     return (
@@ -134,10 +127,9 @@ const InputField = ({
                                   if (!inputValue) {
                                       type == "password"
                                           ? setErrorMessage(
-                                                "Please check again",
+                                                "Please check again"
                                             )
                                           : setErrorMessage("Can’t be empty");
-
                                       setHaveError(true);
                                   } else {
                                       setHaveError(false);

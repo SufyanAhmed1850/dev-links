@@ -7,7 +7,6 @@ import { useState, useEffect, useContext } from "react";
 import linkContext from "../../../context/linkContext";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { motion, useAnimation } from "framer-motion";
 
 const Linkscustomization = ({ order, index, link, onRemove }) => {
     const { attributes, listeners, setNodeRef, transform, transition } =
@@ -18,11 +17,6 @@ const Linkscustomization = ({ order, index, link, onRemove }) => {
     };
     const { linksData, updateLinksData, setLinksData } =
         useContext(linkContext);
-    const [url, setUrl] = useState();
-
-    useEffect(() => {
-        setUrl(linksData[index].link);
-    }, [linksData]);
 
     const handlePlatformChange = (newPlatform) => {
         const updatedLinksData = [...linksData];
@@ -64,11 +58,11 @@ const Linkscustomization = ({ order, index, link, onRemove }) => {
                 <InputField
                     index={index}
                     disabled={linksData[index]?.platform ? false : true}
-                    value={url || ""}
+                    value={linksData[index]?.link || ""}
                     label={"Link"}
                     iconSrc={LinkIcon}
                     altText={"Link"}
-                    onInputChange={(val) => setUrl(val)}
+                    // onInputChange={(val) => setUrl(val)}
                     placeholderText={
                         linksData[index]?.platform?.placeholder ||
                         "Select an option from dropdown"

@@ -1,26 +1,28 @@
 import "./nav.css";
 import logoLarge from "../../assets/images/logo-devlinks-large.svg";
+import logoSmall from "../../assets/images/logo-devlinks-small.svg";
 import linkIcon from "../../assets/images/icon-link.svg";
 import profilIcon from "../../assets/images/icon-profile-details-header.svg";
 import linkContext from "../../../context/linkContext";
 import Tabs from "../Tabs/tabs";
 import Buttonsecondary from "../Button Secondary/buttonsecondary";
 import { useNavigate, useLocation } from "react-router-dom";
-import IconLogout from "../../assets/images/IconLogout";
-import { IconButton } from "@mui/material";
 import { useState, useContext } from "react";
-import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { WarningTwoTone } from "@ant-design/icons";
 import userContext from "../../../context/userContext";
 import { axiosPrivate } from "../../api/axios";
+import { useMediaQuery } from "react-responsive";
 
 const Nav = () => {
+    const is750 = useMediaQuery({ maxWidth: 750 });
+    const is625 = useMediaQuery({ maxWidth: 625 });
+    const logoSrc = is750 ? logoSmall : logoLarge;
+    const logoWidth = is750 ? 32 : 146;
     const navigate = useNavigate();
     const location = useLocation();
     const { linksData, setLinksData } = useContext(linkContext);
     const { userData, setUserData, setIsDataFetched } = useContext(userContext);
-    const [isLogoutHovered, setIsLogoutHovered] = useState(false);
     const isProfileRoute = location.pathname === "/profile";
     const isHomeRoute = location.pathname === "/";
     const navigationHandler = (page) => {
@@ -121,7 +123,11 @@ const Nav = () => {
         <div className="nav-container">
             <div className="nav-section">
                 <div className="nav-logo">
-                    <img src={logoLarge} alt="Logo" />
+                    <img
+                        src={logoSrc}
+                        alt="Logo"
+                        style={{ width: logoWidth + "px" }}
+                    />
                 </div>
                 <div className="nav-links">
                     <Tabs
@@ -132,6 +138,7 @@ const Nav = () => {
                         altText="Link"
                         tabText="Links"
                         active={isHomeRoute}
+                        screenWidth={is625}
                     />
                     <Tabs
                         clickHandler={navigationHandler}
@@ -140,28 +147,16 @@ const Nav = () => {
                         altText="Profile"
                         tabText="Profile Details"
                         active={isProfileRoute}
+                        screenWidth={is625}
                     />
                 </div>
                 <div className="navbar-btn-container">
                     <Buttonsecondary
                         onClick={navigateToPreview}
                         buttonSecondaryText="Preview"
+                        screenWidth={is625}
                     />
-                    <IconButton
-                        onMouseEnter={() => setIsLogoutHovered(true)}
-                        onMouseLeave={() => setIsLogoutHovered(false)}
-                        onClick={() => {
-                            setIsDataFetched(false);
-                            setUserData({});
-                            setLinksData([]);
-                            Cookies.remove("jwt");
-                            navigate("/");
-                        }}
-                    >
-                        <IconLogout
-                            fill={isLogoutHovered && "var(--red-90-)"}
-                        />
-                    </IconButton>
+                    
                 </div>
             </div>
         </div>

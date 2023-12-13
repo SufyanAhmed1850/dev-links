@@ -114,3 +114,40 @@
     background-color: var(--purple-90-);
     border-radius: 0 0 32px 32px;
 }
+
+@media (width<=450px) {
+    .preview-blob {
+        display: none;
+    }
+    .preview-card {
+        box-shadow: none;
+        padding: 0;
+        background-color: transparent;
+    }
+    .preview-header {
+        padding: 0;
+    }
+}
+
+@media (width<=380px) {
+    .preview-card {
+        margin: 0;
+        margin-top: 60px;
+    }
+    .preview-header {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .preview-header button {
+        width: 100%;
+    }
+
+    .preview-card-links-parent {
+        width: 100%;
+    }
+
+    .preview-card-link {
+        min-width: 180px;
+    }
+}
