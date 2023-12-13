@@ -9,11 +9,19 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
 const Linkscustomization = ({ order, index, link, onRemove }) => {
-    const { attributes, listeners, setNodeRef, transform, transition } =
-        useSortable({ id: link.order, handle: true });
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        transition,
+        isDragging,
+    } = useSortable({ id: link.order, handle: true });
+    console.log("Is Dragging:", isDragging);
     const style = {
         transition,
         transform: CSS.Transform.toString(transform),
+        border: isDragging ? "1px solid var(--purple-60-)" : "none",
     };
     const { linksData, updateLinksData, setLinksData } =
         useContext(linkContext);
