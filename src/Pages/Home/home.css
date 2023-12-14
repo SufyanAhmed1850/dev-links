@@ -21,14 +21,15 @@
 .links-customization-parent {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: 34px;
+    /* justify-content: space-between; */
+    /* gap: 34px; */
     flex: 0.6;
 }
 .links-customization {
     padding: 40px 40px 0 40px;
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 .links-customization-header {
@@ -50,6 +51,7 @@
     /* max-height: 53svh; */
     overflow-y: auto;
     overflow-x: hidden;
+    height: 100%;
 }
 
 .links-customization-links {
@@ -81,6 +83,7 @@
     left: 0;
     background-color: var(--white-90-);
     border-radius: 0 0 12px 12px;
+    margin-top: auto;
 }
 
 .links-customization-footer-btn {
