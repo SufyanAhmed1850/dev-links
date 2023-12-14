@@ -7,6 +7,12 @@
   <link rel="icon" type="image/x-icon" href="./src/assets/images/fav-icon.svg">
   <link rel="manifest" href="./manifest.json">
   <title>Dev Links</title>
+  <script>
+    if (typeof navigator.serviceWorker !== 'undefined') {
+      navigator.serviceWorker.register('sw.js')
+    }
+  </script>
+
 </head>
 
 <body>
