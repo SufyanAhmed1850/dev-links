@@ -1,17 +1,5 @@
-/* @import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;700&display=swap"); */
-@font-face {
-    font-family: "InstrumentSans";
-    src: url("./assets/fonts/InstrumentSans-Regular.woff2") format("woff2");
-    font-weight: 400;
-    font-style: normal;
-}
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;700&display=swap");
 
-@font-face {
-    font-family: "InstrumentSans";
-    src: url("./assets/fonts/InstrumentSans-Bold.woff2") format("woff2");
-    font-weight: 700;
-    font-style: normal;
-}
 :root {
     --red-90-: #ff3939;
     --purple-90-: #633cff;
