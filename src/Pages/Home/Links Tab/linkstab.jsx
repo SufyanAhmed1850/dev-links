@@ -21,9 +21,6 @@ import {
     SortableContext,
     verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { useSelector, useDispatch } from "react-redux";
-import { getLinks, getUser } from "../../../store/homeslice.jsx";
-// const getLinksEndpoint = "/link";
 const saveLinksEndpoint = "/link/save";
 
 const linkPatterns = {
@@ -61,7 +58,6 @@ const linkPatterns = {
 };
 
 const Linkstab = () => {
-    const dispatch = useDispatch()
     const navigate = useNavigate();
     const isAuthenticated = useAuth();
 
@@ -87,7 +83,6 @@ const Linkstab = () => {
                 if (linksData.length === 0) {
                     const res = await axiosPrivate("/link");
                     res?.data?.links && setLinksData(res.data.links);
-                    dispatch(getLinks(res.data.links))
                 }
                 setIsLoading(false);
                 return;
