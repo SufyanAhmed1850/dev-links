@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
 import "./login.css";
+import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import InputField from "../../Components/Input Field";
 import logoLarge from "../../assets/images/logo-devlinks-large.svg";
 import emailIcon from "../../assets/images/icon-email.svg";
@@ -11,7 +12,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { axiosPrivate } from "../../api/axios";
 import Cookies from "js-cookie";
 import useAuth from "../../../hooks/useAuth";
-import toast from "react-hot-toast";
 const LOGIN_URL = "/login";
 
 const Login = () => {
@@ -42,6 +42,14 @@ const Login = () => {
             !email ? setEmailError(true) : setEmailError(false);
             !password ? setPasswordError(true) : setEmailError(false);
             if (!email || !password) {
+                toast.error("All fields are required", {
+                    duration: 2000,
+                    position: "bottom-center",
+                    style: {
+                        backgroundColor: "var(--black-90-)",
+                        color: "var(--white-90-)",
+                    },
+                });
                 return;
             }
             const res = await axiosPrivate.post(LOGIN_URL, { email, password });
@@ -97,6 +105,7 @@ const Login = () => {
                         iconSrc={emailIcon}
                         altText="Email"
                         placeholderText="e.g. alex@email.com"
+                        onKeyPress={handleEnterKeyPress}
                     />
                     <InputField
                         value={password}

@@ -103,7 +103,25 @@ const Preview = () => {
             {isLoading ? (
                 <div className="preview-card">
                     <PreviewHeaderSkeleton />
-                    <div className="preview-card-links-parent">
+                    <div
+                        className="preview-card-links-parent"
+                        style={
+                            linksData.length > 5
+                                ? {
+                                      maxWidth: "1000px",
+                                      display: "flex",
+                                      justifyContent: "safe center",
+                                      flexWrap: "wrap",
+                                      gap: "20px",
+                                  }
+                                : {
+                                      display: "grid",
+                                      gridTemplateRows: "repeat(5, 1fr)",
+                                      gridAutoFlow: "column",
+                                      gap: "20px",
+                                  }
+                        }
+                    >
                         {linksLoading
                             ? [0, 1, 2, 3, 4].map((map, index) => (
                                   <Skeleton.Button

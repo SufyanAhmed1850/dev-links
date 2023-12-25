@@ -51,7 +51,7 @@ const Nav = () => {
             .post("/link/save", linksData)
             .then((res) => {
                 console.log(res);
-                return res.data; // Assuming you want to pass along the result
+                return res.data;
             })
             .catch((err) => {
                 console.error(err);
@@ -66,14 +66,12 @@ const Nav = () => {
             })
             .then((res) => {
                 console.log(res);
-                return res.data; // Assuming you want to pass along the result
+                return res.data;
             })
             .catch((err) => {
                 console.error(err);
                 return Promise.reject(err);
             });
-
-        // Use Promise.all to execute both promises concurrently
         const a = Promise.all([linksPromise, detailsPromise])
             .then((results) => {
                 console.log("Both promises resolved:", results);
@@ -88,7 +86,7 @@ const Nav = () => {
             {
                 loading: "Saving...",
                 success: "Saved successfully!",
-                error: (err) => "err.message,",
+                error: (err) => err.message,
             },
             {
                 style: {

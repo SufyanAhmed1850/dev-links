@@ -4,7 +4,7 @@ import RightArrow from "../../assets/images/icon-arrow-right.svg";
 import RightArrowBlack from "../../assets/images/icon-arrow-right-black.svg";
 import userContext from "../../../context/userContext";
 import { axiosPrivate } from "../../api/axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import PreviewHeaderSkeleton from "../../Components/Skeleton/PreviewHeaderSkeleton/PreviewHeaderSkeleton";
 import { Skeleton } from "antd";
 import githubIcon from "../../assets/images/icon-github-white.svg";
@@ -41,7 +41,6 @@ const transformations =
     "f_webp,ar_1:1,c_fill,g_face,r_max,w_300,h_300/c_pad/co_rgb:633CFF,e_outline:outer:14:0/";
 
 const Share = () => {
-    const navigate = useNavigate();
     const params = useParams();
     const paramToSend = params.username.toLowerCase();
     const [isLoading, setIsLoading] = useState(true);
@@ -78,7 +77,25 @@ const Share = () => {
             {isLoading ? (
                 <div className="preview-card">
                     <PreviewHeaderSkeleton />
-                    <div className="preview-card-links-parent">
+                    <div
+                        className="preview-card-links-parent"
+                        style={
+                            linksData && linksData.length > 5
+                                ? {
+                                      maxWidth: "1000px",
+                                      display: "flex",
+                                      justifyContent: "safe center",
+                                      flexWrap: "wrap",
+                                      gap: "20px",
+                                  }
+                                : {
+                                      display: "grid",
+                                      gridTemplateRows: "repeat(5, 1fr)",
+                                      gridAutoFlow: "column",
+                                      gap: "20px",
+                                  }
+                        }
+                    >
                         {[0, 1, 2, 3, 4].map((map, index) => (
                             <Skeleton.Button
                                 active={isLoading}
