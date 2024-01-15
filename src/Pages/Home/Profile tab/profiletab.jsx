@@ -50,7 +50,7 @@ const Profiletab = () => {
     const { setIsDataFetched } = useContext(userContext);
 
     useEffect(() => {
-        setUserImage(userData.profile);
+        setUserImage(userData?.profile);
     }, [userData]);
 
     useEffect(() => {
@@ -274,7 +274,7 @@ const Profiletab = () => {
                             <div className="profile-first-name">
                                 <p>First name*</p>
                                 <InputField
-                                    value={userData.firstName || ""}
+                                    value={userData?.firstName || ""}
                                     onInputChange={(val) =>
                                         setUserData({
                                             ...userData,
@@ -289,7 +289,7 @@ const Profiletab = () => {
                             <div className="profile-last-name">
                                 <p>Last name*</p>
                                 <InputField
-                                    value={userData.lastName || ""}
+                                    value={userData?.lastName || ""}
                                     onInputChange={(val) =>
                                         setUserData({
                                             ...userData,
@@ -304,7 +304,7 @@ const Profiletab = () => {
                             <div className="profile-email">
                                 <p>Email</p>
                                 <InputField
-                                    value={userData.displayEmail || ""}
+                                    value={userData?.displayEmail || ""}
                                     onInputChange={(val) =>
                                         setUserData({
                                             ...userData,
