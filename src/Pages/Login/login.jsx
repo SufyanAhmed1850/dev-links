@@ -160,7 +160,7 @@ const Login = () => {
                 className="privacy-screen"
             >
                 <h1 style={{ color: "white" }}>
-                    {navigatingTo || location?.state?.navigateTo}
+                    {navigatingTo || location?.state?.navigateTo || "Login"}
                 </h1>
             </motion.div>
         </div>

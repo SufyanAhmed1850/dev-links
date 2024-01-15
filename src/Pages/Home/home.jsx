@@ -301,7 +301,7 @@ const Home = ({ children }) => {
                 className="privacy-screen"
             >
                 <h1 style={{ color: "white" }}>
-                    {navigatingTo || location.state.navigateTo}
+                    {navigatingTo || location?.state?.navigateTo}
                 </h1>
             </motion.div>
         </div>
