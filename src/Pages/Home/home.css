@@ -93,18 +93,19 @@
     padding: 60px 0 0 0;
 }
 
-.mockup-img {
-    position: absolute;
-}
-
 .mockup {
     position: relative;
     width: 308px;
     height: 632px;
+    background-image: url(https://res.cloudinary.com/dke5jqhus/image/upload/f_webp/v1702298868/dev_links/mockup-border_vmrdd7.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+    position: fixed;
 }
 
-.mockup > img {
-    z-index: 1;
+.mockup-img {
+    position: absolute;
 }
 
 .mockup-divs-container {
@@ -114,8 +115,6 @@
     gap: 48px;
     z-index: 1000;
     height: 100%;
-    position: relative;
-    z-index: 100;
 }
 
 .mockup-head {
