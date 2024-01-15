@@ -72,6 +72,16 @@ const Home = ({ children }) => {
                 {windowWidth > 850 && (
                     <div className="mockup-container">
                         <div className="mockup">
+                            <img
+                                src="https://res.cloudinary.com/dke5jqhus/image/upload/f_webp/v1702298868/dev_links/mockup-border_vmrdd7.png"
+                                alt="Mockup Image"
+                                style={{
+                                    width: "308px",
+                                    height: "632px",
+                                    objectFit: "cover",
+                                    position: "fixed",
+                                }}
+                            />
                             <div className="mockup-divs-container">
                                 {isLoading ? (
                                     <MockupHeadSkeleton />

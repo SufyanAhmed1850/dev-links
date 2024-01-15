@@ -2,14 +2,12 @@
     display: flex;
     flex-direction: column;
     height: 100svh;
-    /* overflow: hidden; */
 }
 
 .home-main {
     display: flex;
     gap: 24px;
     flex: 1;
-    /* overflow: hidden; */
     padding: 24px 24px 0 24px;
 }
 
@@ -21,8 +19,6 @@
 .links-customization-parent {
     display: flex;
     flex-direction: column;
-    /* justify-content: space-between; */
-    /* gap: 34px; */
     flex: 0.6;
 }
 .links-customization {
@@ -94,23 +90,21 @@
     align-items: center;
     overflow: auto;
     flex: 0.4;
-    /* padding: 101.5px 0 0 0; */
     padding: 60px 0 0 0;
+}
+
+.mockup-img {
+    position: absolute;
 }
 
 .mockup {
     position: relative;
     width: 308px;
     height: 632px;
-    background-image: url(https://res.cloudinary.com/dke5jqhus/image/upload/f_webp/v1702298868/dev_links/mockup-border_vmrdd7.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 100%;
-    position: fixed;
 }
 
-.mockup-img {
-    position: absolute;
+.mockup > img {
+    z-index: 1;
 }
 
 .mockup-divs-container {
@@ -120,6 +114,8 @@
     gap: 48px;
     z-index: 1000;
     height: 100%;
+    position: relative;
+    z-index: 100;
 }
 
 .mockup-head {
