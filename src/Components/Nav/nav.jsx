@@ -40,10 +40,11 @@ const Nav = ({ navigateTo }) => {
     const navigationHandler = (page) => {
         if (page == "/") {
             navigateTo("Links");
+            navigate("/", { state: { navigateTo: "Links" } });
         } else if (page == "/profile") {
             navigateTo("Profile Details");
+            navigate("/profile", { state: { navigateTo: "Profile Details" } });
         }
-        navigate(page);
     };
 
     const saveAllData = () => {
@@ -73,7 +74,7 @@ const Nav = ({ navigateTo }) => {
         const a = Promise.all([linksPromise, detailsPromise])
             .then((results) => {
                 navigateTo("Preview");
-                navigate("/preview");
+                navigate("/preview", { state: { navigateTo: "Preview" } });
             })
             .catch((errors) => {
                 return Promise.reject(errors);
@@ -101,7 +102,7 @@ const Nav = ({ navigateTo }) => {
                     duration: 2000,
                     position: "bottom-center",
                 },
-            }
+            },
         );
     };
 

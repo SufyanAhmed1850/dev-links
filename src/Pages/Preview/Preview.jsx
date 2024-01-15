@@ -6,7 +6,7 @@ import RightArrow from "../../assets/images/icon-arrow-right.svg";
 import RightArrowBlack from "../../assets/images/icon-arrow-right-black.svg";
 import userContext from "../../../context/userContext";
 import { axiosPrivate } from "../../api/axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import toast from "react-hot-toast";
 import PreviewHeaderSkeleton from "../../Components/Skeleton/PreviewHeaderSkeleton/PreviewHeaderSkeleton";
@@ -47,6 +47,7 @@ const transformations =
     "f_webp,ar_1:1,c_fill,g_face,r_max,w_300,h_300/c_pad/co_rgb:633CFF,e_outline:outer:14:0/";
 
 const Preview = () => {
+    const location = useLocation();
     const isAuthenticated = useAuth();
     const navigate = useNavigate();
     useEffect(() => {
@@ -99,7 +100,7 @@ const Preview = () => {
                 <Buttonsecondary
                     onClick={() => {
                         setNavigatingTo("Home");
-                        navigate("/");
+                        navigate("/", { state: { navigateTo: "Home" } });
                     }}
                     buttonSecondaryText="Back to Editor"
                 />
@@ -301,7 +302,9 @@ const Preview = () => {
                 }}
                 className="privacy-screen"
             >
-                <h1 style={{ color: "white" }}>{navigatingTo}</h1>
+                <h1 style={{ color: "white" }}>
+                    {navigatingTo || location.state.navigateTo}
+                </h1>
             </motion.div>
         </div>
     );
