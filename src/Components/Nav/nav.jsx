@@ -84,7 +84,7 @@ const Nav = ({ navigateTo }) => {
             {
                 loading: "Saving...",
                 success: "Saved successfully!",
-                error: (err) => err.message,
+                error: (err) => "Couldn't save. Try again.",
             },
             {
                 style: {
@@ -107,6 +107,7 @@ const Nav = ({ navigateTo }) => {
     };
 
     const navigateToPreview = () => {
+        // Check for both link and profile conditions at once
         if (
             linksData.some((link) => link.link !== "") &&
             userData.profile &&
@@ -115,7 +116,8 @@ const Nav = ({ navigateTo }) => {
         ) {
             saveAllData();
         } else {
-            toast.error("Add links to preview", {
+            // Create a reusable toast configuration for efficiency
+            const toastConfig = {
                 icon: (
                     <WarningTwoTone
                         style={{ fontSize: 16 }}
@@ -128,7 +130,13 @@ const Nav = ({ navigateTo }) => {
                     backgroundColor: "var(--black-90-)",
                     color: "var(--white-90-)",
                 },
-            });
+            };
+            // Display the appropriate toast based on the missing data
+            if (!linksData.some((link) => link.link !== "")) {
+                toast.error("Add links to preview", toastConfig);
+            } else {
+                toast.error("Add profile details to preview", toastConfig);
+            }
         }
     };
 

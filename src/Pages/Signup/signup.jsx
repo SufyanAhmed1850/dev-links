@@ -207,7 +207,7 @@ const Signup = () => {
                         type="password"
                         iconSrc={passwordIcon}
                         altText="Password"
-                        placeholderText="At least 8 characters"
+                        placeholderText="At least 6 characters"
                         onInputChange={(passVal) => setPassword(passVal)}
                         onKeyPress={handleEnterKeyPress}
                     />
@@ -218,7 +218,7 @@ const Signup = () => {
                         type="password"
                         iconSrc={passwordIcon}
                         altText="Confirm Password"
-                        placeholderText="At least 8 characters"
+                        placeholderText="At least 6 characters"
                         onInputChange={(repPassVal) =>
                             setRepeatPassword(repPassVal)
                         }
