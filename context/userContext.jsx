@@ -28,7 +28,6 @@ export const UserProvider = ({ children }) => {
                     }
                     if (!isDataFetched) {
                         const res = await axiosPrivate("/profile");
-                        console.log(res.data.user);
                         setUserData(res.data.user);
                         setIsLoading(false);
                         setIsDataFetched(true);
